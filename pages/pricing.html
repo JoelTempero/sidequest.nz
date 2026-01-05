@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get an instant estimate for your custom website, app, or digital project. Transparent pricing from Sidequest Digital.">
+    
+    <title>Pricing Calculator — Sidequest Digital</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        /* Pricing Calculator Specific Styles */
+        .pricing-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-4xl);
+            background: var(--color-bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 60%);
+            opacity: 0.5;
+        }
+        
+        .pricing-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+        
+        .calculator-section {
+            background: var(--color-bg-primary);
+            padding: var(--space-5xl) 0;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--space-4xl);
+            align-items: start;
+        }
+        
+        /* Calculator Form */
+        .calculator-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3xl);
+        }
+        
+        .calc-section {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+        }
+        
+        .calc-section-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .calc-section-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-xl);
+        }
+        
+        /* Radio Card Options */
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .option-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .option-card {
+            position: relative;
+        }
+        
+        .option-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .option-card label {
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-lg);
+            background: var(--color-bg-tertiary);
+            border: 2px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            height: 100%;
+        }
+        
+        .option-card label:hover {
+            border-color: var(--color-border-default);
+            background: var(--color-bg-elevated);
+        }
+        
+        .option-card input:checked + label {
+            border-color: var(--color-accent-primary);
+            background: rgba(109, 40, 217, 0.1);
+        }
+        
+        .option-card input:checked + label .option-check {
+            background: var(--color-accent-primary);
+            border-color: var(--color-accent-primary);
+        }
+        
+        .option-card input:checked + label .option-check svg {
+            opacity: 1;
+        }
+        
+        .option-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .option-name {
+            font-weight: var(--weight-semibold);
+            font-size: var(--text-base);
+        }
+        
+        .option-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-border-default);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all var(--transition-base);
+        }
+        
+        .option-check svg {
+            width: 12px;
+            height: 12px;
+            color: white;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+        
+        .option-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+        
+        .option-price {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-accent-secondary);
+            margin-top: var(--space-sm);
+        }
+        
+        /* Checkbox Options */
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .checkbox-item {
+            position: relative;
+        }
+        
+        .checkbox-item input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .checkbox-item label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .checkbox-item label:hover {
+            border-color: var(--color-border-default);
+        }
+        
+        .checkbox-item input:checked + label {
+            border-color: var(--color-accent-primary);
+            background: rgba(109, 40, 217, 0.1);
+        }
+        
+        .checkbox-item input:checked + label .checkbox-box {
+            background: var(--color-accent-primary);
+            border-color: var(--color-accent-primary);
+        }
+        
+        .checkbox-item input:checked + label .checkbox-box svg {
+            opacity: 1;
+        }
+        
+        .checkbox-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all var(--transition-base);
+        }
+        
+        .checkbox-box svg {
+            width: 12px;
+            height: 12px;
+            color: white;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+        
+        .checkbox-content {
+            flex: 1;
+        }
+        
+        .checkbox-name {
+            font-weight: var(--weight-medium);
+            font-size: var(--text-sm);
+        }
+        
+        .checkbox-price {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-accent-secondary);
+        }
+        
+        /* Slider */
+        .slider-container {
+            padding: var(--space-md) 0;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .slider-label {
+            font-weight: var(--weight-medium);
+        }
+        
+        .slider-value {
+            font-family: var(--font-mono);
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            color: var(--color-accent-secondary);
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: var(--color-bg-tertiary);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-full);
+            background: var(--gradient-hero);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(109, 40, 217, 0.4);
+            transition: transform var(--transition-base);
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-full);
+            background: var(--gradient-hero);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(109, 40, 217, 0.4);
+        }
+        
+        /* Summary Card */
+        .summary-card {
+            position: sticky;
+            top: 120px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+        }
+        
+        .summary-title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--text-sm);
+        }
+        
+        .summary-item-name {
+            color: var(--color-text-secondary);
+        }
+        
+        .summary-item-value {
+            font-family: var(--font-mono);
+            font-weight: var(--weight-medium);
+        }
+        
+        .summary-divider {
+            height: 1px;
+            background: var(--color-border-subtle);
+            margin: var(--space-lg) 0;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .summary-total-label {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+        }
+        
+        .summary-total-value {
+            font-family: var(--font-mono);
+            font-size: var(--text-3xl);
+            font-weight: var(--weight-bold);
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .summary-note {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .summary-timeline {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .summary-timeline svg {
+            color: var(--color-accent-secondary);
+            flex-shrink: 0;
+        }
+        
+        .summary-timeline-text {
+            font-size: var(--text-sm);
+        }
+        
+        .summary-timeline-text strong {
+            color: var(--color-text-primary);
+        }
+        
+        .summary-cta {
+            width: 100%;
+        }
+        
+        .summary-disclaimer {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-top: var(--space-md);
+        }
+        
+        /* FAQ Section */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .faq-item {
+            padding: var(--space-xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+        }
+        
+        .faq-question {
+            font-size: var(--text-base);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-md);
+        }
+        
+        .faq-answer {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-card {
+                position: relative;
+                top: 0;
+            }
+            
+            .option-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .option-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                    <li><a href="../index.html#about" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link active">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-ghost hide-mobile">Client Portal</a>
+                    <a href="../index.html#contact" class="btn btn-primary nav-cta">Start a Project</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="../index.html#work" class="nav-mobile-link">Work</a></li>
+            <li><a href="../index.html#about" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-secondary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pricing-hero">
+        <div class="container">
+            <div class="pricing-hero-content">
+                <span class="hero-eyebrow">Transparent Pricing</span>
+                <h1 class="text-headline" style="margin-bottom: var(--space-lg);">
+                    Get an <span class="text-gradient">Instant Estimate</span>
+                </h1>
+                <p class="text-body-lg text-secondary">
+                    No hidden fees, no surprises. Use this calculator to get a ballpark figure for your project. Every quote is customized to your exact needs.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-grid">
+                <!-- Calculator Form -->
+                <div class="calculator-form">
+                    <!-- Project Type -->
+                    <div class="calc-section">
+                        <h2 class="calc-section-title">What are you building?</h2>
+                        <p class="calc-section-desc">Select the type of project that best describes your needs.</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card">
+                                <input type="radio" name="project-type" id="type-website" value="website" data-price="2500" checked>
+                                <label for="type-website">
+                                    <div class="option-header">
+                                        <span class="option-name">Website</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">Marketing site, portfolio, blog, or informational pages</span>
+                                    <span class="option-price">From $2,500</span>
+                                </label>
+                            </div>
+                            
+                            <div class="option-card">
+                                <input type="radio" name="project-type" id="type-webapp" value="webapp" data-price="5000">
+                                <label for="type-webapp">
+                                    <div class="option-header">
+                                        <span class="option-name">Web Application</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">Interactive app with user accounts, dashboards, or complex features</span>
+                                    <span class="option-price">From $5,000</span>
+                                </label>
+                            </div>
+                            
+                            <div class="option-card">
+                                <input type="radio" name="project-type" id="type-portal" value="portal" data-price="4000">
+                                <label for="type-portal">
+                                    <div class="option-header">
+                                        <span class="option-name">Client Portal</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">Secure area for clients to access documents, updates, or services</span>
+                                    <span class="option-price">From $4,000</span>
+                                </label>
+                            </div>
+                            
+                            <div class="option-card">
+                                <input type="radio" name="project-type" id="type-system" value="system" data-price="6000">
+                                <label for="type-system">
+                                    <div class="option-header">
+                                        <span class="option-name">Business System</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">Inventory, booking, CRM, or custom management tools</span>
+                                    <span class="option-price">From $6,000</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Size -->
+                    <div class="calc-section">
+                        <h2 class="calc-section-title">Project Size</h2>
+                        <p class="calc-section-desc">How many pages or screens do you need?</p>
+                        
+                        <div class="option-grid option-grid-3">
+                            <div class="option-card">
+                                <input type="radio" name="project-size" id="size-small" value="small" data-multiplier="1" checked>
+                                <label for="size-small">
+                                    <div class="option-header">
+                                        <span class="option-name">Small</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">1-5 pages</span>
+                                </label>
+                            </div>
+                            
+                            <div class="option-card">
+                                <input type="radio" name="project-size" id="size-medium" value="medium" data-multiplier="1.5">
+                                <label for="size-medium">
+                                    <div class="option-header">
+                                        <span class="option-name">Medium</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">6-15 pages</span>
+                                </label>
+                            </div>
+                            
+                            <div class="option-card">
+                                <input type="radio" name="project-size" id="size-large" value="large" data-multiplier="2.2">
+                                <label for="size-large">
+                                    <div class="option-header">
+                                        <span class="option-name">Large</span>
+                                        <span class="option-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="option-desc">16+ pages</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add-ons -->
+                    <div class="calc-section">
+                        <h2 class="calc-section-title">Add-ons & Features</h2>
+                        <p class="calc-section-desc">Select any additional features you need.</p>
+                        
+                        <div class="checkbox-list">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-cms" value="cms" data-price="800">
+                                <label for="addon-cms">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">Content Management System (CMS)</span>
+                                        <span class="checkbox-price">+ $800</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-auth" value="auth" data-price="600">
+                                <label for="addon-auth">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">User Authentication & Accounts</span>
+                                        <span class="checkbox-price">+ $600</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-booking" value="booking" data-price="1000">
+                                <label for="addon-booking">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">Booking / Scheduling System</span>
+                                        <span class="checkbox-price">+ $1,000</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-payment" value="payment" data-price="700">
+                                <label for="addon-payment">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">Payment Processing</span>
+                                        <span class="checkbox-price">+ $700</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-api" value="api" data-price="1200">
+                                <label for="addon-api">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">Third-Party Integrations / API</span>
+                                        <span class="checkbox-price">+ $1,200</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="addon" id="addon-analytics" value="analytics" data-price="400">
+                                <label for="addon-analytics">
+                                    <span class="checkbox-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-name">Analytics & Reporting Dashboard</span>
+                                        <span class="checkbox-price">+ $400</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline -->
+                    <div class="calc-section">
+                        <h2 class="calc-section-title">Timeline</h2>
+                        <p class="calc-section-desc">When do you need this completed?</p>
+                        
+                        <div class="slider-container">
+                            <div class="slider-header">
+                                <span class="slider-label">Project timeline</span>
+                                <span class="slider-value" id="timeline-value">8 weeks</span>
+                            </div>
+                            <input type="range" class="slider" id="timeline-slider" min="2" max="16" value="8" data-rush-threshold="4">
+                        </div>
+                        <p class="text-small text-muted" style="margin-top: var(--space-md);">
+                            Projects under 4 weeks require a rush fee (+25%)
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Summary Card -->
+                <div class="summary-card">
+                    <h3 class="summary-title">Your Estimate</h3>
+                    
+                    <div class="summary-items" id="summary-items">
+                        <div class="summary-item">
+                            <span class="summary-item-name">Base Project</span>
+                            <span class="summary-item-value" id="summary-base">$2,500</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-name">Size Adjustment</span>
+                            <span class="summary-item-value" id="summary-size">×1.0</span>
+                        </div>
+                        <div class="summary-item" id="summary-addons-row" style="display: none;">
+                            <span class="summary-item-name">Add-ons</span>
+                            <span class="summary-item-value" id="summary-addons">$0</span>
+                        </div>
+                        <div class="summary-item" id="summary-rush-row" style="display: none;">
+                            <span class="summary-item-name">Rush Fee (25%)</span>
+                            <span class="summary-item-value" id="summary-rush">$0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-total">
+                        <span class="summary-total-label">Estimated Total</span>
+                        <span class="summary-total-value" id="summary-total">$2,500</span>
+                    </div>
+                    <p class="summary-note">NZD, excluding GST</p>
+                    
+                    <div class="summary-timeline">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span class="summary-timeline-text">
+                            Estimated delivery: <strong id="delivery-date">8 weeks</strong>
+                        </span>
+                    </div>
+                    
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg summary-cta">
+                        Get Exact Quote
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <p class="summary-disclaimer">This is an estimate. Final pricing based on detailed requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Common Questions</span>
+                <h2 class="section-title">Pricing <span class="text-gradient">FAQ</span></h2>
+            </div>
+            
+            <div class="faq-grid stagger-children">
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">What's included in the base price?</h3>
+                    <p class="faq-answer">Every project includes custom design, responsive development, basic SEO setup, browser testing, and a handoff with documentation. I don't use templates — everything is built from scratch for you.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Do you require a deposit?</h3>
+                    <p class="faq-answer">Yes, I require a 50% deposit to begin work. The remaining 50% is due upon completion before the final files are delivered. This protects both of us.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">What if I need changes after launch?</h3>
+                    <p class="faq-answer">I offer a 30-day bug fix guarantee at no extra cost. For ongoing updates and maintenance, I offer monthly retainer packages starting at $200/month.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Can you work within my budget?</h3>
+                    <p class="faq-answer">Absolutely. If the calculator shows more than you can afford, let's talk. I can often adjust scope or phase the project to fit your budget while still delivering something great.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Do you offer hosting?</h3>
+                    <p class="faq-answer">I can set you up with hosting and manage it for you, or hand everything off to your own hosting provider. I'll recommend the best option based on your project needs.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">How accurate is this estimate?</h3>
+                    <p class="faq-answer">It's a ballpark figure. Most final quotes land within 20% of the estimate, but complex requirements or scope changes can affect the final price. The consultation call is free and gives you an exact number.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Ready to Get <span class="text-gradient">Started</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Have questions about pricing? Let's chat. I'm happy to walk through options and find something that works for you.
+                </p>
+                <div style="display: flex; justify-content: center;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Schedule a Free Call
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">
+                        Custom digital solutions for communities, schools, and small businesses. Be known. Stand out.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html#services" class="footer-link">Websites</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Custom Apps</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Client Portals</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Business Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html#about" class="footer-link">About</a></li>
+                        <li><a href="../index.html#work" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2025 Sidequest Digital. All rights reserved.
+                </p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script>
+        // Pricing Calculator Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectTypes = document.querySelectorAll('input[name="project-type"]');
+            const projectSizes = document.querySelectorAll('input[name="project-size"]');
+            const addons = document.querySelectorAll('input[name="addon"]');
+            const timelineSlider = document.getElementById('timeline-slider');
+            const timelineValue = document.getElementById('timeline-value');
+            
+            // Summary elements
+            const summaryBase = document.getElementById('summary-base');
+            const summarySize = document.getElementById('summary-size');
+            const summaryAddons = document.getElementById('summary-addons');
+            const summaryAddonsRow = document.getElementById('summary-addons-row');
+            const summaryRush = document.getElementById('summary-rush');
+            const summaryRushRow = document.getElementById('summary-rush-row');
+            const summaryTotal = document.getElementById('summary-total');
+            const deliveryDate = document.getElementById('delivery-date');
+            
+            function calculateTotal() {
+                // Get base price from selected project type
+                const selectedType = document.querySelector('input[name="project-type"]:checked');
+                const basePrice = parseInt(selectedType.dataset.price);
+                
+                // Get size multiplier
+                const selectedSize = document.querySelector('input[name="project-size"]:checked');
+                const sizeMultiplier = parseFloat(selectedSize.dataset.multiplier);
+                
+                // Calculate add-ons total
+                let addonsTotal = 0;
+                addons.forEach(addon => {
+                    if (addon.checked) {
+                        addonsTotal += parseInt(addon.dataset.price);
+                    }
+                });
+                
+                // Get timeline and check for rush
+                const weeks = parseInt(timelineSlider.value);
+                const isRush = weeks < 4;
+                
+                // Calculate subtotal
+                let subtotal = (basePrice * sizeMultiplier) + addonsTotal;
+                let rushFee = 0;
+                
+                if (isRush) {
+                    rushFee = subtotal * 0.25;
+                    subtotal += rushFee;
+                }
+                
+                // Update UI
+                summaryBase.textContent = `$${basePrice.toLocaleString()}`;
+                summarySize.textContent = `×${sizeMultiplier}`;
+                
+                if (addonsTotal > 0) {
+                    summaryAddonsRow.style.display = 'flex';
+                    summaryAddons.textContent = `$${addonsTotal.toLocaleString()}`;
+                } else {
+                    summaryAddonsRow.style.display = 'none';
+                }
+                
+                if (isRush) {
+                    summaryRushRow.style.display = 'flex';
+                    summaryRush.textContent = `$${Math.round(rushFee).toLocaleString()}`;
+                } else {
+                    summaryRushRow.style.display = 'none';
+                }
+                
+                summaryTotal.textContent = `$${Math.round(subtotal).toLocaleString()}`;
+                deliveryDate.textContent = `${weeks} weeks`;
+            }
+            
+            // Update timeline display
+            function updateTimeline() {
+                const weeks = timelineSlider.value;
+                timelineValue.textContent = `${weeks} weeks`;
+                calculateTotal();
+            }
+            
+            // Event listeners
+            projectTypes.forEach(input => input.addEventListener('change', calculateTotal));
+            projectSizes.forEach(input => input.addEventListener('change', calculateTotal));
+            addons.forEach(input => input.addEventListener('change', calculateTotal));
+            timelineSlider.addEventListener('input', updateTimeline);
+            
+            // Initial calculation
+            calculateTotal();
+        });
+    </script>
+</body>
+</html>

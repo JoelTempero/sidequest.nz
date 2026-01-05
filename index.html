@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sidequest Digital - Be Known. Stand Out. Custom websites, apps, and digital solutions crafted just for you. No templates, no compromise.">
+    <meta name="keywords" content="web development, custom websites, New Zealand, app development, client portals, business systems">
+    <meta name="author" content="Sidequest Digital">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sidequest.nz/">
+    <meta property="og:title" content="Sidequest Digital — Be Known. Stand Out.">
+    <meta property="og:description" content="Custom websites, apps, and digital solutions crafted just for you. No templates, no compromise.">
+    <meta property="og:image" content="images/og-image.jpg">
+    
+    <title>Sidequest Digital — Be Known. Stand Out.</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Favicon (placeholder) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <!-- Logo -->
+                <a href="/" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <ul class="nav-menu">
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="pages/projects.html" class="nav-link">Work</a></li>
+                    <li><a href="pages/about.html" class="nav-link">About</a></li>
+                    <li><a href="pages/pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <!-- Actions -->
+                <div class="nav-actions">
+                    <a href="pages/portal.html" class="btn btn-ghost hide-mobile">Client Portal</a>
+                    <a href="#contact" class="btn btn-primary nav-cta">Start a Project</a>
+                    
+                    <!-- Mobile Toggle -->
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="#work" class="nav-mobile-link">Work</a></li>
+            <li><a href="#about" class="nav-mobile-link">About</a></li>
+            <li><a href="#pricing" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="pages/portal.html" class="btn btn-secondary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-gradient-secondary"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-eyebrow animate-fade-in-down">Custom Digital Solutions</span>
+                
+                <h1 class="hero-title">
+                    <span class="hero-title-line animate-fade-in-up" style="animation-delay: 0.1s;">Be Known.</span>
+                    <span class="hero-title-line text-gradient animate-fade-in-up" style="animation-delay: 0.2s;">Stand Out.</span>
+                </h1>
+                
+                <p class="hero-subtitle animate-fade-in-up" style="animation-delay: 0.3s;">
+                    I create one-of-a-kind websites, apps, and digital systems for communities, schools, and small businesses — no templates, no third parties, just my time, energy, and dedication to <em>you</em>.
+                </p>
+                
+                <div class="hero-actions animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <a href="#contact" class="btn btn-primary btn-lg">
+                        Let's Build Something
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#work" class="btn btn-secondary btn-lg">
+                        View My Work
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="hero-scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-eyebrow">What I Do</span>
+                <h2 class="section-title">Built for You,<br>and <span class="text-gradient">Only You</span></h2>
+                <p class="section-description">
+                    Every project is crafted from scratch to fit your exact needs. No recycled templates, no generic solutions — just thoughtful work that represents who you are.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="card card-glow reveal" style="transition-delay: 0.1s;">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Websites</h3>
+                    <p class="service-description">
+                        Beautiful, fast, and functional websites that tell your story. From portfolios to full-featured business sites, each one is uniquely yours.
+                    </p>
+                    <ul class="service-features">
+                        <li>Custom Design</li>
+                        <li>Mobile-First</li>
+                        <li>SEO Optimized</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="card card-glow reveal" style="transition-delay: 0.2s;">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                            <line x1="12" y1="18" x2="12.01" y2="18"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Custom Apps</h3>
+                    <p class="service-description">
+                        Web and mobile applications built to solve your specific problems. Tools that work the way you think, not the other way around.
+                    </p>
+                    <ul class="service-features">
+                        <li>Web Applications</li>
+                        <li>Progressive Web Apps</li>
+                        <li>Cross-Platform</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="card card-glow reveal" style="transition-delay: 0.3s;">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Client Portals</h3>
+                    <p class="service-description">
+                        Give your clients their own space. Secure portals for document sharing, project tracking, and seamless communication.
+                    </p>
+                    <ul class="service-features">
+                        <li>Secure Access</li>
+                        <li>Document Sharing</li>
+                        <li>Real-Time Updates</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="card card-glow reveal" style="transition-delay: 0.4s;">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Business Systems</h3>
+                    <p class="service-description">
+                        Streamline your operations with custom management tools. Inventory, booking, CRM — whatever you need to run smoother.
+                    </p>
+                    <ul class="service-features">
+                        <li>Workflow Automation</li>
+                        <li>Data Management</li>
+                        <li>Integrations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work/Projects Section -->
+    <section class="section section-lg" id="work" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Selected Work</span>
+                <h2 class="section-title">Projects That <span class="text-gradient">Made a Difference</span></h2>
+                <p class="section-description">
+                    A glimpse into some of the custom solutions I've built for clients who wanted something truly their own.
+                </p>
+            </div>
+            
+            <div class="work-grid stagger-children">
+                <!-- Project 1 -->
+                <article class="work-item reveal">
+                    <div class="work-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" alt="Project screenshot" loading="lazy">
+                        <div class="work-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag">Website</span>
+                            <span class="tag">Booking System</span>
+                        </div>
+                        <h3 class="work-title">Community Sports Club</h3>
+                        <p class="work-description">
+                            A complete online presence with member registration, event booking, and team management.
+                        </p>
+                    </div>
+                </article>
+                
+                <!-- Project 2 -->
+                <article class="work-item reveal">
+                    <div class="work-image">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop" alt="Project screenshot" loading="lazy">
+                        <div class="work-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag">Client Portal</span>
+                            <span class="tag">Custom App</span>
+                        </div>
+                        <h3 class="work-title">Law Firm Portal</h3>
+                        <p class="work-description">
+                            Secure document sharing and case tracking system for clients and legal teams.
+                        </p>
+                    </div>
+                </article>
+                
+                <!-- Project 3 -->
+                <article class="work-item reveal">
+                    <div class="work-image">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop" alt="Project screenshot" loading="lazy">
+                        <div class="work-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag">Business System</span>
+                            <span class="tag">Automation</span>
+                        </div>
+                        <h3 class="work-title">Inventory Manager</h3>
+                        <p class="work-description">
+                            Real-time stock tracking with supplier integration and automated reorder alerts.
+                        </p>
+                    </div>
+                </article>
+                
+                <!-- Project 4 -->
+                <article class="work-item reveal">
+                    <div class="work-image">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop" alt="Project screenshot" loading="lazy">
+                        <div class="work-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag">Website</span>
+                            <span class="tag">Community</span>
+                        </div>
+                        <h3 class="work-title">School Parent Portal</h3>
+                        <p class="work-description">
+                            Newsletter distribution, event signups, and parent-teacher communication hub.
+                        </p>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="work-cta reveal" style="text-align: center; margin-top: var(--space-4xl);">
+                <a href="pages/projects.html" class="btn btn-secondary btn-lg">
+                    See All Projects
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content reveal-left">
+                    <span class="section-eyebrow">The Solo Advantage</span>
+                    <h2 class="section-title">One Developer.<br><span class="text-gradient">Total Focus.</span></h2>
+                    <p class="text-body-lg text-secondary" style="margin-bottom: var(--space-xl);">
+                        When you work with an agency, you're one of many. With me, you're the priority. I don't juggle dozens of clients or hand your project off to whoever's available.
+                    </p>
+                    <p class="text-body text-secondary" style="margin-bottom: var(--space-xl);">
+                        I take on a limited number of projects because I believe every client deserves dedicated attention. Your vision, your needs, your success — that's what I'm here for.
+                    </p>
+                    <p class="text-body text-secondary" style="margin-bottom: var(--space-2xl);">
+                        No middlemen. No miscommunication. Just direct collaboration from first conversation to final launch.
+                    </p>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number text-gradient">100%</span>
+                            <span class="stat-label">Custom Built</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number text-gradient">1</span>
+                            <span class="stat-label">Point of Contact</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number text-gradient">∞</span>
+                            <span class="stat-label">Dedication</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image reveal-right">
+                    <div class="about-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=600&h=800&fit=crop" alt="Developer working" loading="lazy">
+                        <div class="about-image-accent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section" id="testimonials" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Kind Words</span>
+                <h2 class="section-title">What Clients <span class="text-gradient">Say</span></h2>
+            </div>
+            
+            <div class="testimonials-grid stagger-children">
+                <blockquote class="testimonial reveal">
+                    <p class="testimonial-text">
+                        "Working with Sidequest was a completely different experience. They actually listened to what we needed and built exactly that — nothing more, nothing less. Our parent portal has transformed how we communicate."
+                    </p>
+                    <footer class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Sarah M." class="testimonial-avatar">
+                        <div>
+                            <cite class="testimonial-name">Sarah M.</cite>
+                            <span class="testimonial-role">School Administrator</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                
+                <blockquote class="testimonial reveal">
+                    <p class="testimonial-text">
+                        "I'd been burned by agencies before. Sidequest was refreshingly straightforward. One person, clear communication, and a result that actually works for our team every single day."
+                    </p>
+                    <footer class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Mike T." class="testimonial-avatar">
+                        <div>
+                            <cite class="testimonial-name">Mike T.</cite>
+                            <span class="testimonial-role">Small Business Owner</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                
+                <blockquote class="testimonial reveal">
+                    <p class="testimonial-text">
+                        "Our booking system used to be a nightmare. Now it just works. Members love it, our admin time is cut in half, and we finally look professional online."
+                    </p>
+                    <footer class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Emma L." class="testimonial-avatar">
+                        <div>
+                            <cite class="testimonial-name">Emma L.</cite>
+                            <span class="testimonial-role">Community Club Manager</span>
+                        </div>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Ready to <span class="text-gradient">Stand Out</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about what you're building. No pressure, no sales pitch — just a conversation about your vision.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="#contact" class="btn btn-primary btn-lg">
+                        Start the Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#pricing" class="btn btn-secondary btn-lg">
+                        Explore Pricing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section section-lg" id="contact" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info reveal-left">
+                    <span class="section-eyebrow">Get in Touch</span>
+                    <h2 class="section-title">Let's Build<br><span class="text-gradient">Together</span></h2>
+                    <p class="text-body-lg text-secondary" style="margin-bottom: var(--space-2xl);">
+                        Have a project in mind? Want to explore what's possible? Drop me a message and I'll get back to you within 24 hours.
+                    </p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <a href="mailto:hello@sidequest.nz" class="contact-value">hello@sidequest.nz</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">Location</span>
+                                <span class="contact-value">Auckland, New Zealand</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-wrapper reveal-right">
+                    <form class="contact-form" action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="John Smith" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project" class="form-label">Project Type</label>
+                            <select id="project" name="project" class="form-input">
+                                <option value="">Select a project type...</option>
+                                <option value="website">Website</option>
+                                <option value="app">Custom App</option>
+                                <option value="portal">Client Portal</option>
+                                <option value="system">Business System</option>
+                                <option value="other">Something Else</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Tell Me About Your Project</label>
+                            <textarea id="message" name="message" class="form-input form-textarea" placeholder="What are you looking to build? What problems are you trying to solve?" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                            Send Message
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">
+                        Custom digital solutions for communities, schools, and small businesses. Be known. Stand out.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services" class="footer-link">Websites</a></li>
+                        <li><a href="#services" class="footer-link">Custom Apps</a></li>
+                        <li><a href="#services" class="footer-link">Client Portals</a></li>
+                        <li><a href="#services" class="footer-link">Business Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about" class="footer-link">About</a></li>
+                        <li><a href="#work" class="footer-link">Work</a></li>
+                        <li><a href="#pricing" class="footer-link">Pricing</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="pages/portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="#pricing" class="footer-link">Pricing Calculator</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2025 Sidequest Digital. All rights reserved.
+                </p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

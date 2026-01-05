@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore custom websites, apps, and digital solutions built by Sidequest Digital for communities, schools, and small businesses.">
+    
+    <title>Projects — Sidequest Digital</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        /* Projects Page Specific Styles */
+        .projects-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-4xl);
+            background: var(--color-bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .projects-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -30%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 60%);
+            opacity: 0.4;
+        }
+        
+        .projects-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+        
+        /* Filter Tabs */
+        .filter-section {
+            padding: var(--space-2xl) 0;
+            background: var(--color-bg-primary);
+            border-bottom: 1px solid var(--color-border-subtle);
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: var(--space-sm) var(--space-lg);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--color-text-secondary);
+            background: transparent;
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .filter-tab:hover {
+            border-color: var(--color-border-default);
+            color: var(--color-text-primary);
+        }
+        
+        .filter-tab.active {
+            background: var(--color-accent-primary);
+            border-color: var(--color-accent-primary);
+            color: white;
+        }
+        
+        /* Projects Grid */
+        .projects-section {
+            padding: var(--space-4xl) 0;
+            background: var(--color-bg-primary);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3xl);
+        }
+        
+        /* Featured Project (Full Width) */
+        .project-featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+            padding: var(--space-3xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            transition: all var(--transition-slow);
+        }
+        
+        .project-featured:hover {
+            border-color: var(--color-border-default);
+        }
+        
+        .project-featured-image {
+            aspect-ratio: 16/10;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .project-featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .project-featured:hover .project-featured-image img {
+            transform: scale(1.03);
+        }
+        
+        .project-featured-content {
+            padding: var(--space-xl) 0;
+        }
+        
+        .project-featured-label {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-accent-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .project-featured-title {
+            font-size: var(--text-3xl);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .project-featured-desc {
+            font-size: var(--text-lg);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .project-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        
+        .project-meta-label {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .project-meta-value {
+            font-weight: var(--weight-medium);
+        }
+        
+        /* Regular Project Card */
+        .project-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all var(--transition-slow);
+        }
+        
+        .project-card:hover {
+            border-color: var(--color-border-default);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .project-card-image {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .project-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .project-card:hover .project-card-image img {
+            transform: scale(1.05);
+        }
+        
+        .project-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(8, 8, 12, 0.8) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            display: flex;
+            align-items: flex-end;
+            padding: var(--space-xl);
+        }
+        
+        .project-card:hover .project-card-overlay {
+            opacity: 1;
+        }
+        
+        .project-card-content {
+            padding: var(--space-xl);
+        }
+        
+        .project-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+        
+        .project-card-title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .project-card-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .project-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--color-accent-secondary);
+            transition: gap var(--transition-base);
+        }
+        
+        .project-card-link:hover {
+            gap: var(--space-md);
+        }
+        
+        /* Testimonial Banner */
+        .testimonial-banner {
+            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-4xl);
+            margin: var(--space-4xl) 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-3xl);
+            align-items: center;
+        }
+        
+        .testimonial-banner-content {
+            max-width: 700px;
+        }
+        
+        .testimonial-banner-quote {
+            font-family: var(--font-accent);
+            font-size: var(--text-2xl);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .testimonial-banner-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .testimonial-banner-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+        }
+        
+        .testimonial-banner-name {
+            font-weight: var(--weight-semibold);
+        }
+        
+        .testimonial-banner-role {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .testimonial-banner-image {
+            width: 200px;
+            height: 200px;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        
+        .testimonial-banner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-2xl);
+        }
+        
+        .stats-item {
+            text-align: center;
+            padding: var(--space-2xl);
+        }
+        
+        .stats-number {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: var(--weight-bold);
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stats-label {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .project-featured {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-banner {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-banner-image {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-meta {
+                flex-wrap: wrap;
+                gap: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="projects.html" class="nav-link active">Work</a></li>
+                    <li><a href="../index.html#about" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-ghost hide-mobile">Client Portal</a>
+                    <a href="../index.html#contact" class="btn btn-primary nav-cta">Start a Project</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="projects.html" class="nav-mobile-link">Work</a></li>
+            <li><a href="../index.html#about" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-secondary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="projects-hero">
+        <div class="container">
+            <div class="projects-hero-content">
+                <span class="hero-eyebrow">Selected Work</span>
+                <h1 class="text-headline" style="margin-bottom: var(--space-lg);">
+                    Projects That <span class="text-gradient">Made a Difference</span>
+                </h1>
+                <p class="text-body-lg text-secondary">
+                    Every project here started with a conversation and ended with something unique. No templates, no shortcuts — just thoughtful solutions built for real people.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <div class="filter-section">
+        <div class="container">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All Projects</button>
+                <button class="filter-tab" data-filter="website">Websites</button>
+                <button class="filter-tab" data-filter="webapp">Web Apps</button>
+                <button class="filter-tab" data-filter="portal">Client Portals</button>
+                <button class="filter-tab" data-filter="system">Business Systems</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <section class="projects-section">
+        <div class="container">
+            <div class="projects-grid">
+                
+                <!-- Featured Project -->
+                <article class="project-featured reveal" data-category="portal">
+                    <div class="project-featured-image">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=750&fit=crop" alt="Legal firm client portal" loading="lazy">
+                    </div>
+                    <div class="project-featured-content">
+                        <span class="project-featured-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            Featured Project
+                        </span>
+                        <h2 class="project-featured-title">Henderson Legal — Client Portal</h2>
+                        <p class="project-featured-desc">
+                            A secure portal where clients can access their case documents, track progress, and communicate with their legal team. Built with privacy and simplicity at its core.
+                        </p>
+                        <div class="project-meta">
+                            <div class="project-meta-item">
+                                <span class="project-meta-label">Type</span>
+                                <span class="project-meta-value">Client Portal</span>
+                            </div>
+                            <div class="project-meta-item">
+                                <span class="project-meta-label">Timeline</span>
+                                <span class="project-meta-value">8 weeks</span>
+                            </div>
+                            <div class="project-meta-item">
+                                <span class="project-meta-label">Industry</span>
+                                <span class="project-meta-value">Legal Services</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary">
+                            View Case Study
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Project Card 1 -->
+                <article class="project-card reveal" data-category="website">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" alt="Sports club website" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Website</span>
+                            <span class="tag">Booking</span>
+                        </div>
+                        <h3 class="project-card-title">Northshore Sports Club</h3>
+                        <p class="project-card-desc">
+                            Complete online presence with member registration, court booking, and event management for a community sports club.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Project Card 2 -->
+                <article class="project-card reveal" data-category="system">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=500&fit=crop" alt="Inventory management system" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Business System</span>
+                            <span class="tag">Automation</span>
+                        </div>
+                        <h3 class="project-card-title">Coastal Supplies Inventory</h3>
+                        <p class="project-card-desc">
+                            Real-time stock tracking with supplier integration, automated reorder alerts, and staff management dashboard.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Testimonial Banner -->
+                <div class="testimonial-banner reveal" style="grid-column: 1 / -1;">
+                    <div class="testimonial-banner-content">
+                        <p class="testimonial-banner-quote">
+                            "The difference between Sidequest and every other agency we talked to was simple: they actually listened. Our portal isn't just functional — it's exactly what our clients needed."
+                        </p>
+                        <div class="testimonial-banner-author">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop" alt="David Chen" class="testimonial-banner-avatar">
+                            <div>
+                                <div class="testimonial-banner-name">David Chen</div>
+                                <div class="testimonial-banner-role">Partner, Henderson Legal</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-banner-image">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop" alt="Office" loading="lazy">
+                    </div>
+                </div>
+                
+                <!-- Project Card 3 -->
+                <article class="project-card reveal" data-category="website">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=500&fit=crop" alt="School parent portal" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Website</span>
+                            <span class="tag">Community</span>
+                        </div>
+                        <h3 class="project-card-title">Greenfield Primary Connect</h3>
+                        <p class="project-card-desc">
+                            Parent communication hub with newsletter distribution, event signups, volunteer coordination, and teacher messaging.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Project Card 4 -->
+                <article class="project-card reveal" data-category="webapp">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=500&fit=crop" alt="Booking app" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Web App</span>
+                            <span class="tag">Booking</span>
+                        </div>
+                        <h3 class="project-card-title">Mindful Movement Studios</h3>
+                        <p class="project-card-desc">
+                            Class booking system with waitlists, membership management, and automated reminders for a yoga and pilates studio.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Project Card 5 -->
+                <article class="project-card reveal" data-category="portal">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=500&fit=crop" alt="Client dashboard" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Client Portal</span>
+                            <span class="tag">Dashboard</span>
+                        </div>
+                        <h3 class="project-card-title">Summit Accounting Portal</h3>
+                        <p class="project-card-desc">
+                            Secure client area for document uploads, tax deadline tracking, and direct messaging with their accountant.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Project Card 6 -->
+                <article class="project-card reveal" data-category="system">
+                    <div class="project-card-image">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=500&fit=crop" alt="CRM system" loading="lazy">
+                        <div class="project-card-overlay">
+                            <span class="btn btn-primary">View Project</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-tags">
+                            <span class="tag">Business System</span>
+                            <span class="tag">CRM</span>
+                        </div>
+                        <h3 class="project-card-title">Artisan Builders CRM</h3>
+                        <p class="project-card-desc">
+                            Custom CRM for tracking leads, managing projects, and generating quotes — built to match their exact workflow.
+                        </p>
+                        <a href="#" class="project-card-link">
+                            View case study
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stats-item reveal">
+                    <div class="stats-number">25+</div>
+                    <div class="stats-label">Projects Delivered</div>
+                </div>
+                <div class="stats-item reveal">
+                    <div class="stats-number">100%</div>
+                    <div class="stats-label">Client Satisfaction</div>
+                </div>
+                <div class="stats-item reveal">
+                    <div class="stats-number">0</div>
+                    <div class="stats-label">Templates Used</div>
+                </div>
+                <div class="stats-item reveal">
+                    <div class="stats-number">∞</div>
+                    <div class="stats-label">Attention to Detail</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Have a Project in <span class="text-gradient">Mind</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about what you're building. Every great project starts with a conversation.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start a Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="pricing.html" class="btn btn-secondary btn-lg">
+                        View Pricing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">
+                        Custom digital solutions for communities, schools, and small businesses. Be known. Stand out.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html#services" class="footer-link">Websites</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Custom Apps</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Client Portals</a></li>
+                        <li><a href="../index.html#services" class="footer-link">Business Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html#about" class="footer-link">About</a></li>
+                        <li><a href="projects.html" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2025 Sidequest Digital. All rights reserved.
+                </p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const projects = document.querySelectorAll('[data-category]');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Update active tab
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const filter = tab.dataset.filter;
+                    
+                    // Filter projects
+                    projects.forEach(project => {
+                        if (filter === 'all' || project.dataset.category === filter) {
+                            project.style.display = '';
+                            project.style.opacity = '1';
+                            project.style.transform = 'translateY(0)';
+                        } else {
+                            project.style.opacity = '0';
+                            project.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                project.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
