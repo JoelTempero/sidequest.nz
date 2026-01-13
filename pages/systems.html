@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom management system development in Christchurch, New Zealand. Team management, operations, communication platforms, and business tools that bring clarity to your organisation.">
+    <meta name="keywords" content="management systems, team management, operations software, business tools, Christchurch, New Zealand, custom software">
+    
+    <title>Management Systems — Sidequest Digital</title>
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Management Systems — Sidequest Digital">
+    <meta property="og:description" content="Custom systems for team management, operations, and communication. Bring clarity to your organisation.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        .service-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-5xl);
+            background: var(--color-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 70vw;
+            height: 70vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+            opacity: 0.6;
+        }
+        
+        .service-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .service-hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .service-hero-desc {
+            font-size: var(--text-xl);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tag {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .problems-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .problems-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+        
+        .problems-content h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .problem-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .problem-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .problem-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .problem-list svg {
+            flex-shrink: 0;
+            color: #ef4444;
+            margin-top: 4px;
+        }
+        
+        .solution-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: var(--space-3xl) 0;
+        }
+        
+        .solution-arrow svg {
+            color: var(--color-accent-primary);
+        }
+        
+        .solution-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .solution-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+        }
+        
+        .solution-list svg {
+            flex-shrink: 0;
+            color: #22c55e;
+            margin-top: 4px;
+        }
+        
+        .capabilities-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .capability-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-base);
+        }
+        
+        .capability-card:hover {
+            border-color: var(--color-accent-primary);
+            transform: translateY(-4px);
+        }
+        
+        .capability-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--color-accent-glow));
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            color: #3b82f6;
+        }
+        
+        .capability-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .capability-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        .use-cases-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+        
+        .use-case-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+        }
+        
+        .use-case-card h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-md);
+        }
+        
+        .use-case-card h3 span {
+            font-size: 24px;
+        }
+        
+        .use-case-card p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .use-case-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+        
+        .use-case-feature {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        
+        .integration-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .integration-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .integration-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            justify-content: center;
+            margin-top: var(--space-3xl);
+        }
+        
+        .integration-item {
+            padding: var(--space-md) var(--space-xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+        }
+        
+        .pricing-preview {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .pricing-card {
+            max-width: 600px;
+            margin: var(--space-4xl) auto 0;
+            padding: var(--space-3xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+        }
+        
+        .pricing-from {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .pricing-amount {
+            font-size: clamp(3rem, 8vw, 4rem);
+            font-weight: 800;
+            margin: var(--space-md) 0;
+        }
+        
+        .pricing-note {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+            .capabilities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-hero {
+                padding-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest Digital</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="projects.html" class="nav-link">Work</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-primary nav-cta">Client Portal</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="projects.html" class="nav-mobile-link">Work</a></li>
+            <li><a href="about.html" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-primary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="service-hero">
+        <div class="container">
+            <div class="service-hero-content">
+                <span class="section-eyebrow">Service</span>
+                <h1 class="service-hero-title">
+                    Management <span class="text-gradient">Systems</span>
+                </h1>
+                <p class="service-hero-desc">
+                    When spreadsheets and email chains aren't cutting it anymore, it's time for something built to handle the complexity. We create custom management systems that bring clarity, accountability, and sanity to how your organisation operates.
+                </p>
+                <div class="service-tags">
+                    <span class="service-tag">Team Management</span>
+                    <span class="service-tag">Communication</span>
+                    <span class="service-tag">Clarity</span>
+                    <span class="service-tag">Operations</span>
+                    <span class="service-tag">Workflows</span>
+                </div>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Discuss Your Needs
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="pricing.html" class="btn btn-secondary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems to Solutions Section -->
+    <section class="problems-section">
+        <div class="container">
+            <div class="problems-grid">
+                <div class="problems-content reveal">
+                    <span class="section-eyebrow">The Problem</span>
+                    <h2>Sound <span class="text-gradient">Familiar</span>?</h2>
+                    
+                    <ul class="problem-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <span>Information scattered across emails, spreadsheets, and sticky notes</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <span>Team members unclear on who's responsible for what</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <span>Tasks falling through the cracks</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <span>No single source of truth</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="solution-arrow">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                    </div>
+                    
+                    <ul class="solution-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Everything in one place, organised and searchable</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Clear ownership and accountability</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Automated reminders and workflows</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Real-time visibility for everyone who needs it</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="reveal" style="background: var(--color-bg-primary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-2xl); padding: var(--space-2xl);">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-border-subtle);">
+                        <div style="width: 40px; height: 40px; background: rgba(59, 130, 246, 0.1); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: #3b82f6;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <div>
+                            <div style="font-weight: var(--weight-semibold);">Team Dashboard</div>
+                            <div style="font-size: var(--text-sm); color: var(--color-text-muted);">Overview</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                        <div style="background: var(--color-bg-tertiary); border-radius: var(--radius-lg); padding: var(--space-md);">
+                            <div style="font-size: var(--text-xs); color: var(--color-text-muted);">Active Projects</div>
+                            <div style="font-size: var(--text-2xl); font-weight: var(--weight-bold);">12</div>
+                        </div>
+                        <div style="background: var(--color-bg-tertiary); border-radius: var(--radius-lg); padding: var(--space-md);">
+                            <div style="font-size: var(--text-xs); color: var(--color-text-muted);">Tasks Due Today</div>
+                            <div style="font-size: var(--text-2xl); font-weight: var(--weight-bold);">7</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-sm);">Recent Activity</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                        <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: var(--color-bg-tertiary); border-radius: var(--radius-md); font-size: var(--text-sm);">
+                            <span style="color: #22c55e;">✓</span> Sarah completed "Q4 Report"
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: var(--color-bg-tertiary); border-radius: var(--radius-md); font-size: var(--text-sm);">
+                            <span style="color: #3b82f6;">→</span> Mike assigned to "Client Review"
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); background: var(--color-bg-tertiary); border-radius: var(--radius-md); font-size: var(--text-sm);">
+                            <span style="color: #f97316;">!</span> Deadline approaching: "Budget Approval"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="capabilities-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Capabilities</span>
+                <h2 class="section-title">What Your System <span class="text-gradient">Can Do</span></h2>
+            </div>
+            
+            <div class="capabilities-grid">
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Team Management</h3>
+                    <p class="capability-desc">Assign roles, track availability, manage permissions. Know who's doing what and when.</p>
+                </div>
+                
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Task Tracking</h3>
+                    <p class="capability-desc">Create, assign, and track tasks. Set deadlines, add comments, attach files. Nothing falls through.</p>
+                </div>
+                
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Communication</h3>
+                    <p class="capability-desc">Announcements, discussions, and updates in context. Stop losing important messages in email.</p>
+                </div>
+                
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <path d="M16 2v4"/>
+                            <path d="M8 2v4"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Scheduling</h3>
+                    <p class="capability-desc">Rosters, events, deadlines, and availability. Visual calendars everyone can access.</p>
+                </div>
+                
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Document Hub</h3>
+                    <p class="capability-desc">Policies, templates, resources — organised and version-controlled. Find what you need fast.</p>
+                </div>
+                
+                <div class="capability-card reveal">
+                    <div class="capability-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Reporting</h3>
+                    <p class="capability-desc">See the big picture. Dashboards, metrics, and reports that actually tell you something useful.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Examples</span>
+                <h2 class="section-title">Systems We <span class="text-gradient">Build</span></h2>
+            </div>
+            
+            <div class="use-cases-grid">
+                <div class="use-case-card reveal">
+                    <h3><span>🏫</span> School Administration</h3>
+                    <p>Staff management, event coordination, parent communications, and resource scheduling for schools and educational organisations.</p>
+                    <div class="use-case-features">
+                        <span class="use-case-feature">Staff Portal</span>
+                        <span class="use-case-feature">Event Calendar</span>
+                        <span class="use-case-feature">Room Booking</span>
+                        <span class="use-case-feature">Newsletter</span>
+                    </div>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <h3><span>⛪</span> Church & Ministry</h3>
+                    <p>Volunteer coordination, service planning, small group management, and congregation communications.</p>
+                    <div class="use-case-features">
+                        <span class="use-case-feature">Volunteer Roster</span>
+                        <span class="use-case-feature">Service Planning</span>
+                        <span class="use-case-feature">Group Management</span>
+                        <span class="use-case-feature">Announcements</span>
+                    </div>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <h3><span>🏢</span> Non-Profit Operations</h3>
+                    <p>Project tracking, volunteer management, donor communications, and grant reporting for charities and community organisations.</p>
+                    <div class="use-case-features">
+                        <span class="use-case-feature">Project Tracking</span>
+                        <span class="use-case-feature">Volunteer Database</span>
+                        <span class="use-case-feature">Reporting</span>
+                        <span class="use-case-feature">Communications</span>
+                    </div>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <h3><span>🏃</span> Sports Clubs</h3>
+                    <p>Team management, fixture scheduling, player availability, and club communications for sports organisations.</p>
+                    <div class="use-case-features">
+                        <span class="use-case-feature">Team Rosters</span>
+                        <span class="use-case-feature">Match Scheduling</span>
+                        <span class="use-case-feature">Availability</span>
+                        <span class="use-case-feature">Results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Section -->
+    <section class="integration-section">
+        <div class="container">
+            <div class="integration-content reveal">
+                <span class="section-eyebrow">Flexibility</span>
+                <h2 class="section-title">Connects With Your <span class="text-gradient">Existing Tools</span></h2>
+                <p class="text-body text-secondary" style="max-width: 600px; margin: var(--space-lg) auto 0;">
+                    Your management system doesn't have to replace everything. We can integrate with the tools you already use.
+                </p>
+                
+                <div class="integration-grid">
+                    <span class="integration-item">Google Workspace</span>
+                    <span class="integration-item">Microsoft 365</span>
+                    <span class="integration-item">Slack</span>
+                    <span class="integration-item">Email</span>
+                    <span class="integration-item">Calendar Sync</span>
+                    <span class="integration-item">Xero</span>
+                    <span class="integration-item">Custom APIs</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Preview -->
+    <section class="pricing-preview">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Investment</span>
+                <h2 class="section-title">Simple, Transparent <span class="text-gradient">Pricing</span></h2>
+            </div>
+            
+            <div class="pricing-card reveal">
+                <div class="pricing-from">Starting from</div>
+                <div class="pricing-amount">$600</div>
+                <p class="pricing-note">Setup fee + ongoing maintenance from $35/month</p>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl);">
+                    Final price depends on modules, user capacity, and integrations. Use our calculator for a detailed estimate.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Get Your Estimate</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Ready to Bring <span class="text-gradient">Clarity</span> to Your Team?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about the chaos you're trying to tame. We'll figure out what a management system could do for your organisation.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start a Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="projects.html" class="btn btn-secondary btn-lg">See Our Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">Be known. Stand out.</p>
+                    <p class="footer-powered">
+                        <span>Powered by</span>
+                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
+                            <img src="../images/tempero-icon.svg" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
+                            Tempero Creative
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="websites.html" class="footer-link">Websites</a></li>
+                        <li><a href="apps.html" class="footer-link">Custom Apps</a></li>
+                        <li><a href="portals.html" class="footer-link">Client Portals</a></li>
+                        <li><a href="systems.html" class="footer-link">Management Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About</a></li>
+                        <li><a href="projects.html" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Sidequest Digital. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>

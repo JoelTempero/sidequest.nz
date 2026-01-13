@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom client portal development in Christchurch, New Zealand. Secure document sharing, project tracking, and client communication platforms for professional services businesses.">
+    <meta name="keywords" content="client portal, secure document sharing, project management, client communication, Christchurch, New Zealand">
+    
+    <title>Client Portals — Sidequest Digital</title>
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Client Portals — Sidequest Digital">
+    <meta property="og:description" content="Secure spaces for client collaboration. Document sharing, project tracking, and communication — all in one place.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        .service-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-5xl);
+            background: var(--color-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 70vw;
+            height: 70vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 60%);
+            opacity: 0.6;
+        }
+        
+        .service-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .service-hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .service-hero-desc {
+            font-size: var(--text-xl);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tag {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .features-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .feature-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            display: flex;
+            gap: var(--space-lg);
+            transition: all var(--transition-base);
+        }
+        
+        .feature-card:hover {
+            border-color: var(--color-accent-primary);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: var(--radius-lg);
+            color: #22c55e;
+        }
+        
+        .feature-content h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .feature-content p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        .industries-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+        
+        .industry-card {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-base);
+        }
+        
+        .industry-card:hover {
+            border-color: var(--color-accent-primary);
+        }
+        
+        .industry-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-xl);
+            margin: 0 auto var(--space-lg);
+            font-size: 28px;
+        }
+        
+        .industry-card h3 {
+            font-size: var(--text-base);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .industry-card p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .security-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .security-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+        
+        .security-content h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .security-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .security-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            font-size: var(--text-base);
+        }
+        
+        .security-list svg {
+            flex-shrink: 0;
+            color: #22c55e;
+        }
+        
+        .security-visual {
+            position: relative;
+        }
+        
+        .security-card {
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+        }
+        
+        .security-card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .lock-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: var(--radius-lg);
+            color: #22c55e;
+        }
+        
+        .security-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+        }
+        
+        .security-item svg {
+            color: #22c55e;
+        }
+        
+        .experience-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+        
+        .experience-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            text-align: center;
+        }
+        
+        .experience-card h3 {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-md);
+        }
+        
+        .experience-card p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .pricing-preview {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .pricing-card {
+            max-width: 600px;
+            margin: var(--space-4xl) auto 0;
+            padding: var(--space-3xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+        }
+        
+        .pricing-from {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .pricing-amount {
+            font-size: clamp(3rem, 8vw, 4rem);
+            font-weight: 800;
+            margin: var(--space-md) 0;
+        }
+        
+        .pricing-note {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .industries-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+            .security-visual {
+                order: -1;
+            }
+            .experience-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .industries-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-hero {
+                padding-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest Digital</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="projects.html" class="nav-link">Work</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-primary nav-cta">Client Portal</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="projects.html" class="nav-mobile-link">Work</a></li>
+            <li><a href="about.html" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-primary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="service-hero">
+        <div class="container">
+            <div class="service-hero-content">
+                <span class="section-eyebrow">Service</span>
+                <h1 class="service-hero-title">
+                    Client <span class="text-gradient">Portals</span>
+                </h1>
+                <p class="service-hero-desc">
+                    Give your clients a secure, branded space to access their documents, track project progress, and communicate with your team. No more email attachments, no more "did you get my message?" — just clarity and professionalism.
+                </p>
+                <div class="service-tags">
+                    <span class="service-tag">Secure Access</span>
+                    <span class="service-tag">Document Sharing</span>
+                    <span class="service-tag">Real-Time Updates</span>
+                    <span class="service-tag">Branded Experience</span>
+                </div>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Build Your Portal
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="pricing.html" class="btn btn-secondary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Portal Features</span>
+                <h2 class="section-title">Everything Your Clients <span class="text-gradient">Need</span></h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Document Sharing</h3>
+                        <p>Securely share contracts, reports, invoices, and files. Clients can download, view, and upload documents — all tracked and organised.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Messaging</h3>
+                        <p>Built-in messaging keeps conversations in one place. No more hunting through emails — everything related to the project, together.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Project Tracking</h3>
+                        <p>Clients can see where their project stands — milestones completed, tasks in progress, what's coming next. Transparency builds trust.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Real-Time Updates</h3>
+                        <p>Changes appear instantly. When you upload a document or post an update, clients see it immediately — no refresh needed.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Client Self-Service</h3>
+                        <p>Clients can update their details, download past documents, and find answers without needing to contact you. Less admin for everyone.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M7 7h.01"/>
+                            <path d="M17 7h.01"/>
+                            <path d="M7 17h.01"/>
+                            <path d="M17 17h.01"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Your Branding</h3>
+                        <p>Your logo, your colours, your domain. The portal looks like an extension of your business, not a third-party tool.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section class="industries-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Who It's For</span>
+                <h2 class="section-title">Perfect for <span class="text-gradient">Professional Services</span></h2>
+            </div>
+            
+            <div class="industries-grid">
+                <div class="industry-card reveal">
+                    <div class="industry-icon">⚖️</div>
+                    <h3>Legal Firms</h3>
+                    <p>Case documents, contracts, and secure client communication.</p>
+                </div>
+                
+                <div class="industry-card reveal">
+                    <div class="industry-icon">📊</div>
+                    <h3>Accountants</h3>
+                    <p>Tax documents, financial reports, and deadline tracking.</p>
+                </div>
+                
+                <div class="industry-card reveal">
+                    <div class="industry-icon">🏗️</div>
+                    <h3>Architects & Builders</h3>
+                    <p>Plans, permits, progress photos, and project milestones.</p>
+                </div>
+                
+                <div class="industry-card reveal">
+                    <div class="industry-icon">💼</div>
+                    <h3>Consultants</h3>
+                    <p>Deliverables, reports, and ongoing engagement management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security-section">
+        <div class="container">
+            <div class="security-grid">
+                <div class="security-content reveal">
+                    <span class="section-eyebrow">Security First</span>
+                    <h2>Built to Protect <span class="text-gradient">Sensitive Data</span></h2>
+                    <p class="text-body text-secondary" style="margin-bottom: var(--space-xl);">
+                        When you're sharing confidential documents, security isn't optional. Our portals are built with protection at every level.
+                    </p>
+                    
+                    <ul class="security-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            SSL encryption on all connections
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Secure authentication with optional 2FA
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Role-based access control
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Audit trails for document access
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Regular automated backups
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="security-visual reveal">
+                    <div class="security-card">
+                        <div class="security-card-header">
+                            <div class="lock-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: var(--weight-semibold);">Secure Client Portal</div>
+                                <div style="font-size: var(--text-sm); color: var(--color-text-muted);">Protected access</div>
+                            </div>
+                        </div>
+                        <div class="security-items">
+                            <div class="security-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                256-bit SSL Encryption
+                            </div>
+                            <div class="security-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Two-Factor Authentication
+                            </div>
+                            <div class="security-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Access Logging Enabled
+                            </div>
+                            <div class="security-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Daily Encrypted Backups
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Experience Section -->
+    <section class="experience-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">The Impact</span>
+                <h2 class="section-title">Better Experience for <span class="text-gradient">Everyone</span></h2>
+            </div>
+            
+            <div class="experience-grid">
+                <div class="experience-card reveal">
+                    <h3>For Your Clients</h3>
+                    <p>24/7 access to their documents. Clear visibility on project progress. One place to find everything — professional and convenient.</p>
+                </div>
+                
+                <div class="experience-card reveal">
+                    <h3>For Your Team</h3>
+                    <p>Less time answering "where's that document?" More time doing actual work. Organised communication, tracked automatically.</p>
+                </div>
+                
+                <div class="experience-card reveal">
+                    <h3>For Your Business</h3>
+                    <p>Stand out from competitors still using email attachments. Demonstrate professionalism. Build trust through transparency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Preview -->
+    <section class="pricing-preview">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Investment</span>
+                <h2 class="section-title">Simple, Transparent <span class="text-gradient">Pricing</span></h2>
+            </div>
+            
+            <div class="pricing-card reveal">
+                <div class="pricing-from">Starting from</div>
+                <div class="pricing-amount">$450</div>
+                <p class="pricing-note">Setup fee + ongoing maintenance from $35/month</p>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl);">
+                    Final price depends on features, user capacity, and integrations. Use our calculator for a detailed estimate.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Get Your Estimate</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Ready to Impress Your <span class="text-gradient">Clients</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about what your clients need and how a portal could transform their experience with your business.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start a Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="projects.html" class="btn btn-secondary btn-lg">See Our Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">Be known. Stand out.</p>
+                    <p class="footer-powered">
+                        <span>Powered by</span>
+                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
+                            <img src="../images/tempero-icon.svg" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
+                            Tempero Creative
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="websites.html" class="footer-link">Websites</a></li>
+                        <li><a href="apps.html" class="footer-link">Custom Apps</a></li>
+                        <li><a href="portals.html" class="footer-link">Client Portals</a></li>
+                        <li><a href="systems.html" class="footer-link">Management Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About</a></li>
+                        <li><a href="projects.html" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Sidequest Digital. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>

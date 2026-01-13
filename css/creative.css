@@ -48,6 +48,35 @@
     transform-origin: bottom left;
 }
 
+/* Hero fade-in animation */
+.hero-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroFadeIn 0.8s ease forwards;
+}
+
+@keyframes heroFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stand Out gradient hover effect */
+.hero-gradient-hover {
+    background: linear-gradient(135deg, #6d28d9, #8b5cf6, #f97316);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-position: 0% 50%;
+    transition: background-position 0.5s ease;
+}
+
+.hero-gradient-hover:hover {
+    background-position: 100% 50%;
+}
+
 /* Gradient text with animation */
 .text-gradient-animated {
     background: linear-gradient(
@@ -791,4 +820,30 @@
     .marquee-strip {
         transform: rotate(0deg);
     }
+}
+
+/* Footer Powered By */
+.footer-powered {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+.footer-tempero-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.footer-tempero-link:hover {
+    color: var(--color-accent-primary);
+}
+
+.footer-tempero-icon {
+    opacity: 0.7;
+    transition: opacity var(--transition-base);
+}
+
+.footer-tempero-link:hover .footer-tempero-icon {
+    opacity: 1;
 }

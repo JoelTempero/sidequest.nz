@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom web application development in Christchurch, New Zealand. Booking systems, dashboards, internal tools, and bespoke web apps built to solve your specific business problems.">
+    <meta name="keywords" content="web app development, custom software, booking systems, dashboards, Christchurch, New Zealand, business tools">
+    
+    <title>Custom Web Apps — Sidequest Digital</title>
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Custom Web Apps — Sidequest Digital">
+    <meta property="og:description" content="Booking systems, dashboards, and internal tools built to solve your specific problems.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        .service-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-5xl);
+            background: var(--color-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 70vw;
+            height: 70vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 60%);
+            opacity: 0.6;
+        }
+        
+        .service-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .service-hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .service-hero-desc {
+            font-size: var(--text-xl);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tag {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .use-cases-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .use-case-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-base);
+        }
+        
+        .use-case-card:hover {
+            border-color: var(--color-accent-primary);
+            transform: translateY(-4px);
+        }
+        
+        .use-case-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-accent-glow), rgba(249, 115, 22, 0.1));
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            color: var(--color-accent-primary);
+        }
+        
+        .use-case-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .use-case-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .use-case-examples {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        
+        .benefits-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+        
+        .benefits-content h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .benefits-list svg {
+            flex-shrink: 0;
+            color: var(--color-accent-primary);
+            margin-top: 4px;
+        }
+        
+        .benefits-list strong {
+            display: block;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .benefits-list span {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .benefits-visual {
+            position: relative;
+        }
+        
+        .benefits-visual-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+        }
+        
+        .mock-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+        
+        .mock-stat {
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+        }
+        
+        .mock-stat-label {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .mock-stat-value {
+            font-size: var(--text-2xl);
+            font-weight: var(--weight-bold);
+        }
+        
+        .mock-chart {
+            grid-column: span 2;
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-sm);
+        }
+        
+        .mock-bar {
+            flex: 1;
+            background: var(--color-accent-primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            opacity: 0.7;
+        }
+        
+        .tech-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            justify-content: center;
+            margin-top: var(--space-3xl);
+        }
+        
+        .tech-item {
+            padding: var(--space-md) var(--space-xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+        }
+        
+        .pricing-preview {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .pricing-card {
+            max-width: 600px;
+            margin: var(--space-4xl) auto 0;
+            padding: var(--space-3xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+        }
+        
+        .pricing-from {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .pricing-amount {
+            font-size: clamp(3rem, 8vw, 4rem);
+            font-weight: 800;
+            margin: var(--space-md) 0;
+        }
+        
+        .pricing-note {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .use-cases-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .benefits-visual {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-hero {
+                padding-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest Digital</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="projects.html" class="nav-link">Work</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-primary nav-cta">Client Portal</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="projects.html" class="nav-mobile-link">Work</a></li>
+            <li><a href="about.html" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-primary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="service-hero">
+        <div class="container">
+            <div class="service-hero-content">
+                <span class="section-eyebrow">Service</span>
+                <h1 class="service-hero-title">
+                    Custom <span class="text-gradient">Web Apps</span>
+                </h1>
+                <p class="service-hero-desc">
+                    When off-the-shelf software doesn't fit, we build custom. From booking systems to internal dashboards, we create web applications tailored to how your business actually works — not how software companies think it should.
+                </p>
+                <div class="service-tags">
+                    <span class="service-tag">Web Apps</span>
+                    <span class="service-tag">Dashboards</span>
+                    <span class="service-tag">Booking Systems</span>
+                    <span class="service-tag">Internal Tools</span>
+                    <span class="service-tag">Automation</span>
+                </div>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Discuss Your Idea
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="pricing.html" class="btn btn-secondary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">What We Build</span>
+                <h2 class="section-title">Common <span class="text-gradient">Use Cases</span></h2>
+            </div>
+            
+            <div class="use-cases-grid">
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <path d="M16 2v4"/>
+                            <path d="M8 2v4"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Booking Systems</h3>
+                    <p class="use-case-desc">Let customers book appointments, classes, or resources online. Automatic reminders, calendar sync, and payment integration.</p>
+                    <p class="use-case-examples">Perfect for: Studios, clinics, consultants, equipment hire</p>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Dashboards</h3>
+                    <p class="use-case-desc">See your business data at a glance. Track KPIs, visualise trends, and make better decisions with real-time insights.</p>
+                    <p class="use-case-examples">Perfect for: Sales tracking, operations, reporting</p>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Internal Tools</h3>
+                    <p class="use-case-desc">Custom tools for your team. Replace spreadsheets and manual processes with purpose-built applications.</p>
+                    <p class="use-case-examples">Perfect for: Inventory, HR, project tracking</p>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Data Integration</h3>
+                    <p class="use-case-desc">Connect your existing tools. Pull data from multiple sources into one place, automate data entry, sync systems.</p>
+                    <p class="use-case-examples">Perfect for: Multi-system businesses, reporting</p>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Member Platforms</h3>
+                    <p class="use-case-desc">Membership areas with login, profiles, content access, and community features for clubs and organisations.</p>
+                    <p class="use-case-examples">Perfect for: Clubs, associations, online courses</p>
+                </div>
+                
+                <div class="use-case-card reveal">
+                    <div class="use-case-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <h3 class="use-case-title">Forms & Workflows</h3>
+                    <p class="use-case-desc">Smart forms that route to the right people, trigger actions, and eliminate manual data handling.</p>
+                    <p class="use-case-examples">Perfect for: Applications, requests, approvals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefits-content reveal">
+                    <span class="section-eyebrow">Why Custom?</span>
+                    <h2>Built Around <span class="text-gradient">Your Workflow</span></h2>
+                    
+                    <ul class="benefits-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <div>
+                                <strong>Fits Your Process</strong>
+                                <span>Off-the-shelf software makes you adapt. Custom software adapts to you.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <div>
+                                <strong>No Monthly Fees Per User</strong>
+                                <span>One price, unlimited users. No surprise costs as your team grows.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <div>
+                                <strong>You Own It</strong>
+                                <span>Your data, your code, your terms. No vendor lock-in.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <div>
+                                <strong>Evolves With You</strong>
+                                <span>Need new features? We add them. Your app grows as you do.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="benefits-visual reveal">
+                    <div class="benefits-visual-card">
+                        <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-md);">Example: Custom Dashboard</div>
+                        <div class="mock-dashboard">
+                            <div class="mock-stat">
+                                <div class="mock-stat-label">Total Bookings</div>
+                                <div class="mock-stat-value">247</div>
+                            </div>
+                            <div class="mock-stat">
+                                <div class="mock-stat-label">Revenue</div>
+                                <div class="mock-stat-value">$12,450</div>
+                            </div>
+                            <div class="mock-stat">
+                                <div class="mock-stat-label">Active Users</div>
+                                <div class="mock-stat-value">89</div>
+                            </div>
+                            <div class="mock-stat">
+                                <div class="mock-stat-label">Completion Rate</div>
+                                <div class="mock-stat-value">94%</div>
+                            </div>
+                            <div class="mock-chart">
+                                <div class="mock-bar" style="height: 40%;"></div>
+                                <div class="mock-bar" style="height: 65%;"></div>
+                                <div class="mock-bar" style="height: 45%;"></div>
+                                <div class="mock-bar" style="height: 80%;"></div>
+                                <div class="mock-bar" style="height: 70%;"></div>
+                                <div class="mock-bar" style="height: 90%;"></div>
+                                <div class="mock-bar" style="height: 85%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Section -->
+    <section class="tech-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Built With</span>
+                <h2 class="section-title">Modern <span class="text-gradient">Technology</span></h2>
+                <p class="text-body text-secondary" style="max-width: 600px; margin: var(--space-lg) auto 0;">
+                    We use reliable, well-supported technologies that will serve you for years to come.
+                </p>
+            </div>
+            
+            <div class="tech-grid reveal">
+                <span class="tech-item">React</span>
+                <span class="tech-item">Next.js</span>
+                <span class="tech-item">Node.js</span>
+                <span class="tech-item">Firebase</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">REST APIs</span>
+                <span class="tech-item">Real-time Updates</span>
+                <span class="tech-item">Cloud Hosting</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Preview -->
+    <section class="pricing-preview">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Investment</span>
+                <h2 class="section-title">Simple, Transparent <span class="text-gradient">Pricing</span></h2>
+            </div>
+            
+            <div class="pricing-card reveal">
+                <div class="pricing-from">Starting from</div>
+                <div class="pricing-amount">$350</div>
+                <p class="pricing-note">Setup fee + ongoing maintenance from $35/month</p>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl);">
+                    Final price depends on complexity, features, and user scale. Use our calculator for a detailed estimate.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Get Your Estimate</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Got an Idea for an <span class="text-gradient">App</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about what you're trying to solve. We'll figure out whether custom software is the right answer — and if it is, we'll build it.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start a Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="projects.html" class="btn btn-secondary btn-lg">See Our Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">Be known. Stand out.</p>
+                    <p class="footer-powered">
+                        <span>Powered by</span>
+                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
+                            <img src="../images/tempero-icon.svg" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
+                            Tempero Creative
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="websites.html" class="footer-link">Websites</a></li>
+                        <li><a href="apps.html" class="footer-link">Custom Apps</a></li>
+                        <li><a href="portals.html" class="footer-link">Client Portals</a></li>
+                        <li><a href="systems.html" class="footer-link">Management Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About</a></li>
+                        <li><a href="projects.html" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Sidequest Digital. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>

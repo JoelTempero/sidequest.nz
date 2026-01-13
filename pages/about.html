@@ -516,6 +516,38 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* FAQ Section */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .faq-item {
+            padding: var(--space-xl);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+        }
+        
+        .faq-question {
+            font-size: var(--text-base);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-md);
+        }
+        
+        .faq-answer {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -525,7 +557,7 @@
             <div class="nav-inner">
                 <a href="../index.html" class="nav-logo">
                     <span class="nav-logo-icon">S</span>
-                    <span class="hide-mobile">Sidequest</span>
+                    <span class="hide-mobile">Sidequest Digital</span>
                 </a>
                 
                 <ul class="nav-menu">
@@ -537,8 +569,7 @@
                 </ul>
                 
                 <div class="nav-actions">
-                    <a href="portal.html" class="btn btn-ghost hide-mobile">Client Portal</a>
-                    <a href="../index.html#contact" class="btn btn-primary nav-cta">Start a Project</a>
+                    <a href="portal.html" class="btn btn-primary nav-cta">Client Portal</a>
                     
                     <button class="nav-toggle" aria-label="Toggle menu">
                         <span></span>
@@ -560,7 +591,7 @@
             <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
         </ul>
         <div class="nav-mobile-footer">
-            <a href="portal.html" class="btn btn-secondary" style="width: 100%;">Client Portal</a>
+            <a href="portal.html" class="btn btn-primary" style="width: 100%;">Client Portal</a>
         </div>
     </div>
 
@@ -755,7 +786,7 @@
                     <span class="section-eyebrow">The Solo Advantage</span>
                     <h2>Why One Person <span class="text-gradient">Works Better</span></h2>
                     <p>
-                        You might wonder if a solo developer can really deliver what an agency promises. Here's the thing: most agency work is done by one or two people anyway — you're just paying for the overhead, the account managers, and the office in the fancy part of town.
+                        You might wonder if a solo developer can really deliver what an agency promises. Here's the thing: most agency work is done by one or two people anyway, you're just paying for the overhead, the account managers, and the office.
                     </p>
                     
                     <div class="solo-list">
@@ -789,7 +820,7 @@
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <span class="solo-item-text"><strong>Personal investment</strong> — your project isn't a number on a board, it's something I genuinely care about</span>
+                            <span class="solo-item-text"><strong>Personal investment</strong> — your project isn't a number on a board, it's something we genuinely care about</span>
                         </div>
                     </div>
                 </div>
@@ -814,10 +845,6 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                                 Hidden fees & upsells
                             </li>
-                            <li class="comparison-item">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                                Support tickets
-                            </li>
                         </ul>
                     </div>
                     
@@ -840,10 +867,6 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                                 Transparent pricing
                             </li>
-                            <li class="comparison-item">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                                Direct support
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -851,30 +874,44 @@
         </div>
     </section>
 
-    <!-- Tech Stack Section -->
-    <section class="tech-section">
+    <!-- FAQ Section -->
+    <section class="section" style="background: var(--color-bg-secondary);">
         <div class="container">
             <div class="section-header section-header-centered reveal">
-                <span class="section-eyebrow">Tools of the Trade</span>
-                <h2 class="section-title">Technologies I <span class="text-gradient">Work With</span></h2>
-                <p class="text-body text-secondary" style="max-width: 600px; margin: var(--space-lg) auto 0;">
-                    I choose the right tool for each job. These are some of the technologies I use regularly.
-                </p>
+                <span class="section-eyebrow">Common Questions</span>
+                <h2 class="section-title"><span class="text-gradient">FAQ</span></h2>
             </div>
             
-            <div class="tech-grid reveal">
-                <span class="tech-item">HTML/CSS</span>
-                <span class="tech-item">JavaScript</span>
-                <span class="tech-item">TypeScript</span>
-                <span class="tech-item">React</span>
-                <span class="tech-item">Next.js</span>
-                <span class="tech-item">Node.js</span>
-                <span class="tech-item">Firebase</span>
-                <span class="tech-item">PostgreSQL</span>
-                <span class="tech-item">Tailwind CSS</span>
-                <span class="tech-item">Git</span>
-                <span class="tech-item">Figma</span>
-                <span class="tech-item">Vercel</span>
+            <div class="faq-grid stagger-children">
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">What's included in the base price?</h3>
+                    <p class="faq-answer">Every project includes custom design, responsive development, basic SEO setup, browser testing, and a handoff with documentation. We don't use templates — everything is built from scratch for you.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Do you require a deposit?</h3>
+                    <p class="faq-answer">Yes, we require a 50% deposit to begin work. The remaining 50% is due upon completion before the final files are delivered. This protects both of us.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">What if I need changes after launch?</h3>
+                    <p class="faq-answer">We offer a 30-day bug fix guarantee at no extra cost. For ongoing updates and maintenance, we offer monthly retainer packages.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Can you work within my budget?</h3>
+                    <p class="faq-answer">Absolutely. If the calculator shows more than you can afford, let's talk. We can often adjust scope or phase the project to fit your budget while still delivering something great.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Do you offer hosting?</h3>
+                    <p class="faq-answer">We can set you up with hosting and manage it for you, or hand everything off to your own hosting provider. We'll recommend the best option based on your project needs.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">How accurate is the pricing estimate?</h3>
+                    <p class="faq-answer">It's a ballpark figure. Most final quotes land within 20% of the estimate, but complex requirements or scope changes can affect the final price. The consultation is free and gives you an exact number.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -911,18 +948,23 @@
                         <span class="nav-logo-icon">S</span>
                         Sidequest Digital
                     </a>
-                    <p class="footer-tagline">
-                        Custom digital solutions for communities, schools, and small businesses. Be known. Stand out.
+                    <p class="footer-tagline">Be known. Stand out.</p>
+                    <p class="footer-powered">
+                        <span>Powered by</span>
+                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
+                            <img src="../images/tempero-icon.svg" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
+                            Tempero Creative
+                        </a>
                     </p>
                 </div>
                 
                 <div class="footer-column">
                     <h4>Services</h4>
                     <ul class="footer-links">
-                        <li><a href="../index.html#services" class="footer-link">Websites</a></li>
-                        <li><a href="../index.html#services" class="footer-link">Custom Apps</a></li>
-                        <li><a href="../index.html#services" class="footer-link">Client Portals</a></li>
-                        <li><a href="../index.html#services" class="footer-link">Management Systems</a></li>
+                        <li><a href="websites.html" class="footer-link">Websites</a></li>
+                        <li><a href="apps.html" class="footer-link">Custom Apps</a></li>
+                        <li><a href="portals.html" class="footer-link">Client Portals</a></li>
+                        <li><a href="systems.html" class="footer-link">Management Systems</a></li>
                     </ul>
                 </div>
                 

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom website design and development in Christchurch, New Zealand. Beautiful, fast, mobile-first websites built from scratch for small businesses, schools, and community organisations.">
+    <meta name="keywords" content="website design, web development, Christchurch, New Zealand, custom websites, small business websites, responsive design">
+    
+    <title>Custom Websites — Sidequest Digital</title>
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Custom Websites — Sidequest Digital">
+    <meta property="og:description" content="Beautiful, fast, mobile-first websites built from scratch. No templates, no compromises.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    
+    <style>
+        .service-hero {
+            padding-top: 140px;
+            padding-bottom: var(--space-5xl);
+            background: var(--color-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 70vw;
+            height: 70vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 60%);
+            opacity: 0.4;
+        }
+        
+        .service-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .service-hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .service-hero-desc {
+            font-size: var(--text-xl);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .service-tag {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .features-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+        }
+        
+        .feature-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-base);
+        }
+        
+        .feature-card:hover {
+            border-color: var(--color-accent-primary);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-accent-glow);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            color: var(--color-accent-primary);
+        }
+        
+        .feature-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .feature-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        .process-section {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: var(--color-border-subtle);
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .process-number {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-accent-primary);
+            color: white;
+            border-radius: var(--radius-full);
+            font-weight: var(--weight-bold);
+            margin: 0 auto var(--space-lg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .process-title {
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .process-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .types-section {
+            padding: var(--space-5xl) 0;
+            background: var(--color-bg-secondary);
+        }
+        
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+        
+        .type-card {
+            padding: var(--space-2xl);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+        }
+        
+        .type-card h3 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-md);
+        }
+        
+        .type-card p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .type-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .type-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-sm) 0;
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .type-features li svg {
+            flex-shrink: 0;
+            color: var(--color-accent-primary);
+            margin-top: 2px;
+        }
+        
+        .pricing-preview {
+            padding: var(--space-5xl) 0;
+        }
+        
+        .pricing-card {
+            max-width: 600px;
+            margin: var(--space-4xl) auto 0;
+            padding: var(--space-3xl);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+        }
+        
+        .pricing-from {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .pricing-amount {
+            font-size: clamp(3rem, 8vw, 4rem);
+            font-weight: 800;
+            margin: var(--space-md) 0;
+        }
+        
+        .pricing-note {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .process-step::after {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid,
+            .types-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-hero {
+                padding-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="../index.html" class="nav-logo">
+                    <span class="nav-logo-icon">S</span>
+                    <span class="hide-mobile">Sidequest Digital</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="projects.html" class="nav-link">Work</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn-primary nav-cta">Client Portal</a>
+                    
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-mobile">
+        <ul class="nav-mobile-menu">
+            <li><a href="../index.html#services" class="nav-mobile-link">Services</a></li>
+            <li><a href="projects.html" class="nav-mobile-link">Work</a></li>
+            <li><a href="about.html" class="nav-mobile-link">About</a></li>
+            <li><a href="pricing.html" class="nav-mobile-link">Pricing</a></li>
+            <li><a href="../index.html#contact" class="nav-mobile-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-footer">
+            <a href="portal.html" class="btn btn-primary" style="width: 100%;">Client Portal</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="service-hero">
+        <div class="container">
+            <div class="service-hero-content">
+                <span class="section-eyebrow">Service</span>
+                <h1 class="service-hero-title">
+                    Custom <span class="text-gradient">Websites</span>
+                </h1>
+                <p class="service-hero-desc">
+                    Your website is often the first impression people have of your business. We build beautiful, fast, mobile-first websites that tell your story and convert visitors into customers — all built from scratch, never from templates.
+                </p>
+                <div class="service-tags">
+                    <span class="service-tag">Custom Design</span>
+                    <span class="service-tag">Mobile-First</span>
+                    <span class="service-tag">SEO Ready</span>
+                    <span class="service-tag">Fast Loading</span>
+                    <span class="service-tag">Accessible</span>
+                </div>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start Your Project
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="pricing.html" class="btn btn-secondary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">What You Get</span>
+                <h2 class="section-title">Every Website <span class="text-gradient">Includes</span></h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M3 9h18"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Custom Design</h3>
+                    <p class="feature-desc">Every pixel crafted specifically for your brand. No templates, no cookie-cutter layouts — just designs that feel uniquely yours.</p>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="2" width="14" height="20" rx="2"/>
+                            <path d="M12 18h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Mobile-First</h3>
+                    <p class="feature-desc">Over 60% of web traffic is mobile. We design for phones first, then scale up beautifully to tablets and desktops.</p>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-desc">Speed matters for users and Google. We optimise every image, minify every file, and use modern hosting for sub-second load times.</p>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">SEO Foundation</h3>
+                    <p class="feature-desc">Proper meta tags, semantic HTML, fast loading, and mobile-friendly design — the fundamentals that help you rank.</p>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure & Reliable</h3>
+                    <p class="feature-desc">SSL certificates, secure hosting, regular backups, and clean code that won't break when browsers update.</p>
+                </div>
+                
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Accessible</h3>
+                    <p class="feature-desc">Websites that work for everyone, including people using screen readers, keyboard navigation, or with visual impairments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">How It Works</span>
+                <h2 class="section-title">Our <span class="text-gradient">Process</span></h2>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step reveal">
+                    <div class="process-number">1</div>
+                    <h3 class="process-title">Discovery</h3>
+                    <p class="process-desc">We learn about your business, goals, audience, and what makes you unique.</p>
+                </div>
+                
+                <div class="process-step reveal">
+                    <div class="process-number">2</div>
+                    <h3 class="process-title">Design</h3>
+                    <p class="process-desc">We create mockups and wireframes, refining until the design feels perfect.</p>
+                </div>
+                
+                <div class="process-step reveal">
+                    <div class="process-number">3</div>
+                    <h3 class="process-title">Build</h3>
+                    <p class="process-desc">We code your site from scratch with clean, maintainable, future-proof code.</p>
+                </div>
+                
+                <div class="process-step reveal">
+                    <div class="process-number">4</div>
+                    <h3 class="process-title">Launch</h3>
+                    <p class="process-desc">Final testing, SEO setup, and a smooth handoff with training and documentation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Website Types Section -->
+    <section class="types-section">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Website Types</span>
+                <h2 class="section-title">Built for <span class="text-gradient">Your Needs</span></h2>
+            </div>
+            
+            <div class="types-grid">
+                <div class="type-card reveal">
+                    <h3>Business Websites</h3>
+                    <p>Professional online presence for service businesses, consultants, and local companies.</p>
+                    <ul class="type-features">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            About, Services, Contact pages
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Google Maps integration
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Contact forms with email notifications
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Testimonials and social proof
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="type-card reveal">
+                    <h3>Portfolio Websites</h3>
+                    <p>Showcase your work beautifully for creatives, photographers, artists, and makers.</p>
+                    <ul class="type-features">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Image galleries with lightbox
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Project case studies
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Video and media embedding
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Filterable project categories
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="type-card reveal">
+                    <h3>Community & Club Websites</h3>
+                    <p>Connect your members with events, news, and resources for sports clubs, community groups, and organisations.</p>
+                    <ul class="type-features">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Event calendars and schedules
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            News and announcements
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Member resources and downloads
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Sponsor recognition
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="type-card reveal">
+                    <h3>School & Education Websites</h3>
+                    <p>Inform parents, students, and staff with clear, organised information.</p>
+                    <ul class="type-features">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Newsletter and announcement systems
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Term dates and calendars
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Staff directories
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Document downloads for parents
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Preview -->
+    <section class="pricing-preview">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Investment</span>
+                <h2 class="section-title">Simple, Transparent <span class="text-gradient">Pricing</span></h2>
+            </div>
+            
+            <div class="pricing-card reveal">
+                <div class="pricing-from">Starting from</div>
+                <div class="pricing-amount">$250</div>
+                <p class="pricing-note">Setup fee + ongoing maintenance from $35/month</p>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl);">
+                    Final price depends on number of pages, complexity, and features. Use our calculator for a detailed estimate.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Get Your Estimate</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-lg);">
+                    Ready to Build Your <span class="text-gradient">Website</span>?
+                </h2>
+                <p class="text-body-lg text-secondary" style="text-align: center; max-width: 600px; margin: 0 auto var(--space-3xl);">
+                    Let's talk about what you need. Every conversation starts with listening — no pressure, no hard sell.
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+                    <a href="../index.html#contact" class="btn btn-primary btn-lg">
+                        Start a Conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="projects.html" class="btn btn-secondary btn-lg">See Our Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="nav-logo-icon">S</span>
+                        Sidequest Digital
+                    </a>
+                    <p class="footer-tagline">Be known. Stand out.</p>
+                    <p class="footer-powered">
+                        <span>Powered by</span>
+                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
+                            <img src="../images/tempero-icon.svg" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
+                            Tempero Creative
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="websites.html" class="footer-link">Websites</a></li>
+                        <li><a href="apps.html" class="footer-link">Custom Apps</a></li>
+                        <li><a href="portals.html" class="footer-link">Client Portals</a></li>
+                        <li><a href="systems.html" class="footer-link">Management Systems</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About</a></li>
+                        <li><a href="projects.html" class="footer-link">Work</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                        <li><a href="../index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="portal.html" class="footer-link">Client Portal</a></li>
+                        <li><a href="pricing.html" class="footer-link">Pricing Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Sidequest Digital. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>
