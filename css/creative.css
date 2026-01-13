@@ -856,3 +856,11 @@
 .footer-tempero-link:hover img {
     transform: scale(1.05);
 }
+
+/* Contact grid responsive */
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-3xl) !important;
+    }
+}
