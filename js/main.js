@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initScrollReveal();
     initSmoothScroll();
-    initCursor();
 });
 
 
@@ -147,98 +146,6 @@ function initSmoothScroll() {
 }
 
 
-/* --------------------------------------------
-   Custom Cursor (Optional Enhancement)
-   -------------------------------------------- */
-function initCursor() {
-    // Only init on devices with a pointer
-    if (!window.matchMedia('(pointer: fine)').matches) return;
-    
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    cursor.innerHTML = '<div class="cursor-dot"></div><div class="cursor-ring"></div>';
-    document.body.appendChild(cursor);
-    
-    const dot = cursor.querySelector('.cursor-dot');
-    const ring = cursor.querySelector('.cursor-ring');
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
-    
-    // Add cursor styles dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-        .custom-cursor {
-            pointer-events: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99999;
-            mix-blend-mode: difference;
-        }
-        
-        .cursor-dot {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .cursor-ring {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, border-color 0.2s;
-        }
-        
-        .cursor-hover .cursor-ring {
-            width: 60px;
-            height: 60px;
-            border-color: rgba(139, 92, 246, 0.8);
-        }
-        
-        @media (pointer: coarse) {
-            .custom-cursor { display: none; }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Immediate dot movement
-        dot.style.left = mouseX + 'px';
-        dot.style.top = mouseY + 'px';
-    });
-    
-    // Smooth ring follow
-    function animateRing() {
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
-        
-        ring.style.left = ringX + 'px';
-        ring.style.top = ringY + 'px';
-        
-        requestAnimationFrame(animateRing);
-    }
-    animateRing();
-    
-    // Hover effects
-    const hoverElements = document.querySelectorAll('a, button, .card, .nav-link');
-    
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-    });
-}
 
 
 /* --------------------------------------------
