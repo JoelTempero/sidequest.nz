@@ -72,6 +72,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        
+        .about-hero-image-wrapper img.loaded {
+            opacity: 1;
         }
         
         .about-hero-image-accent {
@@ -169,16 +175,6 @@
             font-size: var(--text-lg);
             line-height: 1.8;
             color: var(--color-text-secondary);
-        }
-        
-        .story-content p:first-of-type::first-letter {
-            font-family: var(--font-accent);
-            font-size: var(--text-5xl);
-            font-weight: var(--weight-semibold);
-            float: left;
-            line-height: 1;
-            margin-right: var(--space-md);
-            color: var(--color-accent-secondary);
         }
         
         .story-highlight {
@@ -361,6 +357,11 @@
             display: flex;
             align-items: flex-start;
             gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .solo-item:last-child {
+            margin-bottom: 0;
         }
         
         .solo-item-icon {
@@ -376,8 +377,20 @@
             margin-top: 2px;
         }
         
-        .solo-item-text {
+        .solo-item-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        
+        .solo-item-title {
             font-size: var(--text-base);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-primary);
+        }
+        
+        .solo-item-desc {
+            font-size: var(--text-sm);
             color: var(--color-text-secondary);
             line-height: 1.6;
         }
@@ -796,7 +809,10 @@
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <span class="solo-item-text"><strong>Direct communication</strong> — no game of telephone between you and the person actually building your project</span>
+                            <div class="solo-item-content">
+                                <span class="solo-item-title">Direct communication</span>
+                                <span class="solo-item-desc">No game of telephone between you and the person actually building your project</span>
+                            </div>
                         </div>
                         <div class="solo-item">
                             <div class="solo-item-icon">
@@ -804,7 +820,10 @@
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <span class="solo-item-text"><strong>Consistent vision</strong> — the same person designs, builds, and supports your project from day one</span>
+                            <div class="solo-item-content">
+                                <span class="solo-item-title">Consistent vision</span>
+                                <span class="solo-item-desc">The same person designs, builds, and supports your project from day one</span>
+                            </div>
                         </div>
                         <div class="solo-item">
                             <div class="solo-item-icon">
@@ -812,7 +831,10 @@
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <span class="solo-item-text"><strong>Flexible & fast</strong> — no approvals, no committees, no waiting for "the team" to align</span>
+                            <div class="solo-item-content">
+                                <span class="solo-item-title">Flexible & fast</span>
+                                <span class="solo-item-desc">No approvals, no committees, no waiting for "the team" to align</span>
+                            </div>
                         </div>
                         <div class="solo-item">
                             <div class="solo-item-icon">
@@ -820,7 +842,10 @@
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <span class="solo-item-text"><strong>Personal investment</strong> — your project isn't a number on a board, it's something we genuinely care about</span>
+                            <div class="solo-item-content">
+                                <span class="solo-item-title">Personal investment</span>
+                                <span class="solo-item-desc">Your project isn't a number on a board, it's something we genuinely care about</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -885,17 +910,12 @@
             <div class="faq-grid stagger-children">
                 <div class="faq-item reveal">
                     <h3 class="faq-question">What's included in the base price?</h3>
-                    <p class="faq-answer">Every project includes custom design, responsive development, basic SEO setup, browser testing, and a handoff with documentation. We don't use templates — everything is built from scratch for you.</p>
+                    <p class="faq-answer">Every project includes custom design, responsive development, basic SEO setup, browser testing, and a handoff. We don't use templates — everything is built from scratch for you.</p>
                 </div>
                 
                 <div class="faq-item reveal">
                     <h3 class="faq-question">Do you require a deposit?</h3>
-                    <p class="faq-answer">Yes, we require a 50% deposit to begin work. The remaining 50% is due upon completion before the final files are delivered. This protects both of us.</p>
-                </div>
-                
-                <div class="faq-item reveal">
-                    <h3 class="faq-question">What if I need changes after launch?</h3>
-                    <p class="faq-answer">We offer a 30-day bug fix guarantee at no extra cost. For ongoing updates and maintenance, we offer monthly retainer packages.</p>
+                    <p class="faq-answer">We require a 50% deposit of the setup fee to begin the work. The remaining 50% is due upon completion before the final files are delivered. The annual subscription will also be invoiced at this time too.</p>
                 </div>
                 
                 <div class="faq-item reveal">
@@ -905,12 +925,22 @@
                 
                 <div class="faq-item reveal">
                     <h3 class="faq-question">Do you offer hosting?</h3>
-                    <p class="faq-answer">We can set you up with hosting and manage it for you, or hand everything off to your own hosting provider. We'll recommend the best option based on your project needs.</p>
+                    <p class="faq-answer">We're partnered with some great web hosts, we can manage hosting for you, or hand everything off to your own hosting provider. We'll recommend the best option based on your project needs.</p>
                 </div>
                 
                 <div class="faq-item reveal">
                     <h3 class="faq-question">How accurate is the pricing estimate?</h3>
-                    <p class="faq-answer">It's a ballpark figure. Most final quotes land within 20% of the estimate, but complex requirements or scope changes can affect the final price. The consultation is free and gives you an exact number.</p>
+                    <p class="faq-answer">Pretty accurate! And we're committed to our prices. If complexity arises due to unforeseen ideas or developments, we'll be able to negotiate win wins the whole way through.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Do you use AI?</h3>
+                    <p class="faq-answer">Depends on the project - but yes, AI tools have become a big part of the workflow. They save time (and money) on monotonous tasks so we can focus on the big goals and personalised designs.</p>
+                </div>
+                
+                <div class="faq-item reveal">
+                    <h3 class="faq-question">Why shouldn't I just use AI to make my site for me?</h3>
+                    <p class="faq-answer">AI tools are excellent for project development - but without a craftsman, they're useless. The importance of the designer's oversight on a project can't be overstated. The investment in someone who cares will stretch further than any AI tool out there.</p>
                 </div>
             </div>
         </div>
@@ -949,13 +979,13 @@
                         Sidequest Digital
                     </a>
                     <p class="footer-tagline">Be known. Stand out.</p>
-                    <p class="footer-powered">
-                        <span>Powered by</span>
+                    <div class="footer-powered">
+                        <span class="footer-powered-label">Powered by</span>
                         <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
-                            <img src="../images/tempero-icon.png" alt="Tempero Creative" class="footer-tempero-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;">
-                            Tempero Creative
+                            <img src="../images/tempero-icon.png" alt="Tempero Creative" style="width: 24px; height: 24px;">
+                            <span>Tempero Creative</span>
                         </a>
-                    </p>
+                    </div>
                 </div>
                 
                 <div class="footer-column">
@@ -1001,5 +1031,16 @@
 
     <!-- Scripts -->
     <script src="../js/main.js"></script>
+    <script>
+        // Fade in Joel's image when loaded
+        const heroImg = document.querySelector('.about-hero-image-wrapper img');
+        if (heroImg) {
+            if (heroImg.complete) {
+                heroImg.classList.add('loaded');
+            } else {
+                heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
+            }
+        }
+    </script>
 </body>
 </html>
