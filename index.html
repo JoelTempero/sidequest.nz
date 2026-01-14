@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/creative.css">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236d28d9' rx='20' width='100' height='100'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='bold'>S</text></svg>">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
 </head>
 <body>
     <svg style="position: absolute; width: 0; height: 0;">
@@ -341,10 +342,6 @@
                     </p>
                     
                     <div style="margin-bottom: var(--space-2xl);">
-                        <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Email</div>
-                        <a href="/cdn-cgi/l/email-protection#a9c3c6ccc5e9ddccc4d9ccdbc687c7d3" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);"><span class="__cf_email__" data-cfemail="5b31343e371b2f3e362b3e2934753521">[email&#160;protected]</span></a>
-                    </div>
-                    <div style="margin-bottom: var(--space-2xl);">
                         <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Phone</div>
                         <a href="tel:+64204023009" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">0204 023 9009</a>
                     </div>
@@ -354,7 +351,12 @@
                     </div>
                 </div>
                 
-                <form class="reveal" style="transition-delay: 0.1s; background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-2xl); padding: var(--space-2xl);">
+                <form action="https://api.web3forms.com/submit" method="POST" class="reveal" id="contact-form" style="transition-delay: 0.1s; background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-2xl); padding: var(--space-2xl);">
+                    <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
+                    <input type="hidden" name="subject" value="New Contact from Sidequest Website">
+                    <input type="hidden" name="from_name" value="Sidequest Website">
+                    <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+                    
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
                         <div>
                             <label for="name" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">Name</label>
@@ -380,10 +382,11 @@
                         <label for="message" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">Tell me more</label>
                         <textarea id="message" name="message" class="form-input form-textarea" placeholder="What's on your mind?" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
+                    <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" style="width: 100%; justify-content: center;">
                         Send Message
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
+                    <p id="form-result" style="display:none; margin-top: var(--space-lg); text-align: center; font-size: var(--text-sm);"></p>
                 </form>
             </div>
         </div>
@@ -558,6 +561,53 @@
         
         // Load on DOM ready
         loadFeaturedProjects();
+    </script>
+    
+    <!-- Contact Form Handler -->
+    <script>
+        const form = document.getElementById('contact-form');
+        const result = document.getElementById('form-result');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = 'Sending...';
+                submitBtn.disabled = true;
+                
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        result.innerHTML = '✓ Message sent! We\'ll be in touch soon.';
+                        result.style.color = '#22c55e';
+                        result.style.display = 'block';
+                        form.reset();
+                    } else {
+                        throw new Error(data.message || 'Something went wrong');
+                    }
+                } catch (error) {
+                    result.innerHTML = 'Oops! Something went wrong. Please try again.';
+                    result.style.color = '#ef4444';
+                    result.style.display = 'block';
+                }
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                setTimeout(() => {
+                    result.style.display = 'none';
+                }, 5000);
+            });
+        }
     </script>
 </body>
 </html>
