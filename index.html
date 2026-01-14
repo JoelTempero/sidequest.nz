@@ -209,54 +209,12 @@
                 </h2>
             </header>
             
-            <div class="work-grid-wild">
-                <article class="work-item-wild tall reveal">
-                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=800&fit=crop" alt="Legal client portal" loading="lazy">
-                    <div class="work-item-content">
-                        <span class="tag" style="margin-bottom: var(--space-sm);">Client Portal</span>
-                        <h3 style="font-size: var(--text-xl); font-weight: var(--weight-bold);">Henderson Legal</h3>
-                        <p class="text-small text-secondary">Secure document sharing & case tracking</p>
-                    </div>
-                </article>
-                
-                <article class="work-item-wild wide reveal" style="transition-delay: 0.1s;">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop" alt="Sports club website" loading="lazy">
-                    <div class="work-item-content">
-                        <span class="tag" style="margin-bottom: var(--space-sm);">Website + Booking</span>
-                        <h3 style="font-size: var(--text-xl); font-weight: var(--weight-bold);">Northshore Sports Club</h3>
-                        <p class="text-small text-secondary">Member registration & court booking</p>
-                    </div>
-                </article>
-                
-                <article class="work-item-wild square reveal" style="transition-delay: 0.2s;">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=500&fit=crop" alt="School communication hub" loading="lazy">
-                    <div class="work-item-content">
-                        <span class="tag" style="margin-bottom: var(--space-sm);">Community</span>
-                        <h3 style="font-size: var(--text-lg); font-weight: var(--weight-bold);">Greenfield Primary</h3>
-                    </div>
-                </article>
-                
-                <article class="work-item-wild square reveal" style="transition-delay: 0.3s;">
-                    <img src="https://images.unsplash.com/photo-1555421689-d68471e189f2?w=600&h=500&fit=crop" alt="Yoga booking system" loading="lazy">
-                    <div class="work-item-content">
-                        <span class="tag" style="margin-bottom: var(--space-sm);">Web App</span>
-                        <h3 style="font-size: var(--text-lg); font-weight: var(--weight-bold);">Mindful Movement</h3>
-                    </div>
-                </article>
-                
-                <article class="work-item-wild small reveal" style="transition-delay: 0.4s;">
-                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop" alt="Inventory system" loading="lazy">
-                    <div class="work-item-content">
-                        <h3 style="font-size: var(--text-base); font-weight: var(--weight-semibold);">Coastal Supplies</h3>
-                    </div>
-                </article>
-                
-                <article class="work-item-wild small reveal" style="transition-delay: 0.5s;">
-                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop" alt="Builder CRM" loading="lazy">
-                    <div class="work-item-content">
-                        <h3 style="font-size: var(--text-base); font-weight: var(--weight-semibold);">Artisan Builders</h3>
-                    </div>
-                </article>
+            <div class="work-grid-dynamic" id="featured-projects-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl);">
+                <!-- Loading placeholder -->
+                <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
+                    <div style="width: 40px; height: 40px; border: 3px solid var(--color-border-subtle); border-top-color: var(--color-accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--space-lg);"></div>
+                    Loading projects...
+                </div>
             </div>
             
             <div style="text-align: center; margin-top: var(--space-4xl); position: relative; z-index: 1;">
@@ -266,6 +224,108 @@
                 </a>
             </div>
         </div>
+        
+        <style>
+            @keyframes spin { to { transform: rotate(360deg); } }
+            
+            .featured-card {
+                background: var(--color-bg-secondary);
+                border: 1px solid var(--color-border-subtle);
+                border-radius: var(--radius-xl);
+                overflow: hidden;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: inherit;
+                display: block;
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            
+            .featured-card.loaded {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .featured-card:hover {
+                border-color: var(--color-border-default);
+                transform: translateY(-8px);
+                box-shadow: var(--shadow-xl);
+            }
+            
+            .featured-card.loaded:hover {
+                transform: translateY(-8px);
+            }
+            
+            .featured-card-image {
+                aspect-ratio: 16/10;
+                overflow: hidden;
+                position: relative;
+                background: var(--color-bg-tertiary);
+            }
+            
+            .featured-card-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+            
+            .featured-card:hover .featured-card-image img {
+                transform: scale(1.05);
+            }
+            
+            .featured-card-badge {
+                position: absolute;
+                top: var(--space-md);
+                left: var(--space-md);
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 4px 10px;
+                font-size: 11px;
+                font-weight: 500;
+                color: #fff;
+                background: var(--color-accent-primary);
+                border-radius: 20px;
+                z-index: 2;
+            }
+            
+            .featured-card-content {
+                padding: var(--space-lg);
+            }
+            
+            .featured-card-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--space-xs);
+                margin-bottom: var(--space-sm);
+            }
+            
+            .featured-card-title {
+                font-size: var(--text-lg);
+                font-weight: var(--weight-semibold);
+                margin-bottom: var(--space-xs);
+                color: var(--color-text-primary);
+            }
+            
+            .featured-card-desc {
+                font-size: var(--text-sm);
+                color: var(--color-text-secondary);
+                line-height: 1.5;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            
+            @media (max-width: 1024px) {
+                .work-grid-dynamic { grid-template-columns: repeat(2, 1fr); }
+            }
+            
+            @media (max-width: 768px) {
+                .work-grid-dynamic { grid-template-columns: 1fr; }
+            }
+        </style>
     </section>
 
 
@@ -282,7 +342,7 @@
                     
                     <div style="margin-bottom: var(--space-2xl);">
                         <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Email</div>
-                        <a href="mailto:joel@tempero.nz" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">joel@tempero.nz</a>
+                        <a href="/cdn-cgi/l/email-protection#a9c3c6ccc5e9ddccc4d9ccdbc687c7d3" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);"><span class="__cf_email__" data-cfemail="5b31343e371b2f3e362b3e2934753521">[email&#160;protected]</span></a>
                     </div>
                     <div style="margin-bottom: var(--space-2xl);">
                         <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Phone</div>
@@ -379,7 +439,125 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="js/main.js"></script>
     <script src="js/creative.js"></script>
+    
+    <!-- Firebase SDK for Featured Projects -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore, collection, query, where, orderBy, getDocs, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHBw5_1925Bno5CHVEMUpdBgqQR_UHbAk",
+            authDomain: "sidequest-digital.firebaseapp.com",
+            projectId: "sidequest-digital",
+            storageBucket: "sidequest-digital.firebasestorage.app",
+            messagingSenderId: "576711179044",
+            appId: "1:576711179044:web:bef810a231f00c0b9c11b1"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        async function loadFeaturedProjects() {
+            const grid = document.getElementById('featured-projects-grid');
+            if (!grid) return;
+            
+            try {
+                // Get latest 6 published posts, prioritizing featured ones
+                const q = query(
+                    collection(db, 'posts'),
+                    where('published', '==', true),
+                    orderBy('publishedAt', 'desc'),
+                    limit(6)
+                );
+                
+                const snapshot = await getDocs(q);
+                let posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Sort: featured first
+                posts.sort((a, b) => {
+                    if (a.featured && !b.featured) return -1;
+                    if (!a.featured && b.featured) return 1;
+                    return 0;
+                });
+                
+                // Take top 3
+                posts = posts.slice(0, 3);
+                
+                if (!posts.length) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
+                            <p>Projects coming soon...</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                grid.innerHTML = posts.map(post => renderFeaturedCard(post)).join('');
+                
+                // Preload images and fade in
+                const cards = grid.querySelectorAll('.featured-card');
+                cards.forEach((card, index) => {
+                    const img = card.querySelector('img');
+                    if (img) {
+                        if (img.complete) {
+                            setTimeout(() => card.classList.add('loaded'), index * 150);
+                        } else {
+                            img.onload = () => setTimeout(() => card.classList.add('loaded'), index * 150);
+                            img.onerror = () => setTimeout(() => card.classList.add('loaded'), index * 150);
+                        }
+                    } else {
+                        setTimeout(() => card.classList.add('loaded'), index * 150);
+                    }
+                });
+                
+            } catch (e) {
+                console.error('Error loading featured projects:', e);
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
+                        <p>Projects coming soon...</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderFeaturedCard(post) {
+            const tags = (post.tags || []).slice(0, 2);
+            const isFeatured = post.featured === true;
+            
+            return `
+                <a href="pages/project.html?slug=${post.slug}" class="featured-card">
+                    <div class="featured-card-image">
+                        ${isFeatured ? `
+                            <span class="featured-card-badge">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                Featured
+                            </span>
+                        ` : ''}
+                        ${post.featuredImage 
+                            ? `<img src="${post.featuredImage}" alt="${post.title}">`
+                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;">No image</div>`
+                        }
+                    </div>
+                    <div class="featured-card-content">
+                        ${tags.length ? `
+                            <div class="featured-card-tags">
+                                ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        <h3 class="featured-card-title">${post.title}</h3>
+                        <p class="featured-card-desc">${post.summary || ''}</p>
+                    </div>
+                </a>
+            `;
+        }
+        
+        // Load on DOM ready
+        loadFeaturedProjects();
+    </script>
 </body>
-</html></
+</html>
