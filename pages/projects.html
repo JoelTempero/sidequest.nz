@@ -643,28 +643,28 @@
         function renderFeaturedCard(post) {
             const tags = (post.tags || []).slice(0, 2);
             return `
-                <a href="project.html?slug=${post.slug}" class="project-featured reveal">
-                    <div class="project-featured-image">
+                <a href="project.html?slug=${post.slug}" class="project-featured" style="display:grid; background:#1a1a2e; border:1px solid #2a2a4a;">
+                    <div class="project-featured-image" style="background:#252540;">
                         ${post.featuredImage 
                             ? `<img src="${post.featuredImage}" alt="${post.title}" loading="lazy">`
-                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);">No image</div>`
+                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#888;">No image</div>`
                         }
                     </div>
                     <div class="project-featured-content">
-                        <span class="project-featured-label">
+                        <span class="project-featured-label" style="color:#f97316;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                             </svg>
                             Featured Project
                         </span>
-                        <h2 class="project-featured-title">${post.title}</h2>
-                        <p class="project-featured-desc">${post.summary || ''}</p>
+                        <h2 class="project-featured-title" style="color:#fff;">${post.title}</h2>
+                        <p class="project-featured-desc" style="color:#aaa;">${post.summary || ''}</p>
                         ${tags.length ? `
-                            <div class="project-meta">
+                            <div class="project-meta" style="border-color:#2a2a4a;">
                                 ${tags.map(tag => `
                                     <div class="project-meta-item">
-                                        <span class="project-meta-label">Category</span>
-                                        <span class="project-meta-value">${tag}</span>
+                                        <span class="project-meta-label" style="color:#666;">Category</span>
+                                        <span class="project-meta-value" style="color:#fff;">${tag}</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -684,11 +684,11 @@
         function renderProjectCard(post) {
             const tags = (post.tags || []).slice(0, 3);
             return `
-                <a href="project.html?slug=${post.slug}" class="project-card reveal">
-                    <div class="project-card-image">
+                <a href="project.html?slug=${post.slug}" class="project-card" style="display:block; background:#1a1a2e; border:1px solid #2a2a4a;">
+                    <div class="project-card-image" style="background:#252540;">
                         ${post.featuredImage 
                             ? `<img src="${post.featuredImage}" alt="${post.title}" loading="lazy">`
-                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);">No image</div>`
+                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#888;">No image</div>`
                         }
                         <div class="project-card-overlay">
                             <span class="btn btn-primary">View Project</span>
@@ -697,12 +697,12 @@
                     <div class="project-card-content">
                         ${tags.length ? `
                             <div class="project-card-tags">
-                                ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                ${tags.map(tag => `<span class="tag" style="background:#252540;color:#aaa;padding:4px 12px;border-radius:20px;font-size:12px;">${tag}</span>`).join('')}
                             </div>
                         ` : ''}
-                        <h3 class="project-card-title">${post.title}</h3>
-                        <p class="project-card-desc">${post.summary || 'No description available.'}</p>
-                        <span class="project-card-link">
+                        <h3 class="project-card-title" style="color:#fff;">${post.title}</h3>
+                        <p class="project-card-desc" style="color:#aaa;">${post.summary || 'No description available.'}</p>
+                        <span class="project-card-link" style="color:#f97316;">
                             View case study
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>
