@@ -342,6 +342,10 @@
                     </p>
                     
                     <div style="margin-bottom: var(--space-2xl);">
+                        <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Email</div>
+                        <a href="mailto:joel@tempero.nz" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">joel@tempero.nz</a>
+                    </div>
+                    <div style="margin-bottom: var(--space-2xl);">
                         <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Phone</div>
                         <a href="tel:+64204023009" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">0204 023 9009</a>
                     </div>
@@ -579,9 +583,16 @@
                 
                 try {
                     const formData = new FormData(form);
+                    const object = Object.fromEntries(formData);
+                    const json = JSON.stringify(object);
+                    
                     const response = await fetch('https://api.web3forms.com/submit', {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: json
                     });
                     
                     const data = await response.json();
@@ -595,6 +606,7 @@
                         throw new Error(data.message || 'Something went wrong');
                     }
                 } catch (error) {
+                    console.error('Form error:', error);
                     result.innerHTML = 'Oops! Something went wrong. Please try again.';
                     result.style.color = '#ef4444';
                     result.style.display = 'block';
