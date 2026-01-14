@@ -527,18 +527,29 @@
         // Load published posts
         async function loadPosts() {
             try {
+                console.log('Loading posts...');
                 const q = query(
                     collection(db, 'posts'),
                     where('published', '==', true),
                     orderBy('publishedAt', 'desc')
                 );
                 const snapshot = await getDocs(q);
-                allPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                console.log('Snapshot size:', snapshot.size);
+                
+                allPosts = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    console.log('Post:', doc.id, data.title, 'featured:', data.featured);
+                    return { id: doc.id, ...data };
+                });
+                
+                console.log('Total posts loaded:', allPosts.length);
                 
                 // Collect all unique tags
                 allPosts.forEach(post => {
                     (post.tags || []).forEach(tag => allTags.add(tag));
                 });
+                
+                console.log('Tags found:', Array.from(allTags));
                 
                 renderFilterTabs();
                 renderPosts(allPosts);
@@ -586,6 +597,7 @@
         // Render posts
         function renderPosts(posts) {
             const grid = document.getElementById('projects-grid');
+            console.log('renderPosts called with', posts.length, 'posts');
             
             if (!posts.length) {
                 grid.innerHTML = `
@@ -598,21 +610,32 @@
             }
             
             // Separate featured and regular posts
-            const featured = posts.filter(p => p.featured);
-            const regular = posts.filter(p => !p.featured);
+            const featured = posts.filter(p => p.featured === true);
+            const regular = posts.filter(p => p.featured !== true);
+            
+            console.log('Featured:', featured.length, 'Regular:', regular.length);
             
             let html = '';
             
             // Render featured posts first
             featured.forEach(post => {
-                html += renderFeaturedCard(post);
+                try {
+                    html += renderFeaturedCard(post);
+                } catch(e) {
+                    console.error('Error rendering featured card:', e, post);
+                }
             });
             
             // Render regular posts
             regular.forEach(post => {
-                html += renderProjectCard(post);
+                try {
+                    html += renderProjectCard(post);
+                } catch(e) {
+                    console.error('Error rendering project card:', e, post);
+                }
             });
             
+            console.log('Generated HTML length:', html.length);
             grid.innerHTML = html;
         }
         
