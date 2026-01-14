@@ -31,7 +31,7 @@
         
         .project-layout {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 1fr;
             gap: var(--space-4xl);
             align-items: start;
         }
@@ -196,6 +196,40 @@
             top: 100px;
         }
         
+        .gallery-loading {
+            aspect-ratio: 4/3;
+            border-radius: 12px;
+            background: var(--color-bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .gallery-loading .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--color-border-subtle);
+            border-top-color: var(--color-accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .gallery-loading span {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+        
+        .gallery-container {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .gallery-container.loaded {
+            opacity: 1;
+        }
+        
         .gallery-main {
             width: 100%;
             aspect-ratio: 4/3;
@@ -204,23 +238,66 @@
             background: var(--color-bg-secondary);
             margin-bottom: var(--space-md);
             cursor: pointer;
+            position: relative;
         }
         
         .gallery-main img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
+            transition: transform 0.3s, opacity 0.3s;
         }
         
         .gallery-main:hover img {
             transform: scale(1.02);
         }
         
+        .gallery-main::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .gallery-main:hover::after {
+            opacity: 1;
+        }
+        
+        .gallery-main .expand-icon {
+            position: absolute;
+            bottom: var(--space-md);
+            right: var(--space-md);
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s;
+            z-index: 2;
+        }
+        
+        .gallery-main:hover .expand-icon {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-main .expand-icon svg {
+            width: 18px;
+            height: 18px;
+            color: #1a1a2e;
+        }
+        
         .gallery-thumbs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
         
         .gallery-thumb {
@@ -228,14 +305,19 @@
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.2s;
+            opacity: 0.5;
+            transition: all 0.2s;
             background: var(--color-bg-secondary);
+            border: 2px solid transparent;
         }
         
-        .gallery-thumb:hover,
+        .gallery-thumb:hover {
+            opacity: 0.8;
+        }
+        
         .gallery-thumb.active {
             opacity: 1;
+            border-color: var(--color-accent-primary);
         }
         
         .gallery-thumb img {
@@ -253,6 +335,13 @@
             justify-content: center;
             color: var(--color-text-muted);
             font-size: 14px;
+        }
+        
+        .gallery-count {
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-top: var(--space-sm);
         }
         
         /* CTA Section */
@@ -308,32 +397,110 @@
             align-items: center;
             justify-content: center;
             padding: var(--space-2xl);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
-        .lightbox.active { display: flex; }
+        .lightbox.active { 
+            display: flex;
+            opacity: 1;
+        }
         
-        .lightbox img {
+        .lightbox-content {
+            position: relative;
             max-width: 90vw;
-            max-height: 90vh;
+            max-height: 85vh;
+        }
+        
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 85vh;
             object-fit: contain;
             border-radius: 8px;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
         
         .lightbox-close {
             position: absolute;
             top: var(--space-xl);
             right: var(--space-xl);
-            width: 44px;
-            height: 44px;
-            background: var(--color-bg-secondary);
-            border: none;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            color: var(--color-text-primary);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: #fff;
             font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .lightbox-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .lightbox-nav:disabled:hover {
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lightbox-nav.prev {
+            left: var(--space-xl);
+        }
+        
+        .lightbox-nav.next {
+            right: var(--space-xl);
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
         }
         
         /* Responsive */
@@ -413,7 +580,20 @@
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
-        <img src="" alt="Gallery image" id="lightbox-img">
+        <button class="lightbox-nav prev" onclick="navigateLightbox(-1)" id="lightbox-prev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="Gallery image" id="lightbox-img">
+        </div>
+        <button class="lightbox-nav next" onclick="navigateLightbox(1)" id="lightbox-next">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+            </svg>
+        </button>
+        <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
     </div>
 
     <!-- Footer -->
@@ -605,27 +785,45 @@
                             
                             <!-- Right Column - Gallery -->
                             <div class="project-gallery">
-                                ${allImages.length > 0 ? `
-                                    <div class="gallery-main" onclick="openLightbox(0)">
-                                        <img src="${allImages[0]}" alt="${post.title}" id="gallery-main-img">
-                                    </div>
-                                    ${allImages.length > 1 ? `
-                                        <div class="gallery-thumbs">
-                                            ${allImages.map((img, i) => `
-                                                <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="setMainImage(${i})">
-                                                    <img src="${img}" alt="Gallery ${i + 1}">
-                                                </div>
-                                            `).join('')}
+                                <div class="gallery-loading" id="gallery-loading">
+                                    <div class="spinner"></div>
+                                    <span>Loading images...</span>
+                                </div>
+                                <div class="gallery-container" id="gallery-container" style="display:none;">
+                                    ${allImages.length > 0 ? `
+                                        <div class="gallery-main" onclick="openLightbox(currentImageIndex)">
+                                            <img src="${allImages[0]}" alt="${post.title}" id="gallery-main-img">
+                                            <div class="expand-icon">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="15 3 21 3 21 9"/>
+                                                    <polyline points="9 21 3 21 3 15"/>
+                                                    <line x1="21" y1="3" x2="14" y2="10"/>
+                                                    <line x1="3" y1="21" x2="10" y2="14"/>
+                                                </svg>
+                                            </div>
                                         </div>
-                                    ` : ''}
-                                ` : `
-                                    <div class="gallery-empty">No images available</div>
-                                `}
+                                        ${allImages.length > 1 ? `
+                                            <div class="gallery-thumbs">
+                                                ${allImages.map((img, i) => `
+                                                    <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="setMainImage(${i})">
+                                                        <img src="${img}" alt="Gallery ${i + 1}">
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                            <div class="gallery-count">${allImages.length} images</div>
+                                        ` : ''}
+                                    ` : `
+                                        <div class="gallery-empty">No images available</div>
+                                    `}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
             `;
+            
+            // Preload gallery images after rendering
+            preloadGalleryImages();
         }
         
         function showNotFound() {
@@ -650,7 +848,14 @@
             currentImageIndex = index;
             const mainImg = document.getElementById('gallery-main-img');
             if (mainImg && allImages[index]) {
-                mainImg.src = allImages[index];
+                // Fade transition
+                mainImg.style.opacity = '0';
+                setTimeout(() => {
+                    mainImg.src = allImages[index];
+                    mainImg.onload = () => {
+                        mainImg.style.opacity = '1';
+                    };
+                }, 150);
             }
             
             // Update active thumb
@@ -660,28 +865,136 @@
         };
         
         window.openLightbox = function(index) {
+            if (index === undefined) index = currentImageIndex;
             currentImageIndex = index;
-            document.getElementById('lightbox-img').src = allImages[index];
-            document.getElementById('lightbox').classList.add('active');
+            
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            
+            // Prepare image (hidden)
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            img.src = allImages[index];
+            
+            // Show lightbox
+            lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Animate image in once loaded
+            img.onload = () => {
+                setTimeout(() => {
+                    img.style.opacity = '1';
+                    img.style.transform = 'scale(1)';
+                }, 50);
+            };
+            
+            // If already cached
+            if (img.complete) {
+                setTimeout(() => {
+                    img.style.opacity = '1';
+                    img.style.transform = 'scale(1)';
+                }, 50);
+            }
+            
+            // Update counter
+            updateLightboxCounter();
+            
+            // Update nav buttons
+            updateLightboxNav();
         };
         
         window.closeLightbox = function() {
-            document.getElementById('lightbox').classList.remove('active');
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
             document.body.style.overflow = '';
         };
+        
+        window.navigateLightbox = function(direction) {
+            const newIndex = currentImageIndex + direction;
+            if (newIndex >= 0 && newIndex < allImages.length) {
+                currentImageIndex = newIndex;
+                
+                const img = document.getElementById('lightbox-img');
+                img.style.opacity = '0';
+                img.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    img.src = allImages[currentImageIndex];
+                    img.onload = () => {
+                        img.style.opacity = '1';
+                        img.style.transform = 'scale(1)';
+                    };
+                }, 150);
+                
+                updateLightboxCounter();
+                updateLightboxNav();
+                
+                // Also update main gallery
+                setMainImage(currentImageIndex);
+            }
+        };
+        
+        function updateLightboxCounter() {
+            const counter = document.getElementById('lightbox-counter');
+            if (counter) {
+                counter.textContent = `${currentImageIndex + 1} / ${allImages.length}`;
+            }
+        }
+        
+        function updateLightboxNav() {
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            
+            if (prevBtn) prevBtn.disabled = currentImageIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentImageIndex === allImages.length - 1;
+        }
+        
+        // Preload gallery images
+        function preloadGalleryImages() {
+            if (allImages.length === 0) {
+                // No images, just hide loading
+                const loading = document.getElementById('gallery-loading');
+                const container = document.getElementById('gallery-container');
+                if (loading) loading.style.display = 'none';
+                if (container) {
+                    container.style.display = 'block';
+                    container.classList.add('loaded');
+                }
+                return;
+            }
+            
+            let loadedCount = 0;
+            const totalImages = allImages.length;
+            
+            allImages.forEach((src, index) => {
+                const img = new Image();
+                img.onload = img.onerror = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                        // All images loaded, show gallery
+                        const loading = document.getElementById('gallery-loading');
+                        const container = document.getElementById('gallery-container');
+                        
+                        if (loading) loading.style.display = 'none';
+                        if (container) {
+                            container.style.display = 'block';
+                            // Trigger reflow for transition
+                            container.offsetHeight;
+                            container.classList.add('loaded');
+                        }
+                    }
+                };
+                img.src = src;
+            });
+        }
         
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (!document.getElementById('lightbox').classList.contains('active')) return;
             
             if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight' && currentImageIndex < allImages.length - 1) {
-                openLightbox(currentImageIndex + 1);
-            }
-            if (e.key === 'ArrowLeft' && currentImageIndex > 0) {
-                openLightbox(currentImageIndex - 1);
-            }
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
         });
         
         // Close lightbox on background click
