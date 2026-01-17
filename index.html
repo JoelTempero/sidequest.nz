@@ -210,7 +210,7 @@
                 </h2>
             </header>
             
-            <div class="work-grid-dynamic" id="featured-projects-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl);">
+            <div class="work-grid-dynamic" id="featured-projects-grid">
                 <!-- Loading placeholder -->
                 <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
                     <div style="width: 40px; height: 40px; border: 3px solid var(--color-border-subtle); border-top-color: var(--color-accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--space-lg);"></div>
@@ -228,6 +228,12 @@
         
         <style>
             @keyframes spin { to { transform: rotate(360deg); } }
+            
+            .work-grid-dynamic {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-2xl);
+            }
             
             .featured-card {
                 background: var(--color-bg-secondary);
