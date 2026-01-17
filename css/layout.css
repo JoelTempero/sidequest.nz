@@ -490,10 +490,18 @@
     
     .nav-toggle {
         display: flex;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
     }
     
     .nav-mobile {
         display: flex;
+    }
+    
+    .nav-cta {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--text-xs);
     }
 }
 
@@ -520,7 +528,7 @@
     
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-3xl);
+        gap: var(--space-2xl);
     }
     
     .footer-bottom {
@@ -531,5 +539,113 @@
     
     .footer-legal {
         justify-content: center;
+    }
+    
+    .footer-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-social-link {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .nav-mobile-link {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        font-size: var(--text-2xl);
+    }
+    
+    .nav-mobile {
+        padding: calc(70px + var(--space-2xl)) var(--gutter) var(--space-2xl);
+    }
+    
+    .nav-mobile-menu {
+        gap: var(--space-md);
+    }
+    
+    .nav-mobile-footer {
+        padding-top: var(--space-2xl);
+    }
+    
+    .footer-brand {
+        max-width: 100%;
+        text-align: center;
+    }
+    
+    .footer-tagline {
+        max-width: 100%;
+    }
+    
+    .footer-social {
+        justify-content: center;
+    }
+    
+    .footer-column h4 {
+        margin-bottom: var(--space-md);
+    }
+    
+    .footer-links {
+        gap: var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-mobile-link {
+        font-size: var(--text-xl);
+        min-height: 44px;
+    }
+    
+    .nav-mobile {
+        padding: calc(60px + var(--space-xl)) var(--gutter) var(--space-xl);
+    }
+    
+    .nav-mobile-menu {
+        gap: var(--space-sm);
+    }
+    
+    .nav-mobile-footer {
+        padding-top: var(--space-xl);
+    }
+    
+    .nav-cta {
+        display: none;
+    }
+    
+    .footer-grid {
+        gap: var(--space-lg);
+    }
+    
+    .footer {
+        padding: var(--space-2xl) 0 var(--space-lg);
+    }
+    
+    .footer-column {
+        text-align: center;
+    }
+    
+    .footer-column h4 {
+        font-size: var(--text-xs);
+    }
+    
+    .footer-link {
+        justify-content: center;
+    }
+    
+    .footer-bottom {
+        padding-top: var(--space-lg);
+        gap: var(--space-md);
+    }
+    
+    .footer-legal {
+        flex-wrap: wrap;
+        gap: var(--space-md);
+    }
+    
+    .footer-copyright {
+        font-size: var(--text-xs);
     }
 }

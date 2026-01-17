@@ -293,14 +293,73 @@
         @media (max-width: 768px) {
             .projects-grid {
                 grid-template-columns: 1fr;
+                gap: var(--space-xl);
             }
             
             .filter-tabs {
-                justify-content: center;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: var(--space-sm);
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .filter-tabs::-webkit-scrollbar {
+                display: none;
             }
             
             .search-input {
                 max-width: 100%;
+                font-size: 16px; /* Prevent iOS zoom */
+            }
+            
+            .projects-hero {
+                padding-top: 100px;
+                padding-bottom: var(--space-3xl);
+            }
+            
+            .project-content {
+                padding: var(--space-lg);
+            }
+            
+            .project-title {
+                font-size: var(--text-lg);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .projects-hero {
+                padding-top: 80px;
+                padding-bottom: var(--space-2xl);
+            }
+            
+            .projects-grid {
+                gap: var(--space-lg);
+            }
+            
+            .filter-tab {
+                padding: var(--space-sm) var(--space-md);
+                font-size: var(--text-xs);
+                white-space: nowrap;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .project-content {
+                padding: var(--space-md);
+            }
+            
+            .project-title {
+                font-size: var(--text-base);
+            }
+            
+            .project-desc {
+                font-size: var(--text-xs);
+            }
+            
+            .project-image {
+                aspect-ratio: 16/9;
             }
         }
     </style>

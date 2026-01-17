@@ -469,6 +469,11 @@
             .summary-card {
                 position: relative;
                 top: 0;
+                order: 2;
+            }
+            
+            .calculator-form {
+                order: 1;
             }
             
             .option-grid {
@@ -481,8 +486,117 @@
         }
         
         @media (max-width: 768px) {
+            .pricing-hero {
+                padding-top: 100px;
+                padding-bottom: var(--space-3xl);
+            }
+            
+            .calculator-section {
+                padding: var(--space-4xl) 0;
+            }
+            
+            .calculator-grid {
+                gap: var(--space-2xl);
+            }
+            
+            .calc-section {
+                padding: var(--space-xl);
+            }
+            
+            .summary-card {
+                padding: var(--space-xl);
+            }
+            
             .faq-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .faq-item {
+                padding: var(--space-lg);
+            }
+            
+            .option-card label {
+                padding: var(--space-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pricing-hero {
+                padding-top: 80px;
+                padding-bottom: var(--space-2xl);
+            }
+            
+            .calculator-section {
+                padding: var(--space-3xl) 0;
+            }
+            
+            .calc-section {
+                padding: var(--space-lg);
+            }
+            
+            .calc-section-title {
+                font-size: var(--text-base);
+            }
+            
+            .calc-section-desc {
+                font-size: var(--text-xs);
+                margin-bottom: var(--space-lg);
+            }
+            
+            .summary-card {
+                padding: var(--space-lg);
+            }
+            
+            .summary-title {
+                font-size: var(--text-lg);
+                margin-bottom: var(--space-lg);
+                padding-bottom: var(--space-md);
+            }
+            
+            .summary-total-value {
+                font-size: var(--text-2xl);
+            }
+            
+            .summary-item {
+                font-size: var(--text-xs);
+            }
+            
+            .option-card label {
+                padding: var(--space-sm) var(--space-md);
+            }
+            
+            .option-name {
+                font-size: var(--text-sm);
+            }
+            
+            .option-desc {
+                font-size: var(--text-xs);
+            }
+            
+            .option-price {
+                font-size: 10px;
+            }
+            
+            .option-check {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .checkbox-label {
+                font-size: var(--text-sm);
+                padding: var(--space-sm) var(--space-md);
+            }
+            
+            .faq-item {
+                padding: var(--space-md);
+            }
+            
+            .faq-question {
+                font-size: var(--text-sm);
+            }
+            
+            .faq-answer {
+                font-size: var(--text-xs);
             }
         }
     </style>

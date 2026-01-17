@@ -451,4 +451,165 @@ select.form-input {
         grid-template-columns: 1fr;
         gap: var(--space-3xl);
     }
+    
+    /* Tag overflow handling */
+    .service-features {
+        gap: var(--space-xs);
+    }
+    
+    .service-features li {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+    
+    .work-tags {
+        gap: var(--space-xs);
+    }
+    
+    .work-tags .tag {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    /* Work item adjustments */
+    .work-content {
+        padding: var(--space-lg);
+    }
+    
+    .work-title {
+        font-size: var(--text-lg);
+    }
+    
+    .work-image {
+        aspect-ratio: 16/10;
+    }
+    
+    /* Service card images */
+    .service-card-wild img {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        margin-bottom: var(--space-md) !important;
+    }
+    
+    /* Testimonial adjustments */
+    .testimonial {
+        padding: var(--space-xl);
+    }
+    
+    .testimonial-text {
+        font-size: var(--text-base);
+    }
+    
+    .testimonial-text::before {
+        font-size: var(--text-3xl);
+    }
+    
+    /* Contact form adjustments */
+    .contact-form-wrapper {
+        padding: var(--space-xl);
+    }
+    
+    .contact-form {
+        gap: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .about-stats {
+        gap: var(--space-lg);
+    }
+    
+    .stat {
+        min-width: 80px;
+    }
+    
+    .stat-number {
+        font-size: var(--text-2xl);
+    }
+    
+    .stat-label {
+        font-size: var(--text-xs);
+    }
+    
+    /* Service features even smaller */
+    .service-features li {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+    
+    /* Work items */
+    .work-content {
+        padding: var(--space-md);
+    }
+    
+    .work-title {
+        font-size: var(--text-base);
+    }
+    
+    .work-description {
+        font-size: var(--text-xs);
+    }
+    
+    .work-image {
+        aspect-ratio: 16/9;
+    }
+    
+    /* Service card images */
+    .service-card-wild img {
+        aspect-ratio: 4/3;
+    }
+    
+    /* Testimonials */
+    .testimonial {
+        padding: var(--space-lg);
+    }
+    
+    .testimonial-text {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-lg);
+    }
+    
+    .testimonial-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .testimonial-name {
+        font-size: var(--text-sm);
+    }
+    
+    .testimonial-role {
+        font-size: var(--text-xs);
+    }
+    
+    /* Contact form */
+    .contact-form-wrapper {
+        padding: var(--space-lg);
+    }
+    
+    .contact-form {
+        gap: var(--space-md);
+    }
+    
+    .form-label {
+        font-size: var(--text-xs);
+    }
+    
+    .form-input {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+    
+    .form-textarea {
+        min-height: 100px;
+    }
+    
+    select.form-input {
+        padding-right: var(--space-2xl);
+        background-position: right var(--space-sm) center;
+    }
+    
+    .form-group {
+        gap: var(--space-xs);
+    }
 }

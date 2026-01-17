@@ -311,7 +311,31 @@
                 grid-template-columns: 1fr;
             }
             .service-hero {
-                padding-top: 120px;
+                padding-top: 100px;
+                padding-bottom: var(--space-3xl);
+            }
+            .use-case-card,
+            .feature-card {
+                padding: var(--space-xl);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .service-hero {
+                padding-top: 80px;
+                padding-bottom: var(--space-2xl);
+            }
+            .use-case-card,
+            .feature-card {
+                padding: var(--space-lg);
+            }
+            .use-case-title,
+            .feature-title {
+                font-size: var(--text-base);
+            }
+            .use-case-desc,
+            .feature-desc {
+                font-size: var(--text-xs);
             }
         }
     </style>

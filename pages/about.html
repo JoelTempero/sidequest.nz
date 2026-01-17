@@ -526,8 +526,85 @@
         }
         
         @media (max-width: 768px) {
+            .about-hero {
+                padding-top: 100px;
+                padding-bottom: var(--space-3xl);
+            }
+            
+            .about-hero-grid {
+                gap: var(--space-2xl);
+            }
+            
+            .about-hero-image {
+                max-width: 300px;
+            }
+            
+            .about-hero-image-wrapper {
+                aspect-ratio: 1/1;
+            }
+            
+            .about-hero-badge {
+                padding: var(--space-md);
+                left: var(--space-md);
+                bottom: var(--space-md);
+            }
+            
+            .about-hero-badge-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
             .process-grid {
                 grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+            
+            .process-icon {
+                width: 64px;
+                height: 64px;
+            }
+            
+            .values-section,
+            .process-section,
+            .story-section {
+                padding: var(--space-4xl) 0;
+            }
+            
+            .value-card {
+                padding: var(--space-xl);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .about-hero {
+                padding-top: 80px;
+                padding-bottom: var(--space-2xl);
+            }
+            
+            .about-hero-image {
+                max-width: 250px;
+            }
+            
+            .about-hero-image-accent {
+                display: none;
+            }
+            
+            .about-hero-badge {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                margin-top: var(--space-lg);
+                justify-content: center;
+            }
+            
+            .values-section,
+            .process-section,
+            .story-section {
+                padding: var(--space-3xl) 0;
+            }
+            
+            .value-card {
+                padding: var(--space-lg);
             }
         }
         
@@ -560,6 +637,24 @@
         @media (max-width: 768px) {
             .faq-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .faq-item {
+                padding: var(--space-lg);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .faq-item {
+                padding: var(--space-md);
+            }
+            
+            .faq-question {
+                font-size: var(--text-sm);
+            }
+            
+            .faq-answer {
+                font-size: var(--text-xs);
             }
         }
     </style>

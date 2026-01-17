@@ -793,10 +793,52 @@
         font-size: clamp(3rem, 12vw, 6rem);
     }
     
+    /* Hero actions stacking */
+    .hero-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: var(--space-md) !important;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    
+    .hero-content-creative .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
     .service-card-wild.large,
     .service-card-wild.medium,
     .service-card-wild.small {
         grid-column: span 12;
+    }
+    
+    .service-card-wild {
+        padding: var(--space-xl);
+    }
+    
+    .service-card-wild h3 {
+        font-size: var(--text-lg) !important;
+    }
+    
+    .service-card-wild p {
+        font-size: var(--text-base) !important;
+    }
+    
+    .service-card-wild .service-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: var(--space-md) !important;
+    }
+    
+    .service-card-wild .service-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .services-wild-header {
+        margin-bottom: var(--space-3xl);
     }
     
     .work-item-wild.tall,
@@ -809,7 +851,16 @@
     
     .stats-wild {
         flex-direction: column;
-        gap: var(--space-3xl);
+        gap: var(--space-2xl);
+        padding: var(--space-3xl) 0;
+    }
+    
+    .stat-wild-number {
+        font-size: clamp(3rem, 15vw, 5rem);
+    }
+    
+    .stat-wild-label {
+        font-size: var(--text-xs);
     }
     
     .offset-up,
@@ -819,6 +870,99 @@
     
     .marquee-strip {
         transform: rotate(0deg);
+    }
+    
+    /* Testimonials mobile */
+    .testimonials-wild {
+        padding: var(--space-4xl) 0;
+    }
+    
+    .testimonial-quote-huge {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    
+    .testimonial-quote-huge::before {
+        font-size: 5rem;
+        top: -25px;
+        left: -10px;
+    }
+    
+    .testimonial-featured {
+        gap: var(--space-2xl);
+    }
+    
+    /* Hide decorative floating tags on mobile */
+    .floating-tag {
+        display: none;
+    }
+    
+    /* Marquee adjustments */
+    .marquee-content span {
+        font-size: var(--text-base);
+        padding: 0 var(--space-xl);
+    }
+    
+    .marquee-content span::after {
+        margin-left: var(--space-xl);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title-massive {
+        font-size: clamp(2.25rem, 11vw, 3.5rem);
+        letter-spacing: -0.02em;
+    }
+    
+    .hero-subtitle-creative {
+        font-size: var(--text-base);
+        margin-bottom: var(--space-2xl);
+    }
+    
+    .hero-content-creative {
+        padding: var(--space-lg);
+    }
+    
+    .hero-actions {
+        max-width: 280px;
+        gap: var(--space-sm) !important;
+    }
+    
+    .service-card-wild {
+        padding: var(--space-lg);
+    }
+    
+    .service-card-wild .btn {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--text-sm);
+    }
+    
+    .services-wild-title {
+        font-size: clamp(2rem, 10vw, 4rem);
+    }
+    
+    /* Testimonials 480px */
+    .testimonials-wild {
+        padding: var(--space-3xl) 0;
+    }
+    
+    .testimonial-quote-huge {
+        font-size: var(--text-lg);
+    }
+    
+    .testimonial-quote-huge::before {
+        font-size: 3rem;
+        top: -15px;
+        left: -5px;
+    }
+    
+    /* Stats 480px */
+    .stats-wild {
+        gap: var(--space-xl);
+        padding: var(--space-2xl) 0;
+    }
+    
+    .stat-wild-number {
+        font-size: clamp(2.5rem, 12vw, 4rem);
     }
 }
 
@@ -861,6 +1005,29 @@
 @media (max-width: 768px) {
     .contact-grid {
         grid-template-columns: 1fr !important;
-        gap: var(--space-3xl) !important;
+        gap: var(--space-2xl) !important;
+    }
+    
+    .contact-title-massive {
+        font-size: clamp(2.5rem, 10vw, 5rem);
+    }
+    
+    .contact-wild {
+        padding: var(--space-4xl) 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-grid {
+        gap: var(--space-xl) !important;
+    }
+    
+    .contact-title-massive {
+        font-size: clamp(2rem, 12vw, 3rem);
+        margin-bottom: var(--space-md) !important;
+    }
+    
+    .contact-wild {
+        padding: var(--space-3xl) 0;
     }
 }
