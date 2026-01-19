@@ -266,6 +266,233 @@
             color: var(--color-accent-secondary);
         }
         
+        /* Product Configurator Styles */
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        
+        .product-item {
+            background: var(--color-bg-tertiary);
+            border: 2px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+        
+        .product-item.active {
+            border-color: var(--color-accent-primary);
+            background: rgba(109, 40, 217, 0.05);
+        }
+        
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            cursor: pointer;
+        }
+        
+        .product-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all var(--transition-base);
+        }
+        
+        .product-item.active .product-checkbox {
+            background: var(--color-accent-primary);
+            border-color: var(--color-accent-primary);
+        }
+        
+        .product-checkbox svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+        
+        .product-item.active .product-checkbox svg {
+            opacity: 1;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-weight: var(--weight-semibold);
+            font-size: var(--text-base);
+            margin-bottom: 2px;
+        }
+        
+        .product-price {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .product-config {
+            display: none;
+            padding: 0 var(--space-lg) var(--space-lg);
+            border-top: 1px solid var(--color-border-subtle);
+            margin-top: 0;
+        }
+        
+        .product-item.active .product-config {
+            display: block;
+        }
+        
+        .config-group {
+            margin-top: var(--space-lg);
+        }
+        
+        .config-label {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .config-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+        }
+        
+        .config-option {
+            position: relative;
+        }
+        
+        .config-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .config-option label {
+            display: block;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .config-option label:hover {
+            border-color: var(--color-border-default);
+        }
+        
+        .config-option input:checked + label {
+            background: var(--color-accent-primary);
+            border-color: var(--color-accent-primary);
+            color: white;
+        }
+        
+        .config-option input:disabled + label {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .sub-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-sm);
+        }
+        
+        .sub-option {
+            position: relative;
+        }
+        
+        .sub-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .sub-option label {
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-md);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .sub-option label:hover {
+            border-color: var(--color-border-default);
+        }
+        
+        .sub-option input:checked + label {
+            background: rgba(109, 40, 217, 0.15);
+            border-color: var(--color-accent-primary);
+        }
+        
+        .sub-option input:disabled + label {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .sub-option-name {
+            font-weight: var(--weight-medium);
+            font-size: var(--text-sm);
+            margin-bottom: 2px;
+        }
+        
+        .sub-option-price {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        
+        .multi-discount-badge {
+            display: none;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            color: #22c55e;
+            margin-top: var(--space-md);
+        }
+        
+        .multi-discount-badge.show {
+            display: inline-flex;
+        }
+        
+        .guardian-warning {
+            display: none;
+            padding: var(--space-md);
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: var(--radius-md);
+            margin-top: var(--space-sm);
+        }
+        
+        .guardian-warning p {
+            font-size: var(--text-sm);
+            color: var(--color-accent-secondary);
+            margin: 0;
+        }
+        
+        .guardian-warning.show {
+            display: block;
+        }
+        
         /* Slider */
         .slider-container {
             padding: var(--space-md) 0;
@@ -483,6 +710,14 @@
             .option-grid-3 {
                 grid-template-columns: 1fr;
             }
+            
+            .config-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sub-options {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 768px) {
@@ -598,6 +833,39 @@
             .faq-answer {
                 font-size: var(--text-xs);
             }
+            
+            .config-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .config-option label {
+                padding: var(--space-xs) var(--space-sm);
+                font-size: var(--text-xs);
+            }
+            
+            .product-header {
+                padding: var(--space-md);
+            }
+            
+            .product-name {
+                font-size: var(--text-sm);
+            }
+            
+            .product-price {
+                font-size: var(--text-xs);
+            }
+            
+            .product-config {
+                padding: 0 var(--space-md) var(--space-md);
+            }
+            
+            .sub-option label {
+                padding: var(--space-sm);
+            }
+            
+            .sub-option-name {
+                font-size: var(--text-xs);
+            }
         }
     </style>
 </head>
@@ -684,7 +952,6 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <span class="option-price" style="color: #22c55e;">5% Discount</span>
                                 </label>
                             </div>
                             
@@ -699,7 +966,6 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <span class="option-price">Standard Pricing</span>
                                 </label>
                             </div>
                             
@@ -714,7 +980,6 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <span class="option-price" style="color: #22c55e;">15% Discount</span>
                                 </label>
                             </div>
                             
@@ -729,316 +994,339 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <span class="option-price">Standard Pricing</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Select Your Needs -->
+                    <!-- Select Your Products -->
                     <div class="calc-section">
-                        <h2 class="calc-section-title">Select your needs</h2>
-                        <p class="calc-section-desc">Choose one or more products, or get the bundle discount.</p>
+                        <h2 class="calc-section-title">Select your products</h2>
+                        <p class="calc-section-desc">Click to add products and configure each one. Multi-product discounts apply automatically.</p>
                         
-                        <div class="checkbox-list">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="need" id="need-website" value="website" data-price="250" checked>
-                                <label for="need-website">
-                                    <span class="checkbox-box">
+                        <div class="product-list">
+                            <!-- Website -->
+                            <div class="product-item active" data-product="website" data-base-price="250">
+                                <div class="product-header">
+                                    <span class="product-checkbox">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     </span>
-                                    <span class="checkbox-content">
-                                        <span class="checkbox-name">Website</span>
-                                        <span class="checkbox-price">$250 setup</span>
-                                    </span>
-                                </label>
+                                    <div class="product-info">
+                                        <div class="product-name">Website</div>
+                                        <div class="product-price">From $250 setup</div>
+                                    </div>
+                                </div>
+                                <div class="product-config">
+                                    <div class="config-group">
+                                        <div class="config-label">How many pages?</div>
+                                        <div class="config-options">
+                                            <div class="config-option">
+                                                <input type="radio" name="website-pages" id="website-pages-1" value="0" checked>
+                                                <label for="website-pages-1">0-5</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="website-pages" id="website-pages-2" value="0.25">
+                                                <label for="website-pages-2">6-10</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="website-pages" id="website-pages-3" value="0.5">
+                                                <label for="website-pages-3">10-20</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="website-pages" id="website-pages-4" value="custom">
+                                                <label for="website-pages-4">20+</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="config-group">
+                                        <div class="config-label">Subscription tier</div>
+                                        <div class="sub-options">
+                                            <div class="sub-option">
+                                                <input type="radio" name="website-sub" id="website-sub-host" value="35" checked>
+                                                <label for="website-sub-host">
+                                                    <span class="sub-option-name">🏠 The Host</span>
+                                                    <span class="sub-option-price">$35/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="website-sub" id="website-sub-bug" value="55">
+                                                <label for="website-sub-bug">
+                                                    <span class="sub-option-name">🐛 Bug Catcher</span>
+                                                    <span class="sub-option-price">$55/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="website-sub" id="website-sub-farmer" value="85">
+                                                <label for="website-sub-farmer">
+                                                    <span class="sub-option-name">🌾 The Farmer</span>
+                                                    <span class="sub-option-price">$85/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="website-sub" id="website-sub-watchful" value="125">
+                                                <label for="website-sub-watchful">
+                                                    <span class="sub-option-name">👁️ Watchful Eye</span>
+                                                    <span class="sub-option-price">$125/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="website-sub" id="website-sub-guardian" value="350">
+                                                <label for="website-sub-guardian">
+                                                    <span class="sub-option-name">🛡️ The Guardian</span>
+                                                    <span class="sub-option-price">$350/month</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="guardian-warning" id="website-guardian-warning">
+                                            <p>⚠️ <strong>Are you sure?</strong> The Guardian tier is designed for complex, high-traffic sites. For most websites, The Farmer or Watchful Eye provides excellent coverage. We'd love to chat about your needs first!</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="need" id="need-webapp" value="webapp" data-price="350">
-                                <label for="need-webapp">
-                                    <span class="checkbox-box">
+                            <!-- Web Application -->
+                            <div class="product-item" data-product="webapp" data-base-price="350">
+                                <div class="product-header">
+                                    <span class="product-checkbox">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     </span>
-                                    <span class="checkbox-content">
-                                        <span class="checkbox-name">Web Application</span>
-                                        <span class="checkbox-price">$350 setup</span>
-                                    </span>
-                                </label>
+                                    <div class="product-info">
+                                        <div class="product-name">Web Application</div>
+                                        <div class="product-price">From $350 setup</div>
+                                    </div>
+                                </div>
+                                <div class="product-config">
+                                    <div class="config-group">
+                                        <div class="config-label">How many user accounts?</div>
+                                        <div class="config-options">
+                                            <div class="config-option">
+                                                <input type="radio" name="webapp-users" id="webapp-users-1" value="0" checked>
+                                                <label for="webapp-users-1">&lt;50</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="webapp-users" id="webapp-users-2" value="0.25">
+                                                <label for="webapp-users-2">50-100</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="webapp-users" id="webapp-users-3" value="0.5">
+                                                <label for="webapp-users-3">100-250</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="webapp-users" id="webapp-users-4" value="custom">
+                                                <label for="webapp-users-4">250+</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="config-group">
+                                        <div class="config-label">Subscription tier</div>
+                                        <div class="sub-options">
+                                            <div class="sub-option">
+                                                <input type="radio" name="webapp-sub" id="webapp-sub-host" value="35" checked>
+                                                <label for="webapp-sub-host">
+                                                    <span class="sub-option-name">🏠 The Host</span>
+                                                    <span class="sub-option-price">$35/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="webapp-sub" id="webapp-sub-bug" value="55">
+                                                <label for="webapp-sub-bug">
+                                                    <span class="sub-option-name">🐛 Bug Catcher</span>
+                                                    <span class="sub-option-price">$55/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="webapp-sub" id="webapp-sub-farmer" value="85">
+                                                <label for="webapp-sub-farmer">
+                                                    <span class="sub-option-name">🌾 The Farmer</span>
+                                                    <span class="sub-option-price">$85/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="webapp-sub" id="webapp-sub-watchful" value="125">
+                                                <label for="webapp-sub-watchful">
+                                                    <span class="sub-option-name">👁️ Watchful Eye</span>
+                                                    <span class="sub-option-price">$125/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="webapp-sub" id="webapp-sub-guardian" value="350">
+                                                <label for="webapp-sub-guardian">
+                                                    <span class="sub-option-name">🛡️ The Guardian</span>
+                                                    <span class="sub-option-price">$350/month</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="need" id="need-portal" value="portal" data-price="450">
-                                <label for="need-portal">
-                                    <span class="checkbox-box">
+                            <!-- Client Portal -->
+                            <div class="product-item" data-product="portal" data-base-price="450">
+                                <div class="product-header">
+                                    <span class="product-checkbox">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     </span>
-                                    <span class="checkbox-content">
-                                        <span class="checkbox-name">Client Portal</span>
-                                        <span class="checkbox-price">$450 setup</span>
-                                    </span>
-                                </label>
+                                    <div class="product-info">
+                                        <div class="product-name">Client Portal</div>
+                                        <div class="product-price">From $450 setup</div>
+                                    </div>
+                                </div>
+                                <div class="product-config">
+                                    <div class="config-group">
+                                        <div class="config-label">How many user accounts?</div>
+                                        <div class="config-options">
+                                            <div class="config-option">
+                                                <input type="radio" name="portal-users" id="portal-users-1" value="0" checked>
+                                                <label for="portal-users-1">&lt;50</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="portal-users" id="portal-users-2" value="0.25">
+                                                <label for="portal-users-2">50-100</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="portal-users" id="portal-users-3" value="0.5">
+                                                <label for="portal-users-3">100-250</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="portal-users" id="portal-users-4" value="custom">
+                                                <label for="portal-users-4">250+</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="config-group">
+                                        <div class="config-label">Subscription tier <span style="color: var(--color-text-muted); font-weight: normal;">(Bug Catcher minimum)</span></div>
+                                        <div class="sub-options">
+                                            <div class="sub-option">
+                                                <input type="radio" name="portal-sub" id="portal-sub-host" value="35" disabled>
+                                                <label for="portal-sub-host">
+                                                    <span class="sub-option-name">🏠 The Host</span>
+                                                    <span class="sub-option-price">Not available</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="portal-sub" id="portal-sub-bug" value="55" checked>
+                                                <label for="portal-sub-bug">
+                                                    <span class="sub-option-name">🐛 Bug Catcher</span>
+                                                    <span class="sub-option-price">$55/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="portal-sub" id="portal-sub-farmer" value="85">
+                                                <label for="portal-sub-farmer">
+                                                    <span class="sub-option-name">🌾 The Farmer</span>
+                                                    <span class="sub-option-price">$85/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="portal-sub" id="portal-sub-watchful" value="125">
+                                                <label for="portal-sub-watchful">
+                                                    <span class="sub-option-name">👁️ Watchful Eye</span>
+                                                    <span class="sub-option-price">$125/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="portal-sub" id="portal-sub-guardian" value="350">
+                                                <label for="portal-sub-guardian">
+                                                    <span class="sub-option-name">🛡️ The Guardian</span>
+                                                    <span class="sub-option-price">$350/month</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="need" id="need-system" value="system" data-price="600">
-                                <label for="need-system">
-                                    <span class="checkbox-box">
+                            <!-- Management System -->
+                            <div class="product-item" data-product="system" data-base-price="600">
+                                <div class="product-header">
+                                    <span class="product-checkbox">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     </span>
-                                    <span class="checkbox-content">
-                                        <span class="checkbox-name">Management System</span>
-                                        <span class="checkbox-price">$600 setup</span>
-                                    </span>
-                                </label>
-                            </div>
-                            
-                            <div class="checkbox-item" style="background: rgba(109, 40, 217, 0.1); border-radius: var(--radius-lg); padding: var(--space-sm);">
-                                <input type="checkbox" name="need" id="need-bundle" value="bundle" data-price="1150">
-                                <label for="need-bundle">
-                                    <span class="checkbox-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </span>
-                                    <span class="checkbox-content">
-                                        <span class="checkbox-name">🎉 All 4 in One!</span>
-                                        <span class="checkbox-price">$1,150 setup (Save $500!)</span>
-                                    </span>
-                                </label>
+                                    <div class="product-info">
+                                        <div class="product-name">Management System</div>
+                                        <div class="product-price">From $600 setup</div>
+                                    </div>
+                                </div>
+                                <div class="product-config">
+                                    <div class="config-group">
+                                        <div class="config-label">How many user accounts?</div>
+                                        <div class="config-options">
+                                            <div class="config-option">
+                                                <input type="radio" name="system-users" id="system-users-1" value="0" checked>
+                                                <label for="system-users-1">&lt;50</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="system-users" id="system-users-2" value="0.25">
+                                                <label for="system-users-2">50-100</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="system-users" id="system-users-3" value="0.5">
+                                                <label for="system-users-3">100-250</label>
+                                            </div>
+                                            <div class="config-option">
+                                                <input type="radio" name="system-users" id="system-users-4" value="custom">
+                                                <label for="system-users-4">250+</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="config-group">
+                                        <div class="config-label">Subscription tier <span style="color: var(--color-text-muted); font-weight: normal;">(Bug Catcher minimum)</span></div>
+                                        <div class="sub-options">
+                                            <div class="sub-option">
+                                                <input type="radio" name="system-sub" id="system-sub-host" value="35" disabled>
+                                                <label for="system-sub-host">
+                                                    <span class="sub-option-name">🏠 The Host</span>
+                                                    <span class="sub-option-price">Not available</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="system-sub" id="system-sub-bug" value="55" checked>
+                                                <label for="system-sub-bug">
+                                                    <span class="sub-option-name">🐛 Bug Catcher</span>
+                                                    <span class="sub-option-price">$55/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="system-sub" id="system-sub-farmer" value="85">
+                                                <label for="system-sub-farmer">
+                                                    <span class="sub-option-name">🌾 The Farmer</span>
+                                                    <span class="sub-option-price">$85/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="system-sub" id="system-sub-watchful" value="125">
+                                                <label for="system-sub-watchful">
+                                                    <span class="sub-option-name">👁️ Watchful Eye</span>
+                                                    <span class="sub-option-price">$125/month</span>
+                                                </label>
+                                            </div>
+                                            <div class="sub-option">
+                                                <input type="radio" name="system-sub" id="system-sub-guardian" value="350">
+                                                <label for="system-sub-guardian">
+                                                    <span class="sub-option-name">🛡️ The Guardian</span>
+                                                    <span class="sub-option-price">$350/month</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Website Pages (conditional) -->
-                    <div class="calc-section" id="pages-section">
-                        <h2 class="calc-section-title">How many pages does your site need?</h2>
-                        <p class="calc-section-desc">This affects the setup fee for your website.</p>
                         
-                        <div class="option-grid">
-                            <div class="option-card">
-                                <input type="radio" name="page-count" id="pages-small" value="small" data-multiplier="0" checked>
-                                <label for="pages-small">
-                                    <div class="option-header">
-                                        <span class="option-name">0 to 5 pages</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">Base price</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="page-count" id="pages-medium" value="medium" data-multiplier="0.25">
-                                <label for="pages-medium">
-                                    <div class="option-header">
-                                        <span class="option-name">6 to 10 pages</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">+25%</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="page-count" id="pages-large" value="large" data-multiplier="0.5">
-                                <label for="pages-large">
-                                    <div class="option-header">
-                                        <span class="option-name">10 to 20 pages</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">+50%</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="page-count" id="pages-custom" value="custom" data-multiplier="custom">
-                                <label for="pages-custom">
-                                    <div class="option-header">
-                                        <span class="option-name">20+ pages</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">Contact us</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- User Accounts (conditional) -->
-                    <div class="calc-section" id="users-section" style="display: none;">
-                        <h2 class="calc-section-title">How many user accounts do you need?</h2>
-                        <p class="calc-section-desc">This affects the setup fee for apps, portals, and systems.</p>
-                        
-                        <div class="option-grid">
-                            <div class="option-card">
-                                <input type="radio" name="user-count" id="users-small" value="small" data-multiplier="0" checked>
-                                <label for="users-small">
-                                    <div class="option-header">
-                                        <span class="option-name">Less than 50</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">Base price</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="user-count" id="users-medium" value="medium" data-multiplier="0.25">
-                                <label for="users-medium">
-                                    <div class="option-header">
-                                        <span class="option-name">50 - 100</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">+25%</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="user-count" id="users-large" value="large" data-multiplier="0.5">
-                                <label for="users-large">
-                                    <div class="option-header">
-                                        <span class="option-name">100 - 250</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">+50%</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="user-count" id="users-custom" value="custom" data-multiplier="custom">
-                                <label for="users-custom">
-                                    <div class="option-header">
-                                        <span class="option-name">250+</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-price">Contact us</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Maintenance Tier -->
-                    <div class="calc-section">
-                        <h2 class="calc-section-title">Select your maintenance tier</h2>
-                        <p class="calc-section-desc">Subscription is invoiced annually from the month of launch.</p>
-                        
-                        <div class="option-grid" style="grid-template-columns: 1fr;">
-                            <div class="option-card">
-                                <input type="radio" name="maintenance" id="tier-host" value="host" data-monthly="35" data-bundle="100" checked>
-                                <label for="tier-host">
-                                    <div class="option-header">
-                                        <span class="option-name">🏠 The Host (Essential)</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-desc">Hosting & basic uptime monitoring. Minimum required tier.</span>
-                                    <span class="option-price">$35/month per product • $100/month for bundle</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="maintenance" id="tier-bugcatcher" value="bugcatcher" data-monthly="55" data-bundle="165">
-                                <label for="tier-bugcatcher">
-                                    <div class="option-header">
-                                        <span class="option-name">🐛 The Bug Catcher (Basic)</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-desc">Bug fixes, security updates, and email support.</span>
-                                    <span class="option-price">$55/month per product</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card" style="border-color: var(--color-accent-primary);">
-                                <input type="radio" name="maintenance" id="tier-farmer" value="farmer" data-monthly="85" data-bundle="255">
-                                <label for="tier-farmer">
-                                    <div class="option-header">
-                                        <span class="option-name">🌾 The Farmer (Standard) <span class="tag" style="margin-left: var(--space-sm); font-size: var(--text-xs);">Recommended</span></span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-desc">Regular content updates, minor feature tweaks, and priority support. The sweet spot for ongoing web dev support.</span>
-                                    <span class="option-price">$85/month per product</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="maintenance" id="tier-watchful" value="watchful" data-monthly="125" data-bundle="375">
-                                <label for="tier-watchful">
-                                    <div class="option-header">
-                                        <span class="option-name">👁️ The Watchful Eye (Premium)</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-desc">Proactive monitoring, performance optimization, and faster response times.</span>
-                                    <span class="option-price">$125/month per product</span>
-                                </label>
-                            </div>
-                            
-                            <div class="option-card">
-                                <input type="radio" name="maintenance" id="tier-guardian" value="guardian" data-monthly="350" data-bundle="1050">
-                                <label for="tier-guardian">
-                                    <div class="option-header">
-                                        <span class="option-name">🛡️ The Guardian (Epic)</span>
-                                        <span class="option-check">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <span class="option-desc">For projects requiring regular, high levels of attention. Includes dedicated support hours and feature development.</span>
-                                    <span class="option-price">$350/month per product</span>
-                                </label>
-                            </div>
+                        <div class="multi-discount-badge" id="multi-discount-badge">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                                <line x1="7" y1="7" x2="7.01" y2="7"/>
+                            </svg>
+                            <span id="multi-discount-text">5% multi-product discount applied!</span>
                         </div>
                     </div>
                 </div>
@@ -1052,14 +1340,19 @@
                             <span class="summary-item-name">Setup Fee</span>
                             <span class="summary-item-value" id="summary-setup">$250</span>
                         </div>
-                        <div class="summary-item" id="summary-discount-row" style="display: none;">
-                            <span class="summary-item-name">Discount</span>
-                            <span class="summary-item-value" id="summary-discount" style="color: #22c55e;">-$0</span>
+                        <div class="summary-item" id="summary-multi-discount-row" style="display: none;">
+                            <span class="summary-item-name">Multi-product Discount</span>
+                            <span class="summary-item-value" id="summary-multi-discount" style="color: #22c55e;">-$0</span>
+                        </div>
+                        <div class="summary-item" id="summary-client-discount-row" style="display: none;">
+                            <span class="summary-item-name">Client Discount</span>
+                            <span class="summary-item-value" id="summary-client-discount" style="color: #22c55e;">-$0</span>
                         </div>
                         <div class="summary-item">
-                            <span class="summary-item-name">Annual Maintenance</span>
-                            <span class="summary-item-value" id="summary-maintenance">$420</span>
+                            <span class="summary-item-name">Annual Subscription</span>
+                            <span class="summary-item-value" id="summary-maintenance">$420/yr</span>
                         </div>
+                        <div id="summary-products-breakdown" style="font-size: var(--text-xs); color: var(--color-text-muted); padding-left: var(--space-sm); margin-top: calc(-1 * var(--space-sm));"></div>
                     </div>
                     
                     <div class="summary-divider"></div>
@@ -1079,7 +1372,7 @@
                         <span class="summary-total-label">Total (incl. GST)</span>
                         <span class="summary-total-value" id="summary-total">$770</span>
                     </div>
-                    <p class="summary-note">Setup fee + first year of maintenance</p>
+                    <p class="summary-note">Setup fee + first year of subscription</p>
                     
                     <div id="contact-notice" style="display: none; padding: var(--space-md); background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); margin-bottom: var(--space-xl);">
                         <p class="text-small" style="color: var(--color-accent-secondary); margin: 0;">
@@ -1186,172 +1479,180 @@
     <script>
         // Pricing Calculator Logic
         document.addEventListener('DOMContentLoaded', () => {
+            const productItems = document.querySelectorAll('.product-item');
             const clientTypes = document.querySelectorAll('input[name="client-type"]');
-            const needs = document.querySelectorAll('input[name="need"]');
-            const pageCounts = document.querySelectorAll('input[name="page-count"]');
-            const userCounts = document.querySelectorAll('input[name="user-count"]');
-            const maintenanceTiers = document.querySelectorAll('input[name="maintenance"]');
-            
-            const pagesSection = document.getElementById('pages-section');
-            const usersSection = document.getElementById('users-section');
             const contactNotice = document.getElementById('contact-notice');
+            const multiDiscountBadge = document.getElementById('multi-discount-badge');
+            const multiDiscountText = document.getElementById('multi-discount-text');
+            const websiteGuardianWarning = document.getElementById('website-guardian-warning');
             
             // Summary elements
             const summarySetup = document.getElementById('summary-setup');
-            const summaryDiscount = document.getElementById('summary-discount');
-            const summaryDiscountRow = document.getElementById('summary-discount-row');
+            const summaryMultiDiscountRow = document.getElementById('summary-multi-discount-row');
+            const summaryMultiDiscount = document.getElementById('summary-multi-discount');
+            const summaryClientDiscountRow = document.getElementById('summary-client-discount-row');
+            const summaryClientDiscount = document.getElementById('summary-client-discount');
             const summaryMaintenance = document.getElementById('summary-maintenance');
+            const summaryProductsBreakdown = document.getElementById('summary-products-breakdown');
             const summaryExclGst = document.getElementById('summary-excl-gst');
             const summaryGst = document.getElementById('summary-gst');
             const summaryTotal = document.getElementById('summary-total');
             
-            // Handle bundle checkbox - uncheck others when bundle selected
-            const bundleCheckbox = document.getElementById('need-bundle');
-            const individualNeeds = ['need-website', 'need-webapp', 'need-portal', 'need-system'];
+            // Product names mapping
+            const productNames = {
+                'website': 'Website',
+                'webapp': 'Web App',
+                'portal': 'Portal',
+                'system': 'System'
+            };
             
-            bundleCheckbox.addEventListener('change', () => {
-                if (bundleCheckbox.checked) {
-                    individualNeeds.forEach(id => {
-                        document.getElementById(id).checked = false;
-                    });
-                }
-                updateVisibility();
-                calculateTotal();
-            });
-            
-            individualNeeds.forEach(id => {
-                document.getElementById(id).addEventListener('change', () => {
-                    if (document.getElementById(id).checked) {
-                        bundleCheckbox.checked = false;
+            // Toggle product selection
+            productItems.forEach(item => {
+                const header = item.querySelector('.product-header');
+                header.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    
+                    // Ensure at least one product is selected
+                    const activeProducts = document.querySelectorAll('.product-item.active');
+                    if (activeProducts.length === 0) {
+                        item.classList.add('active');
                     }
-                    updateVisibility();
+                    
                     calculateTotal();
                 });
             });
             
-            function updateVisibility() {
-                const websiteSelected = document.getElementById('need-website').checked;
-                const bundleSelected = bundleCheckbox.checked;
-                const hasApp = document.getElementById('need-webapp').checked || 
-                              document.getElementById('need-portal').checked || 
-                              document.getElementById('need-system').checked ||
-                              bundleSelected;
-                
-                // Show pages section if website or bundle selected
-                pagesSection.style.display = (websiteSelected || bundleSelected) ? 'block' : 'none';
-                
-                // Show users section if any app/portal/system or bundle selected
-                usersSection.style.display = hasApp ? 'block' : 'none';
-            }
+            // Listen for changes on all config inputs
+            document.querySelectorAll('.product-config input').forEach(input => {
+                input.addEventListener('change', () => {
+                    // Check for guardian warning on website
+                    if (input.name === 'website-sub' && input.value === '350') {
+                        websiteGuardianWarning.classList.add('show');
+                    } else if (input.name === 'website-sub') {
+                        websiteGuardianWarning.classList.remove('show');
+                    }
+                    calculateTotal();
+                });
+            });
+            
+            // Listen for client type changes
+            clientTypes.forEach(input => {
+                input.addEventListener('change', calculateTotal);
+            });
             
             function calculateTotal() {
-                // Get discount rate
+                const activeProducts = document.querySelectorAll('.product-item.active');
+                const productCount = activeProducts.length;
+                
+                // Get client discount rate
                 const selectedClientType = document.querySelector('input[name="client-type"]:checked');
-                const discountRate = parseFloat(selectedClientType.dataset.discount);
+                const clientDiscountRate = parseFloat(selectedClientType.dataset.discount);
                 
-                // Calculate base setup fee
+                // Calculate multi-product discount rate
+                let multiDiscountRate = 0;
+                if (productCount === 2) {
+                    multiDiscountRate = 0.05;
+                } else if (productCount === 3) {
+                    multiDiscountRate = 0.10;
+                } else if (productCount >= 4) {
+                    multiDiscountRate = 0.15;
+                }
+                
+                // Update multi-discount badge
+                if (multiDiscountRate > 0) {
+                    multiDiscountBadge.classList.add('show');
+                    multiDiscountText.textContent = `${Math.round(multiDiscountRate * 100)}% multi-product discount applied!`;
+                } else {
+                    multiDiscountBadge.classList.remove('show');
+                }
+                
+                // Calculate setup fees and subscriptions
                 let baseSetup = 0;
-                let productCount = 0;
-                let isBundle = bundleCheckbox.checked;
-                
-                if (isBundle) {
-                    baseSetup = 1150;
-                    productCount = 4;
-                } else {
-                    needs.forEach(need => {
-                        if (need.checked && need.value !== 'bundle') {
-                            baseSetup += parseInt(need.dataset.price);
-                            productCount++;
-                        }
-                    });
-                }
-                
-                // Get size multiplier
-                let sizeMultiplier = 0;
+                let monthlySubscription = 0;
                 let needsCustomQuote = false;
+                let subscriptionBreakdown = [];
                 
-                // Check page count if website/bundle selected
-                const websiteSelected = document.getElementById('need-website').checked || isBundle;
-                if (websiteSelected) {
-                    const selectedPageCount = document.querySelector('input[name="page-count"]:checked');
-                    if (selectedPageCount.dataset.multiplier === 'custom') {
-                        needsCustomQuote = true;
+                activeProducts.forEach(item => {
+                    const product = item.dataset.product;
+                    const basePrice = parseInt(item.dataset.basePrice);
+                    
+                    // Get size multiplier
+                    let sizeInput;
+                    if (product === 'website') {
+                        sizeInput = document.querySelector('input[name="website-pages"]:checked');
                     } else {
-                        sizeMultiplier = Math.max(sizeMultiplier, parseFloat(selectedPageCount.dataset.multiplier));
+                        sizeInput = document.querySelector(`input[name="${product}-users"]:checked`);
                     }
-                }
-                
-                // Check user count if app/portal/system/bundle selected
-                const hasApp = document.getElementById('need-webapp').checked || 
-                              document.getElementById('need-portal').checked || 
-                              document.getElementById('need-system').checked ||
-                              isBundle;
-                if (hasApp) {
-                    const selectedUserCount = document.querySelector('input[name="user-count"]:checked');
-                    if (selectedUserCount.dataset.multiplier === 'custom') {
+                    
+                    const sizeValue = sizeInput ? sizeInput.value : '0';
+                    if (sizeValue === 'custom') {
                         needsCustomQuote = true;
-                    } else {
-                        sizeMultiplier = Math.max(sizeMultiplier, parseFloat(selectedUserCount.dataset.multiplier));
                     }
-                }
+                    const sizeMultiplier = sizeValue === 'custom' ? 0 : parseFloat(sizeValue);
+                    
+                    // Calculate setup for this product
+                    const productSetup = basePrice * (1 + sizeMultiplier);
+                    baseSetup += productSetup;
+                    
+                    // Get subscription tier
+                    const subInput = document.querySelector(`input[name="${product}-sub"]:checked`);
+                    const monthlyRate = subInput ? parseInt(subInput.value) : 35;
+                    monthlySubscription += monthlyRate;
+                    
+                    subscriptionBreakdown.push(`${productNames[product]}: $${monthlyRate}/mo`);
+                });
                 
-                // Apply size multiplier to setup
-                const setupWithSize = baseSetup * (1 + sizeMultiplier);
+                // Apply discounts to setup
+                const multiDiscountAmount = baseSetup * multiDiscountRate;
+                const setupAfterMulti = baseSetup - multiDiscountAmount;
+                const clientDiscountAmount = setupAfterMulti * clientDiscountRate;
+                const finalSetup = setupAfterMulti - clientDiscountAmount;
                 
-                // Apply discount
-                const discountAmount = setupWithSize * discountRate;
-                const finalSetup = setupWithSize - discountAmount;
-                
-                // Calculate maintenance
-                const selectedTier = document.querySelector('input[name="maintenance"]:checked');
-                let monthlyMaintenance;
-                
-                if (isBundle) {
-                    monthlyMaintenance = parseInt(selectedTier.dataset.bundle);
-                } else {
-                    monthlyMaintenance = parseInt(selectedTier.dataset.monthly) * Math.max(productCount, 1);
-                }
-                
-                const annualMaintenance = monthlyMaintenance * 12;
+                // Calculate annual subscription
+                const annualSubscription = monthlySubscription * 12;
                 
                 // Calculate totals
-                const totalExclGst = finalSetup + annualMaintenance;
+                const totalExclGst = finalSetup + annualSubscription;
                 const gst = totalExclGst * 0.15;
                 const totalInclGst = totalExclGst + gst;
                 
                 // Update UI
-                summarySetup.textContent = `$${Math.round(setupWithSize).toLocaleString()}`;
+                summarySetup.textContent = `$${Math.round(baseSetup).toLocaleString()}`;
                 
-                if (discountRate > 0) {
-                    summaryDiscountRow.style.display = 'flex';
-                    summaryDiscount.textContent = `-$${Math.round(discountAmount).toLocaleString()}`;
+                // Multi-product discount
+                if (multiDiscountRate > 0) {
+                    summaryMultiDiscountRow.style.display = 'flex';
+                    summaryMultiDiscount.textContent = `-$${Math.round(multiDiscountAmount).toLocaleString()} (${Math.round(multiDiscountRate * 100)}%)`;
                 } else {
-                    summaryDiscountRow.style.display = 'none';
+                    summaryMultiDiscountRow.style.display = 'none';
                 }
                 
-                summaryMaintenance.textContent = `$${annualMaintenance.toLocaleString()}/yr`;
+                // Client discount
+                if (clientDiscountRate > 0) {
+                    summaryClientDiscountRow.style.display = 'flex';
+                    summaryClientDiscount.textContent = `-$${Math.round(clientDiscountAmount).toLocaleString()} (${Math.round(clientDiscountRate * 100)}%)`;
+                } else {
+                    summaryClientDiscountRow.style.display = 'none';
+                }
+                
+                summaryMaintenance.textContent = `$${annualSubscription.toLocaleString()}/yr`;
+                
+                // Show subscription breakdown
+                if (subscriptionBreakdown.length > 1) {
+                    summaryProductsBreakdown.innerHTML = subscriptionBreakdown.join(' • ');
+                } else {
+                    summaryProductsBreakdown.innerHTML = '';
+                }
+                
                 summaryExclGst.textContent = `$${Math.round(totalExclGst).toLocaleString()}`;
                 summaryGst.textContent = `$${Math.round(gst).toLocaleString()}`;
                 summaryTotal.textContent = `$${Math.round(totalInclGst).toLocaleString()}`;
                 
                 // Show contact notice if custom quote needed
                 contactNotice.style.display = needsCustomQuote ? 'block' : 'none';
-                
-                // Ensure at least one need is selected
-                if (productCount === 0 && !isBundle) {
-                    document.getElementById('need-website').checked = true;
-                    calculateTotal();
-                }
             }
             
-            // Event listeners
-            clientTypes.forEach(input => input.addEventListener('change', calculateTotal));
-            pageCounts.forEach(input => input.addEventListener('change', calculateTotal));
-            userCounts.forEach(input => input.addEventListener('change', calculateTotal));
-            maintenanceTiers.forEach(input => input.addEventListener('change', calculateTotal));
-            
             // Initial calculation
-            updateVisibility();
             calculateTotal();
         });
     </script>
