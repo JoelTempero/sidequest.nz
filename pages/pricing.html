@@ -493,6 +493,90 @@
             display: block;
         }
         
+        /* Quote Overlay */
+        .quote-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 20, 0.95);
+            border-radius: var(--radius-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--space-2xl);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 10;
+        }
+        
+        .quote-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .quote-overlay-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-hero);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .quote-overlay-icon svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+        
+        .quote-overlay-title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-md);
+            color: var(--color-text-primary);
+        }
+        
+        .quote-overlay-text {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+            max-width: 280px;
+            line-height: 1.6;
+        }
+        
+        .summary-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Learn More Link */
+        .learn-more-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: var(--text-xs);
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            margin-top: var(--space-sm);
+            transition: color var(--transition-base);
+        }
+        
+        .learn-more-link:hover {
+            color: var(--color-accent-secondary);
+        }
+        
+        .learn-more-link svg {
+            width: 12px;
+            height: 12px;
+        }
+        
         /* Slider */
         .slider-container {
             padding: var(--space-md) 0;
@@ -1079,6 +1163,12 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <a href="#subscription-tiers" class="learn-more-link">
+                                            Learn more about tiers
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M6 9l6 6 6-6"/>
+                                            </svg>
+                                        </a>
                                         <div class="guardian-warning" id="website-guardian-warning">
                                             <p>⚠️ <strong>Are you sure?</strong> The Guardian tier is designed for complex, high-traffic sites. For most websites, The Farmer or Watchful Eye provides excellent coverage. We'd love to chat about your needs first!</p>
                                         </div>
@@ -1160,6 +1250,12 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <a href="#subscription-tiers" class="learn-more-link">
+                                            Learn more about tiers
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M6 9l6 6 6-6"/>
+                                            </svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -1238,6 +1334,12 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <a href="#subscription-tiers" class="learn-more-link">
+                                            Learn more about tiers
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M6 9l6 6 6-6"/>
+                                            </svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -1316,6 +1418,12 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <a href="#subscription-tiers" class="learn-more-link">
+                                            Learn more about tiers
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M6 9l6 6 6-6"/>
+                                            </svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -1374,12 +1482,6 @@
                     </div>
                     <p class="summary-note">Setup fee + first year of subscription</p>
                     
-                    <div id="contact-notice" style="display: none; padding: var(--space-md); background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); margin-bottom: var(--space-xl);">
-                        <p class="text-small" style="color: var(--color-accent-secondary); margin: 0;">
-                            <strong>Custom quote needed</strong> — Your requirements exceed standard pricing. Get in touch for a tailored quote.
-                        </p>
-                    </div>
-                    
                     <a href="../index.html#contact" class="btn btn-primary btn-lg summary-cta">
                         Get Started
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1387,6 +1489,175 @@
                         </svg>
                     </a>
                     <p class="summary-disclaimer">This is an estimate. Final pricing confirmed after consultation.</p>
+                    
+                    <!-- Custom Quote Overlay -->
+                    <div class="quote-overlay" id="quote-overlay">
+                        <div class="quote-overlay-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h4 class="quote-overlay-title">Let's Talk!</h4>
+                        <p class="quote-overlay-text">Your project needs a custom quote. We'd love to learn more about what you're building and put together a tailored proposal.</p>
+                        <a href="../index.html#contact" class="btn btn-primary">
+                            Get in Touch
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Tiers Section -->
+    <section class="section" id="subscription-tiers" style="background: var(--color-bg-secondary);">
+        <div class="container">
+            <div class="section-header section-header-centered reveal">
+                <span class="section-eyebrow">Ongoing Support</span>
+                <h2 class="section-title">Subscription <span class="text-gradient">Tiers</span></h2>
+                <p class="text-body text-secondary" style="max-width: 600px; margin: var(--space-lg) auto 0;">
+                    Every project needs ongoing care. Choose the level of support that matches how you want to work with us.
+                </p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl); margin-top: var(--space-3xl);">
+                <!-- The Host -->
+                <div class="reveal" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-xl); padding: var(--space-xl);">
+                    <div style="font-size: var(--text-2xl); margin-bottom: var(--space-sm);">🏠</div>
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">The Host</h3>
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xl); color: var(--color-accent-primary); margin-bottom: var(--space-md);">$35<span style="font-size: var(--text-sm); color: var(--color-text-muted);">/month</span></div>
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-lg);">The essentials to keep your site online and running smoothly.</p>
+                    <ul style="font-size: var(--text-sm); color: var(--color-text-secondary); list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Secure hosting
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            SSL certificate
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Basic uptime monitoring
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Daily backups
+                        </li>
+                    </ul>
+                    <p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border-subtle);">
+                        <em>Available for: Website, Web App</em>
+                    </p>
+                </div>
+                
+                <!-- Bug Catcher -->
+                <div class="reveal" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-xl); padding: var(--space-xl);">
+                    <div style="font-size: var(--text-2xl); margin-bottom: var(--space-sm);">🐛</div>
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">The Bug Catcher</h3>
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xl); color: var(--color-accent-primary); margin-bottom: var(--space-md);">$55<span style="font-size: var(--text-sm); color: var(--color-text-muted);">/month</span></div>
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-lg);">Everything in Host, plus fixes and security updates when things go wrong.</p>
+                    <ul style="font-size: var(--text-sm); color: var(--color-text-secondary); list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Host
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Bug fixes
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Security patches
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Email support
+                        </li>
+                    </ul>
+                    <p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-border-subtle);">
+                        <em>Minimum for: Client Portal, Management System</em>
+                    </p>
+                </div>
+                
+                <!-- The Farmer -->
+                <div class="reveal" style="background: var(--color-bg-tertiary); border: 2px solid var(--color-accent-primary); border-radius: var(--radius-xl); padding: var(--space-xl); position: relative;">
+                    <span style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--color-accent-primary); color: white; font-size: var(--text-xs); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-full);">Recommended</span>
+                    <div style="font-size: var(--text-2xl); margin-bottom: var(--space-sm);">🌾</div>
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">The Farmer</h3>
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xl); color: var(--color-accent-primary); margin-bottom: var(--space-md);">$85<span style="font-size: var(--text-sm); color: var(--color-text-muted);">/month</span></div>
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-lg);">The sweet spot. Regular care and minor updates to keep things growing.</p>
+                    <ul style="font-size: var(--text-sm); color: var(--color-text-secondary); list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Bug Catcher
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Content updates
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Minor feature tweaks
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Priority support
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Watchful Eye -->
+                <div class="reveal" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-xl); padding: var(--space-xl);">
+                    <div style="font-size: var(--text-2xl); margin-bottom: var(--space-sm);">👁️</div>
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">The Watchful Eye</h3>
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xl); color: var(--color-accent-primary); margin-bottom: var(--space-md);">$125<span style="font-size: var(--text-sm); color: var(--color-text-muted);">/month</span></div>
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-lg);">Proactive care for sites that need extra attention and faster response.</p>
+                    <ul style="font-size: var(--text-sm); color: var(--color-text-secondary); list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Farmer
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Proactive monitoring
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Performance optimization
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Same-day response
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- The Guardian -->
+                <div class="reveal" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-xl); padding: var(--space-xl);">
+                    <div style="font-size: var(--text-2xl); margin-bottom: var(--space-sm);">🛡️</div>
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">The Guardian</h3>
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xl); color: var(--color-accent-primary); margin-bottom: var(--space-md);">$350<span style="font-size: var(--text-sm); color: var(--color-text-muted);">/month</span></div>
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-lg);">For mission-critical projects needing dedicated attention and feature work.</p>
+                    <ul style="font-size: var(--text-sm); color: var(--color-text-secondary); list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Watchful Eye
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Dedicated support hours
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            New feature development
+                        </li>
+                        <li style="padding: var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-sm);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Strategic consultation
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1481,7 +1752,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const productItems = document.querySelectorAll('.product-item');
             const clientTypes = document.querySelectorAll('input[name="client-type"]');
-            const contactNotice = document.getElementById('contact-notice');
+            const quoteOverlay = document.getElementById('quote-overlay');
             const multiDiscountBadge = document.getElementById('multi-discount-badge');
             const multiDiscountText = document.getElementById('multi-discount-text');
             const websiteGuardianWarning = document.getElementById('website-guardian-warning');
@@ -1648,8 +1919,12 @@
                 summaryGst.textContent = `$${Math.round(gst).toLocaleString()}`;
                 summaryTotal.textContent = `$${Math.round(totalInclGst).toLocaleString()}`;
                 
-                // Show contact notice if custom quote needed
-                contactNotice.style.display = needsCustomQuote ? 'block' : 'none';
+                // Show quote overlay if custom quote needed
+                if (needsCustomQuote) {
+                    quoteOverlay.classList.add('show');
+                } else {
+                    quoteOverlay.classList.remove('show');
+                }
             }
             
             // Initial calculation
