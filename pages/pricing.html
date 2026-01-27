@@ -1782,13 +1782,6 @@
                 const header = item.querySelector('.product-header');
                 header.addEventListener('click', () => {
                     item.classList.toggle('active');
-                    
-                    // Ensure at least one product is selected
-                    const activeProducts = document.querySelectorAll('.product-item.active');
-                    if (activeProducts.length === 0) {
-                        item.classList.add('active');
-                    }
-                    
                     calculateTotal();
                 });
             });
@@ -1814,11 +1807,26 @@
             function calculateTotal() {
                 const activeProducts = document.querySelectorAll('.product-item.active');
                 const productCount = activeProducts.length;
-                
+
+                // Handle no products selected - show $0
+                if (productCount === 0) {
+                    multiDiscountBadge.classList.remove('show');
+                    summarySetup.textContent = '$0';
+                    summaryMultiDiscountRow.style.display = 'none';
+                    summaryClientDiscountRow.style.display = 'none';
+                    summaryMaintenance.textContent = '$0/yr';
+                    summaryProductsBreakdown.innerHTML = '';
+                    summaryExclGst.textContent = '$0';
+                    summaryGst.textContent = '$0';
+                    summaryTotal.textContent = '$0';
+                    quoteOverlay.classList.remove('show');
+                    return;
+                }
+
                 // Get client discount rate
                 const selectedClientType = document.querySelector('input[name="client-type"]:checked');
                 const clientDiscountRate = parseFloat(selectedClientType.dataset.discount);
-                
+
                 // Calculate multi-product discount rate
                 let multiDiscountRate = 0;
                 if (productCount === 2) {
@@ -1828,7 +1836,7 @@
                 } else if (productCount >= 4) {
                     multiDiscountRate = 0.15;
                 }
-                
+
                 // Update multi-discount badge
                 if (multiDiscountRate > 0) {
                     multiDiscountBadge.classList.add('show');
@@ -1836,7 +1844,7 @@
                 } else {
                     multiDiscountBadge.classList.remove('show');
                 }
-                
+
                 // Calculate setup fees and subscriptions
                 let baseSetup = 0;
                 let monthlySubscription = 0;
