@@ -3,662 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sidequest Digital - Be Known. Stand Out. Custom websites, apps, and digital solutions crafted just for you.">
+    <meta name="description" content="Sidequest Digital — Be Known. Stand Out. Custom websites, apps, and digital solutions crafted with creativity and care.">
     <title>Sidequest Digital — Be Known. Stand Out.</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/creative.css">
-    
+    <link rel="stylesheet" href="css/animations.css">
+
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="apple-touch-icon" href="images/favicon.png">
 </head>
 <body>
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <linearGradient id="blob-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#6d28d9;stop-opacity:0.6" />
-                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.2" />
-            </linearGradient>
-            <linearGradient id="blob-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#f97316;stop-opacity:0.4" />
-                <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:0.1" />
-            </linearGradient>
-        </defs>
-    </svg>
-
+    <!-- Navigation -->
     <nav class="nav">
-        <div class="container">
-            <div class="nav-inner">
-                <a href="index.html" class="nav-logo">
-                    <img src="images/logo-icon.png" alt="Sidequest Digital" class="nav-logo-icon" style="width: 32px; height: 32px;">
-                    <span class="hide-mobile">Sidequest Digital</span>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="#services" class="nav-link">Services</a></li>
-                    <li><a href="pages/projects.html" class="nav-link">Work</a></li>
-                    <li><a href="pages/about.html" class="nav-link">About</a></li>
-                    <li><a href="pages/pricing.html" class="nav-link">Pricing</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <a href="https://portal.sidequest.nz" class="btn btn-primary nav-cta">Client Portal</a>
-                    <button class="nav-toggle" aria-label="Toggle menu">
-                        <span></span><span></span><span></span>
-                    </button>
-                </div>
-            </div>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="work.html" class="nav-link">Work</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
-    
+
+    <!-- Mobile nav overlay -->
     <div class="nav-mobile">
-        <ul class="nav-mobile-menu">
-            <li><a href="#services" class="nav-mobile-link">Services</a></li>
-            <li><a href="pages/projects.html" class="nav-mobile-link">Work</a></li>
-            <li><a href="pages/about.html" class="nav-mobile-link">About</a></li>
-            <li><a href="pages/pricing.html" class="nav-mobile-link">Pricing</a></li>
-            <li><a href="#contact" class="nav-mobile-link">Contact</a></li>
-        </ul>
-        <div class="nav-mobile-footer">
-            <a href="https://portal.sidequest.nz" class="btn btn-primary" style="width: 100%;">Client Portal</a>
-        </div>
+        <a href="/">Home</a>
+        <a href="about.html">About</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
     </div>
 
-    <section class="hero-creative" id="hero">
-        <canvas id="hero-particles" class="hero-particles"></canvas>
-        
-        <div class="hero-shapes">
-            <div class="hero-shape hero-shape-1" data-float="30" data-float-speed="0.001"></div>
-            <div class="hero-shape hero-shape-2" data-float="20" data-float-speed="0.0015"></div>
-            <div class="hero-shape hero-shape-3"></div>
-        </div>
-        
-        <svg class="hero-blob hero-blob-1" viewBox="0 0 200 200">
-            <path class="morph-blob" d="M44.2,-51.8C56.5,-40.9,65,-25.5,67.9,-8.7C70.8,8.1,68.1,26.2,58.4,39.2C48.6,52.2,31.9,60,14.1,64.3C-3.7,68.6,-22.5,69.4,-37.8,62C-53.1,54.6,-64.9,39,-70.2,21.5C-75.6,4,-74.5,-15.5,-66,-31.2C-57.5,-46.9,-41.6,-58.8,-25.3,-68.2C-9,-77.6,7.6,-84.5,22.6,-80.2C37.6,-75.8,51,-70.2,44.2,-51.8Z" transform="translate(100 100)" />
-        </svg>
-        
-        <svg class="hero-blob hero-blob-2" viewBox="0 0 200 200">
-            <path class="morph-blob" d="M37.4,-43.1C49.4,-35.4,60.8,-24.4,65.8,-10.4C70.7,3.7,69.3,20.8,61,34.2C52.7,47.5,37.6,57.1,21.4,62.3C5.2,67.5,-12.1,68.4,-27.1,62.5C-42.1,56.6,-54.8,43.9,-62.2,28.5C-69.6,13.1,-71.6,-5,-66.4,-20.6C-61.2,-36.2,-48.8,-49.2,-35.1,-56.4C-21.3,-63.6,-6.3,-65,-4.9,-59.1C-3.4,-53.2,25.5,-50.9,37.4,-43.1Z" transform="translate(100 100)" />
-        </svg>
-        
-        <div class="hero-content-creative">
-            <h1 class="hero-title-massive">
-                <span class="line"><span class="word hero-fade-in">Be Known.</span></span>
-                <span class="line"><span class="word hero-fade-in hero-gradient-hover" style="animation-delay: 0.3s;">Stand Out.</span></span>
-            </h1>
-            <p class="hero-subtitle-creative hero-fade-in" style="animation-delay: 0.6s;">
-                Crafting <em>one-of-a-kind</em> digital experiences for communities, schools, and small businesses.
-            </p>
-            <div class="hero-actions" style="display: flex; gap: var(--space-lg); justify-content: center; flex-wrap: wrap;">
-                <a href="#contact" class="btn btn-primary btn-lg">
-                    Let's Build Something Wild
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a href="#work" class="btn btn-secondary btn-lg">See the Work</a>
-            </div>
-        </div>
-        
-    </section>
+    <!-- Horizontal Scroll Wrapper (desktop) -->
+    <main class="horizontal-scroll" id="horizontal-scroll">
+        <div class="panels">
 
-    <div class="marquee-strip">
-        <div class="marquee-content">
-            <span>Websites</span><span>Web Apps</span><span>Client Portals</span><span>Management Systems</span><span>Custom Solutions</span>
-            <span>Websites</span><span>Web Apps</span><span>Client Portals</span><span>Management Systems</span><span>Custom Solutions</span>
-        </div>
-    </div>
+            <!-- Panel 1: Hero -->
+            <section class="panel panel-hero" id="panel-hero">
+                <div class="panel-glow panel-glow-purple"></div>
+                <div class="panel-content">
+                    <h1 class="hero-title">
+                        <span class="hero-line">Be Known.</span>
+                        <span class="hero-line text-gradient">Stand Out.</span>
+                    </h1>
+                    <p class="hero-subtitle">Crafting one-of-a-kind digital experiences for communities, schools, and small businesses.</p>
+                </div>
+                <div class="hero-scroll-cue">
+                    <span>Scroll</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+            </section>
 
-    <section class="services-wild" id="services">
-        <div class="container">
-            <header class="services-wild-header">
-                <h2 class="services-wild-title reveal">What We <span class="outline-text">Build</span></h2>
-            </header>
-            
-            <div class="services-grid-wild">
-                <div class="service-card-wild large tilt-card reveal">
-                    <span class="service-number">01</span>
-                    <div class="tilt-card-inner">
-                        <div class="service-icon" style="margin-bottom: var(--space-xl);">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        </div>
-                        <h3 style="font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-md);">
-                            Websites That <span class="scribble-underline">Actually</span> Represent You
-                        </h3>
-                        <p class="text-secondary" style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-lg);">
-                            Not another template with your logo slapped on. We design and build sites from the ground up that represent exactly who you are.
-                        </p>
-                        <ul style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-lg);">
-                            <li class="tag">Custom Design</li><li class="tag">Mobile-First</li><li class="tag">SEO Ready</li>
-                        </ul>
-                        <img src="images/websitedemo1.png" alt="Website demo" style="width: 100%; border-radius: var(--radius-lg); margin-bottom: var(--space-lg);">
-                        <a href="pages/websites.html" class="btn btn-secondary" style="width: 100%;">Learn More</a>
-                    </div>
+            <!-- Panel 2: Websites -->
+            <section class="panel panel-service" id="panel-websites" data-category="websites">
+                <div class="panel-glow panel-glow-purple"></div>
+                <div class="panel-content">
+                    <span class="label">01</span>
+                    <h2 class="panel-title">Your corner<br>of the internet</h2>
+                    <p class="panel-desc">Not another template. A digital home built from scratch — designed to represent exactly who you are.</p>
+                    <div class="featured-project" data-category="websites"></div>
                 </div>
-                
-                <div class="service-card-wild medium tilt-card reveal" style="transition-delay: 0.1s;">
-                    <span class="service-number">02</span>
-                    <div class="tilt-card-inner">
-                        <div class="service-icon" style="margin-bottom: var(--space-lg);">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                        </div>
-                        <h3 style="font-size: var(--text-xl); font-weight: var(--weight-bold); margin-bottom: var(--space-sm);">Custom Web Apps</h3>
-                        <p class="text-secondary" style="line-height: 1.6;">Tools built around how you actually work. Booking systems, dashboards, member areas and more!</p>
-                        <ul style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); margin-bottom: var(--space-lg);">
-                            <li class="tag">Web Apps</li><li class="tag">Dashboards</li><li class="tag">Booking Systems</li>
-                        </ul>
-                        <a href="pages/apps.html" class="btn btn-secondary" style="width: 100%;">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="service-card-wild medium tilt-card reveal" style="transition-delay: 0.2s;">
-                    <span class="service-number">03</span>
-                    <div class="tilt-card-inner">
-                        <div class="service-icon" style="margin-bottom: var(--space-lg);">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </div>
-                        <h3 style="font-size: var(--text-xl); font-weight: var(--weight-bold); margin-bottom: var(--space-sm);">Client Portals</h3>
-                        <p class="text-secondary" style="line-height: 1.6;">Give your people their own space. Secure, branded, and actually easy to use.</p>
-                        <ul style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); margin-bottom: var(--space-lg);">
-                            <li class="tag">Secure Access</li><li class="tag">Document Sharing</li><li class="tag">Real-Time Updates</li>
-                        </ul>
-                        <a href="pages/portals.html" class="btn btn-secondary" style="width: 100%;">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="service-card-wild small tilt-card reveal" style="transition-delay: 0.3s;">
-                    <span class="service-number">04</span>
-                    <div class="tilt-card-inner">
-                        <div class="service-icon" style="margin-bottom: var(--space-md);">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                        </div>
-                        <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">Management Systems</h3>
-                        <p class="text-secondary text-small">Bring your team together with fit-for-purpose tools.</p>
-                        <ul style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); margin-bottom: var(--space-lg);">
-                            <li class="tag">Team Management</li><li class="tag">Communication</li><li class="tag">Clarity</li>
-                        </ul>
-                        <a href="pages/systems.html" class="btn btn-secondary" style="width: 100%;">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="service-card-wild small tilt-card reveal" style="transition-delay: 0.4s;">
-                    <span class="service-number">∞</span>
-                    <div class="tilt-card-inner">
-                        <div class="service-icon" style="margin-bottom: var(--space-md);">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                        </div>
-                        <h3 style="font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-xs);">Whatever You Need</h3>
-                        <p class="text-secondary text-small">Got something weird? Let's figure it out.</p>
-                        <ul style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); margin-bottom: var(--space-lg);">
-                            <li class="tag">Custom</li><li class="tag">Flexible</li><li class="tag">Personal</li>
-                        </ul>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Get in Touch</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <section class="work-wild" id="work">
-        <div class="container">
-            <header style="margin-bottom: var(--space-4xl); position: relative; z-index: 1;">
-                <h2 class="section-title reveal" style="font-size: clamp(2.5rem, 6vw, 4rem);">
-                    Latest <span class="text-gradient glitch-on-hover">Projects</span>
-                </h2>
-            </header>
-            
-            <div class="work-grid-dynamic" id="featured-projects-grid">
-                <!-- Loading placeholder -->
-                <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
-                    <div style="width: 40px; height: 40px; border: 3px solid var(--color-border-subtle); border-top-color: var(--color-accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--space-lg);"></div>
-                    Loading projects...
+            <!-- Panel 3: Web Apps -->
+            <section class="panel panel-service" id="panel-apps" data-category="apps">
+                <div class="panel-glow panel-glow-orange"></div>
+                <div class="panel-content">
+                    <span class="label">02</span>
+                    <h2 class="panel-title">Tools that<br>work like you do</h2>
+                    <p class="panel-desc">Custom-built applications shaped around your workflow. Not the other way around.</p>
+                    <div class="featured-project" data-category="apps"></div>
                 </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: var(--space-4xl); position: relative; z-index: 1;">
-                <a href="pages/projects.html" class="btn btn-secondary btn-lg">
-                    View All Projects
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
-        </div>
-        
-        <style>
-            @keyframes spin { to { transform: rotate(360deg); } }
-            
-            .work-grid-dynamic {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: var(--space-2xl);
-            }
-            
-            .featured-card {
-                background: var(--color-bg-secondary);
-                border: 1px solid var(--color-border-subtle);
-                border-radius: var(--radius-xl);
-                overflow: hidden;
-                transition: all 0.3s ease;
-                text-decoration: none;
-                color: inherit;
-                display: block;
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            
-            .featured-card.loaded {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            
-            .featured-card:hover {
-                border-color: var(--color-border-default);
-                transform: translateY(-8px);
-                box-shadow: var(--shadow-xl);
-            }
-            
-            .featured-card.loaded:hover {
-                transform: translateY(-8px);
-            }
-            
-            .featured-card-image {
-                aspect-ratio: 16/10;
-                overflow: hidden;
-                position: relative;
-                background: var(--color-bg-tertiary);
-            }
-            
-            .featured-card-image img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: transform 0.3s ease;
-            }
-            
-            .featured-card:hover .featured-card-image img {
-                transform: scale(1.05);
-            }
-            
-            .featured-card-badge {
-                position: absolute;
-                top: var(--space-md);
-                left: var(--space-md);
-                display: inline-flex;
-                align-items: center;
-                gap: 4px;
-                padding: 4px 10px;
-                font-size: 11px;
-                font-weight: 500;
-                color: #fff;
-                background: var(--color-accent-primary);
-                border-radius: 20px;
-                z-index: 2;
-            }
-            
-            .featured-card-content {
-                padding: var(--space-lg);
-            }
-            
-            .featured-card-tags {
-                display: flex;
-                flex-wrap: wrap;
-                gap: var(--space-xs);
-                margin-bottom: var(--space-sm);
-            }
-            
-            .featured-card-title {
-                font-size: var(--text-lg);
-                font-weight: var(--weight-semibold);
-                margin-bottom: var(--space-xs);
-                color: var(--color-text-primary);
-            }
-            
-            .featured-card-desc {
-                font-size: var(--text-sm);
-                color: var(--color-text-secondary);
-                line-height: 1.5;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-            
-            @media (max-width: 1024px) {
-                .work-grid-dynamic { grid-template-columns: repeat(2, 1fr); }
-            }
-            
-            @media (max-width: 768px) {
-                .work-grid-dynamic { 
-                    grid-template-columns: 1fr; 
-                    gap: var(--space-xl);
-                }
-                
-                .featured-card {
-                    max-width: 100%;
-                    display: flex;
-                    flex-direction: column-reverse;
-                }
-                
-                .featured-card-image {
-                    aspect-ratio: 16/9;
-                    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-                }
-                
-                .featured-card-content {
-                    padding: var(--space-md);
-                }
-                
-                .featured-card-title {
-                    font-size: var(--text-base);
-                }
-                
-                .featured-card-desc {
-                    font-size: var(--text-sm);
-                    -webkit-line-clamp: 3;
-                }
-                
-                .featured-card-tags .tag {
-                    font-size: 10px;
-                    padding: 4px 8px;
-                }
-            }
-            
-            @media (max-width: 480px) {
-                .work-grid-dynamic {
-                    gap: var(--space-lg);
-                }
-                
-                .featured-card-content {
-                    padding: var(--space-sm) var(--space-md);
-                    padding-bottom: var(--space-md);
-                }
-            }
-        </style>
-    </section>
+            </section>
 
-
-
-    <section class="contact-wild" id="contact">
-        <div class="contact-wild-bg"></div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4xl); align-items: start;">
-                <div class="reveal">
-                    <h2 class="contact-title-massive" style="margin-bottom: var(--space-lg);">Let's <span class="text-gradient-animated">Talk</span></h2>
-                    <p class="text-body-lg text-secondary" style="max-width: 500px; margin-bottom: var(--space-4xl);">
-                        Got an idea? A problem? A vague notion that you need "something digital"? Let's chat.
-                    </p>
-                    
-                    <div style="margin-bottom: var(--space-2xl);">
-                        <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Email</div>
-                        <a href="mailto:joel@tempero.nz" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">joel@tempero.nz</a>
-                    </div>
-                    <div style="margin-bottom: var(--space-2xl);">
-                        <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Phone</div>
-                        <a href="tel:+64204023009" style="font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--color-text-primary);">0204 023 9009</a>
-                    </div>
-                    <div>
-                        <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm);">Location</div>
-                        <div style="font-size: var(--text-xl); font-weight: var(--weight-semibold);">Christchurch, New Zealand</div>
-                    </div>
+            <!-- Panel 4: Portals -->
+            <section class="panel panel-service" id="panel-portals" data-category="portals">
+                <div class="panel-glow panel-glow-purple"></div>
+                <div class="panel-content">
+                    <span class="label">03</span>
+                    <h2 class="panel-title">A space<br>for your people</h2>
+                    <p class="panel-desc">Secure, branded portals where your clients and team feel at home.</p>
+                    <div class="featured-project" data-category="portals"></div>
                 </div>
-                
-                <form action="https://api.web3forms.com/submit" method="POST" class="reveal" id="contact-form" style="transition-delay: 0.1s; background: var(--color-bg-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-2xl); padding: var(--space-2xl);">
-                    <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
-                    <input type="hidden" name="subject" value="New Contact from Sidequest Website">
-                    <input type="hidden" name="from_name" value="Sidequest Website">
-                    <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
-                        <div>
-                            <label for="name" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">Name</label>
-                            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
-                        </div>
-                        <div>
-                            <label for="email" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">Email</label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="you@company.com" required>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: var(--space-lg);">
-                        <label for="project" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">What do you need?</label>
-                        <select id="project" name="project" class="form-input" required>
-                            <option value="" disabled selected>Select a project type</option>
-                            <option value="website">Website</option>
-                            <option value="webapp">Web Application</option>
-                            <option value="portal">Client Portal</option>
-                            <option value="system">Management System</option>
-                            <option value="other">Something Else</option>
-                        </select>
-                    </div>
-                    <div style="margin-bottom: var(--space-xl);">
-                        <label for="message" style="display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); margin-bottom: var(--space-sm); color: var(--color-text-secondary);">Tell me more</label>
-                        <textarea id="message" name="message" class="form-input form-textarea" placeholder="What's on your mind?" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" style="width: 100%; justify-content: center;">
-                        Send Message
+            </section>
+
+            <!-- Panel 5: Systems -->
+            <section class="panel panel-service" id="panel-systems" data-category="systems">
+                <div class="panel-glow panel-glow-orange"></div>
+                <div class="panel-content">
+                    <span class="label">04</span>
+                    <h2 class="panel-title">Clarity from<br>the chaos</h2>
+                    <p class="panel-desc">Management systems that bring your team together and make the complex feel simple.</p>
+                    <div class="featured-project" data-category="systems"></div>
+                </div>
+            </section>
+
+            <!-- Panel 6: Teaser / CTA -->
+            <section class="panel panel-teaser" id="panel-teaser">
+                <div class="panel-glow panel-glow-purple"></div>
+                <div class="panel-content">
+                    <h2 class="panel-title">That's just<br>the <span class="text-gradient">highlights</span></h2>
+                    <p class="panel-desc">Every project is a new adventure. See where we've been.</p>
+                    <a href="work.html" class="btn-primary">
+                        See All Work
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
-                    <p id="form-result" style="display:none; margin-top: var(--space-lg); text-align: center; font-size: var(--text-sm);"></p>
-                </form>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-name">Sidequest Digital</span>
+                <span class="footer-tagline">Be Known. Stand Out.</span>
+            </div>
+            <div class="footer-links">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="work.html" class="footer-link">Work</a>
+                <a href="contact.html" class="footer-link">Contact</a>
             </div>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="footer-logo"><img src="images/logo-icon.png" alt="Sidequest Digital" class="nav-logo-icon" style="width: 32px; height: 32px;">Sidequest Digital</a>
-                    <p class="footer-tagline">Be known. Stand out.</p>
-                    <div class="footer-powered">
-                        <span class="footer-powered-label">Powered by</span>
-                        <a href="https://tempero.nz" target="_blank" rel="noopener" class="footer-tempero-link">
-                            <img src="images/tempero-icon.png" alt="Tempero Creative" style="width: 24px; height: 24px;">
-                            <span>Tempero Creative</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h4>Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="pages/websites.html" class="footer-link">Websites</a></li>
-                        <li><a href="pages/apps.html" class="footer-link">Custom Apps</a></li>
-                        <li><a href="pages/portals.html" class="footer-link">Client Portals</a></li>
-                        <li><a href="pages/systems.html" class="footer-link">Management Systems</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="pages/about.html" class="footer-link">About</a></li>
-                        <li><a href="pages/projects.html" class="footer-link">Work</a></li>
-                        <li><a href="pages/pricing.html" class="footer-link">Pricing</a></li>
-                        <li><a href="#contact" class="footer-link">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://portal.sidequest.nz" class="footer-link">Client Portal</a></li>
-                        <li><a href="pages/pricing.html" class="footer-link">Pricing Calculator</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 Sidequest Digital. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="pages/privacy.html">Privacy Policy</a>
-                    <a href="pages/terms.html">Terms of Service</a>
-                </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2025 Sidequest Digital. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="pages/terms.html">Terms</a>
+                <a href="pages/privacy.html">Privacy</a>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+    <!-- Site JS -->
     <script src="js/main.js"></script>
-    <script src="js/creative.js"></script>
-    
-    <!-- Firebase SDK for Featured Projects -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getFirestore, collection, query, where, orderBy, getDocs, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHBw5_1925Bno5CHVEMUpdBgqQR_UHbAk",
-            authDomain: "sidequest-digital.firebaseapp.com",
-            projectId: "sidequest-digital",
-            storageBucket: "sidequest-digital.firebasestorage.app",
-            messagingSenderId: "576711179044",
-            appId: "1:576711179044:web:bef810a231f00c0b9c11b1"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
-        async function loadFeaturedProjects() {
-            const grid = document.getElementById('featured-projects-grid');
-            if (!grid) return;
-            
-            try {
-                // Get latest 6 published posts, prioritizing featured ones
-                const q = query(
-                    collection(db, 'posts'),
-                    where('published', '==', true),
-                    orderBy('publishedAt', 'desc'),
-                    limit(6)
-                );
-                
-                const snapshot = await getDocs(q);
-                let posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                // Sort: featured first
-                posts.sort((a, b) => {
-                    if (a.featured && !b.featured) return -1;
-                    if (!a.featured && b.featured) return 1;
-                    return 0;
-                });
-                
-                // Take top 3
-                posts = posts.slice(0, 3);
-                
-                if (!posts.length) {
-                    grid.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
-                            <p>Projects coming soon...</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                grid.innerHTML = posts.map(post => renderFeaturedCard(post)).join('');
-                
-                // Preload images and fade in
-                const cards = grid.querySelectorAll('.featured-card');
-                cards.forEach((card, index) => {
-                    const img = card.querySelector('img');
-                    if (img) {
-                        if (img.complete) {
-                            setTimeout(() => card.classList.add('loaded'), index * 150);
-                        } else {
-                            img.onload = () => setTimeout(() => card.classList.add('loaded'), index * 150);
-                            img.onerror = () => setTimeout(() => card.classList.add('loaded'), index * 150);
-                        }
-                    } else {
-                        setTimeout(() => card.classList.add('loaded'), index * 150);
-                    }
-                });
-                
-            } catch (e) {
-                console.error('Error loading featured projects:', e);
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: var(--space-4xl); color: var(--color-text-muted);">
-                        <p>Projects coming soon...</p>
-                    </div>
-                `;
-            }
-        }
-        
-        function renderFeaturedCard(post) {
-            const tags = (post.tags || []).slice(0, 2);
-            const isFeatured = post.featured === true;
-            
-            return `
-                <a href="pages/project.html?slug=${post.slug}" class="featured-card">
-                    <div class="featured-card-image">
-                        ${isFeatured ? `
-                            <span class="featured-card-badge">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                </svg>
-                                Featured
-                            </span>
-                        ` : ''}
-                        ${post.featuredImage 
-                            ? `<img src="${post.featuredImage}" alt="${post.title}">`
-                            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;">No image</div>`
-                        }
-                    </div>
-                    <div class="featured-card-content">
-                        ${tags.length ? `
-                            <div class="featured-card-tags">
-                                ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                        <h3 class="featured-card-title">${post.title}</h3>
-                        <p class="featured-card-desc">${post.summary || ''}</p>
-                    </div>
-                </a>
-            `;
-        }
-        
-        // Load on DOM ready
-        loadFeaturedProjects();
-    </script>
-    
-    <!-- Contact Form Handler -->
-    <script>
-        const form = document.getElementById('contact-form');
-        const result = document.getElementById('form-result');
-        const submitBtn = document.getElementById('submit-btn');
-        
-        if (form) {
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = 'Sending...';
-                submitBtn.disabled = true;
-                
-                try {
-                    const formData = new FormData(form);
-                    const object = Object.fromEntries(formData);
-                    const json = JSON.stringify(object);
-                    
-                    const response = await fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: json
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        result.innerHTML = '✓ Message sent! We\'ll be in touch soon.';
-                        result.style.color = '#22c55e';
-                        result.style.display = 'block';
-                        form.reset();
-                    } else {
-                        throw new Error(data.message || 'Something went wrong');
-                    }
-                } catch (error) {
-                    console.error('Form error:', error);
-                    result.innerHTML = 'Oops! Something went wrong. Please try again.';
-                    result.style.color = '#ef4444';
-                    result.style.display = 'block';
-                }
-                
-                submitBtn.innerHTML = original
+    <script src="js/scroll.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>
