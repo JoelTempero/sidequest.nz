@@ -3,6 +3,8 @@
     'use strict';
 
     var GLYPHS = '!@#$%^&*()_+{}|:<>?';
+    var REDUCED_MOTION = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // ─── Text Scramble ──────────────────────────────────────────
     // Cycles each character through random glyphs before resolving
@@ -14,6 +16,13 @@
             var original = element.textContent;
             var length = original.length;
             if (length === 0) { resolve(); return; }
+
+            // Reduced motion: show text immediately, no animation
+            if (REDUCED_MOTION) {
+                element.textContent = original;
+                resolve();
+                return;
+            }
 
             var glyphsPerChar = 4;                    // cycles before resolve
             var stagger = Math.min(30, Math.max(20, duration / length)); // 20-30ms
@@ -93,6 +102,8 @@
     // ─── Panel Entrance Timelines ────────────────────────────────
     // Each returns a paused GSAP timeline. Elements animate from
     // their CSS initial states defined in animations.css.
+    // When prefers-reduced-motion is active, all entrances use
+    // near-instant opacity-only transitions (0.01s, no transforms).
 
     function heroEntrance() {
         var tl = gsap.timeline({ paused: true });
@@ -100,6 +111,14 @@
         var lines = document.querySelectorAll('.hero-line');
         var subtitle = document.querySelector('.hero-subtitle');
         var scrollCue = document.querySelector('.hero-scroll-cue');
+
+        if (REDUCED_MOTION) {
+            // Instant reveal, no movement
+            tl.set(lines, { opacity: 1, y: 0 });
+            tl.set(subtitle, { opacity: 1, y: 0 });
+            if (scrollCue) tl.set(scrollCue, { opacity: 1 });
+            return tl;
+        }
 
         // Scramble hero lines sequentially then reveal
         tl.to(lines, {
@@ -145,9 +164,28 @@
         return tl;
     }
 
-    function chillAirEntrance() {
+    // Helper: reduced-motion entrance — instant opacity reveal for all elements
+    function instantEntrance(panel, selectors) {
         var tl = gsap.timeline({ paused: true });
+        if (!panel) return tl;
+
+        selectors.forEach(function (sel) {
+            var els = panel.querySelectorAll(sel);
+            if (els.length) {
+                tl.set(els, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'transform' });
+            }
+        });
+
+        return tl;
+    }
+
+    function chillAirEntrance() {
         var panel = document.querySelector('#panel-chill-air');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.project-visual', '.panel-title', '.label', '.panel-desc', '.project-tags', '.btn-link']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var visual = panel.querySelector('.project-visual');
@@ -186,8 +224,12 @@
     }
 
     function storybookEntrance() {
-        var tl = gsap.timeline({ paused: true });
         var panel = document.querySelector('#panel-storybook');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.project-visual', '.project-info', '.panel-title', '.label', '.panel-desc', '.project-tags', '.btn-link']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var visual = panel.querySelector('.project-visual');
@@ -226,8 +268,12 @@
     }
 
     function technicolourEntrance() {
-        var tl = gsap.timeline({ paused: true });
         var panel = document.querySelector('#panel-technicolour');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.technicolour-info', '.technicolour-visual', '.technicolour-meta', '.panel-title', '.label', '.panel-desc', '.project-tags', '.btn-link']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var visual = panel.querySelector('.project-visual');
@@ -266,8 +312,12 @@
     }
 
     function livingHopeEntrance() {
-        var tl = gsap.timeline({ paused: true });
         var panel = document.querySelector('#panel-living-hope');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.project-visual', '.project-info', '.panel-title', '.label', '.panel-desc', '.project-tags', '.btn-link']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var visual = panel.querySelector('.project-visual');
@@ -304,8 +354,12 @@
     }
 
     function discoverEntrance() {
-        var tl = gsap.timeline({ paused: true });
         var panel = document.querySelector('#panel-discover');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.discover-thumb', '.discover-center', '.panel-title', '.panel-desc', '.btn-link', '.btn-primary']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var title = panel.querySelector('.panel-title');
@@ -350,8 +404,12 @@
     }
 
     function ctaEntrance() {
-        var tl = gsap.timeline({ paused: true });
         var panel = document.querySelector('#panel-cta');
+        if (REDUCED_MOTION) {
+            return instantEntrance(panel, ['.panel-title', '.panel-desc', '.btn-primary']);
+        }
+
+        var tl = gsap.timeline({ paused: true });
         if (!panel) return tl;
 
         var title = panel.querySelector('.panel-title');

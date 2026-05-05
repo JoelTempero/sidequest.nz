@@ -403,7 +403,11 @@
         aspect-ratio: 16 / 9 !important;
     }
 
-    /* Storybook: reset right-alignment on mobile */
+    /* Storybook: image above text on mobile, reset right-alignment */
+    .panel-storybook .project-visual {
+        order: -1;
+    }
+
     .panel-storybook .project-info .project-tags {
         justify-content: flex-start;
     }
@@ -412,7 +416,7 @@
         justify-content: flex-start;
     }
 
-    /* Technicolour: stack on mobile */
+    /* Technicolour: stack on mobile — image above, text below */
     .panel-technicolour .technicolour-layout {
         display: flex;
         flex-direction: column;
@@ -420,26 +424,56 @@
         gap: var(--space-xl);
     }
 
+    .panel-technicolour .technicolour-info {
+        order: 1;
+    }
+
     .panel-technicolour .technicolour-visual {
         width: 100%;
+        order: 2;
+    }
+
+    .panel-technicolour .technicolour-visual img {
+        aspect-ratio: 16 / 9 !important;
+    }
+
+    .panel-technicolour .technicolour-meta {
+        order: 3;
     }
 
     .panel-technicolour .technicolour-info .panel-title {
         font-size: var(--text-3xl);
     }
 
-    /* Discover: grid on mobile, no scattered/rotated thumbnails */
+    /* Atmosphere: hide desktop-only elements on mobile */
+    .typo-fragment {
+        display: none;
+    }
+
+    .gradient-blob {
+        position: fixed;
+        opacity: 0.08;
+    }
+
+    #particle-canvas,
+    .cursor-glow {
+        display: none;
+    }
+
+    /* Discover: 2-column grid on mobile, no scattered/rotated thumbnails */
     .panel-discover .panel-content {
         position: static;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-xl);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+        justify-items: center;
+        height: auto;
     }
 
     .discover-center {
         position: static !important;
         transform: none !important;
+        grid-column: 1 / -1;
         order: -1;
         margin-bottom: var(--space-lg);
     }
@@ -449,17 +483,6 @@
         transform: none !important;
         width: 100% !important;
         max-width: 280px;
-    }
-
-    .panel-discover .panel-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-md);
-        justify-items: center;
-    }
-
-    .discover-center {
-        grid-column: 1 / -1;
     }
 }
 

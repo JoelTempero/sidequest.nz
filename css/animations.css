@@ -101,3 +101,31 @@
         display: none;
     }
 }
+
+/* ===== Reduced Motion: show all content immediately ===== */
+@media (prefers-reduced-motion: reduce) {
+    .hero-line,
+    .hero-subtitle,
+    .hero-scroll-cue,
+    .panel-chill-air .project-visual,
+    .panel-chill-air .project-info .label,
+    .panel-chill-air .panel-title,
+    .panel-chill-air .panel-desc,
+    .panel-chill-air .project-tags,
+    .panel-chill-air .btn-link,
+    .panel-storybook .project-visual,
+    .panel-storybook .project-info,
+    .panel-technicolour .technicolour-info,
+    .panel-technicolour .technicolour-visual,
+    .panel-technicolour .technicolour-meta,
+    .panel-living-hope .project-visual,
+    .panel-living-hope .project-info,
+    .discover-thumb,
+    .discover-center,
+    .panel-cta .panel-title,
+    .panel-cta .panel-desc,
+    .panel-cta .btn-primary {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
