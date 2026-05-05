@@ -220,6 +220,12 @@
         if (isDesktop && canvas) {
             canvasInstance = window.initParticleCanvas(canvas);
         }
+        // Store globally so resize handler can re-pass it
+        window._sqCanvasInstance = canvasInstance;
+        // Init horizontal scroll + all scroll-driven effects
+        if (window.initHorizontalScroll) {
+            window.initHorizontalScroll(canvasInstance);
+        }
         if (isDesktop && window.initInteractions) {
             window.initInteractions(canvasInstance);
         }
