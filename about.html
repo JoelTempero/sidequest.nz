@@ -3,8 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidequest Digital</title>
+    <meta name="description" content="Meet Joel Tempero — the solo developer behind Sidequest Digital. Based in Christchurch, New Zealand.">
+    <title>About — Sidequest Digital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="work.html" class="nav-link">Work</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="about.html">About</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <main class="page-content">
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-glow"></div>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <span class="label">The Human</span>
+                        <h1>Joel Tempero</h1>
+                        <p class="about-intro">Solo developer. Based in Christchurch, New Zealand. Building custom digital solutions for communities, schools, and small businesses.</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="about-image-frame">
+                            <img src="images/joel.jpg" alt="Joel Tempero">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-story">
+            <div class="container">
+                <div class="about-story-content">
+                    <p class="about-large-text">I believe every business deserves digital tools that are as unique as they are.</p>
+                    <p>Not another template with your logo slapped on. Not a one-size-fits-all solution that almost works. Something built from scratch, designed around how you actually work and what you actually need.</p>
+                    <p>I work directly with you — no account managers, no handoffs, no telephone game. You talk to the person building your thing, every single time.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-approach">
+            <div class="container">
+                <span class="label">How I Work</span>
+                <h2>The Approach</h2>
+                <div class="approach-grid">
+                    <div class="approach-card">
+                        <h3>Listen First</h3>
+                        <p>Every project starts with understanding — your goals, your people, your constraints. The tech comes second.</p>
+                    </div>
+                    <div class="approach-card">
+                        <h3>Build With You</h3>
+                        <p>You're involved at every step. Regular check-ins, real progress, no surprises at launch.</p>
+                    </div>
+                    <div class="approach-card">
+                        <h3>Ship & Support</h3>
+                        <p>Launch is just the beginning. I stick around to help it grow and evolve with your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-name">Sidequest Digital</span>
+                <span class="footer-tagline">Be Known. Stand Out.</span>
+            </div>
+            <div class="footer-links">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="work.html" class="footer-link">Work</a>
+                <a href="contact.html" class="footer-link">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2025 Sidequest Digital. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="pages/terms.html">Terms</a>
+                <a href="pages/privacy.html">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero reveal
+        gsap.from('.about-text > *', {
+            opacity: 0, y: 30, duration: 0.7, stagger: 0.15, ease: 'power3.out', delay: 0.2
+        });
+        gsap.from('.about-image-frame', {
+            opacity: 0, scale: 0.9, duration: 0.8, ease: 'power3.out', delay: 0.4
+        });
+
+        // Story section
+        gsap.from('.about-story-content > *', {
+            opacity: 0, y: 30, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+            scrollTrigger: { trigger: '.about-story', start: 'top 70%' }
+        });
+
+        // Approach cards
+        gsap.from('.approach-card', {
+            opacity: 0, y: 40, duration: 0.6, stagger: 0.15, ease: 'power3.out',
+            scrollTrigger: { trigger: '.about-approach', start: 'top 70%' }
+        });
+    </script>
 </body>
 </html>
