@@ -64,6 +64,22 @@ Brain location: `D:/Sidequest Digital/Dev Projects/Brain/`
 - Dev: Open with VS Code Live Server (no build step)
 - Deploy: Push to git (static host auto-deploys)
 
+## Next Steps
+1. Replace sample projects with real ones — add actual project images and update manifest.json
+2. Craft unique detail pages per project (use Claude Code for creative, bespoke layouts)
+3. Polish storytelling copy on service panel titles (currently placeholder-ish)
+4. Test and refine GSAP scroll feel — timing, easing, mobile animations
+5. Add .superpowers/ to .gitignore
+6. Build CMS tab in Sidequest Center to manage project content
+7. Deploy live and verify on real domain
+
+## Key Decisions
+- **Horizontal scroll** (desktop) with vertical fallback (mobile) — inspired by sms.playstation.com
+- **GSAP + ScrollTrigger** over vanilla CSS scroll-driven animations — better control, browser support
+- **Local static content** over Firebase — simpler, faster, no external dependency for a portfolio site
+- **Unique per-project pages** — no shared template, each project is hand-crafted HTML
+- **Always "Sidequest Digital"** — never shortened to just "Sidequest"
+
 ## Related Projects
 - **Brain (Sidequest Center)**: `D:/Sidequest Digital/Dev Projects/Brain/` — will have CMS tab that writes project content to this repo's `projects/` directory
 - **Portal (retiring)**: `portal.sidequest.nz/` subfolder — being taken offline
