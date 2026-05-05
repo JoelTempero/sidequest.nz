@@ -85,16 +85,7 @@
     gap: var(--space-3xl);
 }
 
-.panel-project:nth-child(odd) .project-showcase {
-    flex-direction: row;
-}
-
-.panel-project:nth-child(even) .project-showcase {
-    flex-direction: row-reverse;
-}
-
 .project-visual {
-    flex: 1.2;
     border-radius: var(--radius-xl);
     overflow: hidden;
     border: 1px solid var(--border-subtle);
@@ -112,10 +103,6 @@
 
 .panel-project:hover .project-visual img {
     transform: scale(1.03);
-}
-
-.project-info {
-    flex: 0.8;
 }
 
 .project-info .label {
@@ -138,6 +125,186 @@
     flex-wrap: wrap;
     gap: var(--space-xs);
     margin-bottom: var(--space-xl);
+}
+
+/* ── Chill Air — image 55%, text 45% ── */
+.panel-chill-air .panel-content {
+    max-width: 1100px;
+}
+
+.panel-chill-air .project-showcase {
+    flex-direction: row;
+}
+
+.panel-chill-air .project-visual {
+    flex: 0 0 55%;
+}
+
+.panel-chill-air .project-info {
+    flex: 0 0 40%;
+}
+
+/* ── Storybook — text left 35% (right-aligned), image right 65% ── */
+.panel-storybook .panel-content {
+    max-width: 1100px;
+}
+
+.panel-storybook .project-showcase {
+    flex-direction: row;
+}
+
+.panel-storybook .project-info {
+    flex: 0 0 32%;
+    text-align: right;
+}
+
+.panel-storybook .project-info .project-tags {
+    justify-content: flex-end;
+}
+
+.panel-storybook .project-info .btn-link {
+    justify-content: flex-end;
+}
+
+.panel-storybook .project-visual {
+    flex: 0 0 62%;
+}
+
+.panel-storybook .project-visual img {
+    aspect-ratio: 3 / 4;
+}
+
+/* ── Technicolour — grid layout: title top-left, image bottom-right, desc bottom-left ── */
+.panel-technicolour .panel-content {
+    max-width: 1100px;
+}
+
+.panel-technicolour .technicolour-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-xl);
+    align-items: end;
+    height: 65vh;
+}
+
+.panel-technicolour .technicolour-info {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+}
+
+.panel-technicolour .technicolour-info .panel-title {
+    font-size: var(--text-5xl);
+}
+
+.panel-technicolour .technicolour-visual {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: end;
+    width: 90%;
+    justify-self: end;
+}
+
+.panel-technicolour .technicolour-visual img {
+    aspect-ratio: 4 / 3;
+}
+
+.panel-technicolour .technicolour-meta {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+}
+
+/* ── My Living Hope — image 70% dominant, text 30% compact ── */
+.panel-living-hope .panel-content {
+    max-width: 1200px;
+}
+
+.panel-living-hope .project-showcase {
+    flex-direction: row;
+}
+
+.panel-living-hope .project-visual {
+    flex: 0 0 68%;
+}
+
+.panel-living-hope .project-info {
+    flex: 0 0 28%;
+}
+
+/* ===== Discover Panel ===== */
+.panel-discover .panel-content {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.discover-thumb {
+    position: absolute;
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+
+.discover-thumb:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.discover-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.discover-thumb:nth-child(1) {
+    top: 12%;
+    left: 8%;
+    width: 180px;
+    transform: rotate(-3deg);
+}
+
+.discover-thumb:nth-child(2) {
+    top: 55%;
+    left: 5%;
+    width: 140px;
+    transform: rotate(2deg);
+}
+
+.discover-thumb:nth-child(4) {
+    top: 8%;
+    right: 22%;
+    width: 160px;
+    transform: rotate(4deg);
+}
+
+.discover-thumb:nth-child(5) {
+    bottom: 18%;
+    left: 28%;
+    width: 130px;
+    transform: rotate(-2deg);
+}
+
+.discover-thumb:nth-child(6) {
+    bottom: 22%;
+    right: 8%;
+    width: 170px;
+    transform: rotate(-1deg);
+}
+
+.discover-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
 }
 
 .btn-link {
@@ -220,14 +387,79 @@
 
     .project-visual {
         width: 100%;
+        flex: none !important;
     }
 
-    .project-visual img {
-        aspect-ratio: 16 / 9;
+    .project-info {
+        flex: none !important;
+        text-align: left !important;
     }
 
     .project-info .panel-title {
         font-size: var(--text-2xl);
+    }
+
+    .project-visual img {
+        aspect-ratio: 16 / 9 !important;
+    }
+
+    /* Storybook: reset right-alignment on mobile */
+    .panel-storybook .project-info .project-tags {
+        justify-content: flex-start;
+    }
+
+    .panel-storybook .project-info .btn-link {
+        justify-content: flex-start;
+    }
+
+    /* Technicolour: stack on mobile */
+    .panel-technicolour .technicolour-layout {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: var(--space-xl);
+    }
+
+    .panel-technicolour .technicolour-visual {
+        width: 100%;
+    }
+
+    .panel-technicolour .technicolour-info .panel-title {
+        font-size: var(--text-3xl);
+    }
+
+    /* Discover: grid on mobile, no scattered/rotated thumbnails */
+    .panel-discover .panel-content {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-xl);
+    }
+
+    .discover-center {
+        position: static !important;
+        transform: none !important;
+        order: -1;
+        margin-bottom: var(--space-lg);
+    }
+
+    .discover-thumb {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 280px;
+    }
+
+    .panel-discover .panel-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+        justify-items: center;
+    }
+
+    .discover-center {
+        grid-column: 1 / -1;
     }
 }
 

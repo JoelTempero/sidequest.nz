@@ -1,9 +1,9 @@
 /* ===== Initial States (before GSAP animates) ===== */
-/* Only the hero has CSS-hidden states — everything else
-   stays visible by default so content is never invisible
-   if GSAP triggers don't fire. GSAP uses gsap.from()
-   to animate entrance. */
+/* Hero elements hidden by default — GSAP reveals them.
+   Project panels also have entrance states — GSAP animates
+   them in via ScrollTrigger. */
 
+/* Hero */
 .hero-line {
     opacity: 0;
     transform: translateY(40px);
@@ -16,6 +16,74 @@
 
 .hero-scroll-cue {
     opacity: 0;
+}
+
+/* ── Chill Air entrance states ── */
+.panel-chill-air .project-visual {
+    opacity: 0;
+    transform: translateX(60px);
+}
+
+.panel-chill-air .project-info .label,
+.panel-chill-air .panel-title,
+.panel-chill-air .panel-desc,
+.panel-chill-air .project-tags,
+.panel-chill-air .btn-link {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* ── Storybook entrance states ── */
+.panel-storybook .project-visual {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.panel-storybook .project-info {
+    opacity: 0;
+    transform: translateX(-40px);
+}
+
+/* ── Technicolour entrance states ── */
+.panel-technicolour .technicolour-info {
+    opacity: 0;
+    transform: translateY(-60px);
+}
+
+.panel-technicolour .technicolour-visual {
+    opacity: 0;
+    transform: translateY(60px);
+}
+
+.panel-technicolour .technicolour-meta {
+    opacity: 0;
+}
+
+/* ── My Living Hope entrance states ── */
+.panel-living-hope .project-visual {
+    opacity: 0;
+    transform: translateX(80px);
+}
+
+.panel-living-hope .project-info {
+    opacity: 0;
+}
+
+/* ── Discover panel entrance states ── */
+.discover-thumb {
+    opacity: 0;
+}
+
+.discover-center {
+    opacity: 0;
+}
+
+/* ── CTA panel entrance states ── */
+.panel-cta .panel-title,
+.panel-cta .panel-desc,
+.panel-cta .btn-primary {
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 /* ===== Scroll Cue Bounce ===== */

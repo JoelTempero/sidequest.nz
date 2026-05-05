@@ -178,3 +178,86 @@ p {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ── Atmosphere ──────────────────────────────────────────── */
+
+/* Particle canvas */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Cursor glow */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.08), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+}
+
+/* Gradient blobs (scroll with panels) */
+.gradient-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(120px);
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  top: -10%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.12), transparent 70%);
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  bottom: -15%;
+  left: 55%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.08), transparent 70%);
+}
+
+.blob-3 {
+  width: 700px;
+  height: 700px;
+  top: 20%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.06), transparent 70%);
+}
+
+/* Typography fragments (giant watermark words) */
+.typo-fragment {
+  position: absolute;
+  font-family: var(--font-heading);
+  font-size: 18vw;
+  font-weight: 900;
+  opacity: 0.06;
+  color: #fff;
+  pointer-events: none;
+  will-change: transform;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.typo-fragment::after {
+  content: attr(data-text);
+}
+
+/* Magnetic hover utility */
+.magnetic-hover {
+  transition: letter-spacing 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.magnetic-hover:hover {
+  letter-spacing: 0.5px;
+  transform: scale(1.03);
+}
