@@ -1,0 +1,56 @@
+/* ===== Initial States (before GSAP animates) ===== */
+.hero-line {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.hero-subtitle {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.hero-scroll-cue {
+    opacity: 0;
+}
+
+.panel-service .label,
+.panel-service .panel-title,
+.panel-service .panel-desc,
+.panel-service .featured-project {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.panel-teaser .panel-title,
+.panel-teaser .panel-desc,
+.panel-teaser .btn-primary {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* ===== Glow Pulse ===== */
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+.panel-glow {
+    animation: glowPulse 6s ease-in-out infinite;
+}
+
+/* ===== Scroll Cue Bounce ===== */
+@keyframes cueBounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+}
+
+.hero-scroll-cue svg {
+    animation: cueBounce 2s ease-in-out infinite;
+}
+
+/* On mobile, don't hide elements that GSAP hasn't initialized yet */
+@media (max-width: 768px) {
+    .hero-scroll-cue {
+        display: none;
+    }
+}
