@@ -1,0 +1,12 @@
+{
+    "title": "Example Web App",
+    "slug": "example-app",
+    "summary": "A custom tool built around a specific workflow — because off-the-shelf wasn't cutting it.",
+    "category": "apps",
+    "tags": ["Web App", "Dashboard"],
+    "featured": true,
+    "featuredImage": "projects/example-app/assets/hero.png",
+    "date": "2025-05-01",
+    "url": "https://example-app.com",
+    "status": "live"
+}

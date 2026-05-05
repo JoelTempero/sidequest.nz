@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Example Website Project",
+        "slug": "example-website",
+        "summary": "A custom-built website showcasing what's possible when you start from scratch.",
+        "category": "websites",
+        "tags": ["Custom Design", "Responsive"],
+        "featured": true,
+        "featuredImage": "projects/example-website/assets/hero.png",
+        "date": "2025-03-15",
+        "url": "https://example.com",
+        "status": "live"
+    },
+    {
+        "title": "Example Web App",
+        "slug": "example-app",
+        "summary": "A custom tool built around a specific workflow — because off-the-shelf wasn't cutting it.",
+        "category": "apps",
+        "tags": ["Web App", "Dashboard"],
+        "featured": true,
+        "featuredImage": "projects/example-app/assets/hero.png",
+        "date": "2025-05-01",
+        "url": "https://example-app.com",
+        "status": "live"
+    }
+]

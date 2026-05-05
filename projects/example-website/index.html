@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Website Project — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../about.html" class="nav-link">About</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../about.html">About</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+    <main class="page-content" style="padding-top: calc(var(--nav-height) + var(--space-4xl)); min-height: 100vh;">
+        <div class="container">
+            <span class="label">Websites</span>
+            <h1>Example Website Project</h1>
+            <p style="margin-top: var(--space-lg); font-size: var(--text-xl);">This page will be custom designed — each project gets its own unique layout and creative treatment.</p>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
