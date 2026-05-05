@@ -25,7 +25,6 @@
         cursorLerpFactor: 0.02,
         lineOpacityMin: 0.03,
         lineOpacityMax: 0.08,
-        fpsTarget: 30,
         frameInterval: 1000 / 30, // ~33.33ms
         panelCount: 7,
         resizeDebounce: 250
@@ -101,8 +100,8 @@
         // Weight increases linearly: zone 0 = 1, zone 1 = 2, ..., zone N = N+1
         var weights = [];
         var totalWeight = 0;
-        for (var z = 0; z < zoneCount; z++) {
-            var w = z + 1;
+        for (var wi = 0; wi < zoneCount; wi++) {
+            var w = wi + 1;
             weights.push(w);
             totalWeight += w;
         }
@@ -110,12 +109,12 @@
         // Distribute dot count proportionally to weights
         var dotsPerZone = [];
         var assigned = 0;
-        for (var z = 0; z < zoneCount; z++) {
-            if (z === zoneCount - 1) {
+        for (var di = 0; di < zoneCount; di++) {
+            if (di === zoneCount - 1) {
                 // Last zone gets remainder to ensure exact total
                 dotsPerZone.push(count - assigned);
             } else {
-                var n = Math.round(count * weights[z] / totalWeight);
+                var n = Math.round(count * weights[di] / totalWeight);
                 dotsPerZone.push(n);
                 assigned += n;
             }
@@ -133,23 +132,21 @@
 
             for (var i = 0; i < dotsPerZone[z]; i++) {
                 // Pick colour based on weighted random
-                var colourIndex = this.pickColour(purpleWeight, orangeWeight, whiteWeight);
-                var rgb = COLOUR_RGB[colourIndex];
+                var rgb = COLOUR_RGB[this.pickColour(purpleWeight, orangeWeight, whiteWeight)];
+                var baseOpacity = rand(CONFIG.minOpacity, CONFIG.maxOpacity);
 
                 var dot = {
                     x: rand(zoneStart, zoneEnd),
                     y: rand(0, this.viewportHeight),
                     size: rand(CONFIG.minDotSize, CONFIG.maxDotSize),
-                    colourIndex: colourIndex,
                     r: rgb.r,
                     g: rgb.g,
                     b: rgb.b,
-                    baseOpacity: rand(CONFIG.minOpacity, CONFIG.maxOpacity),
-                    opacity: rand(CONFIG.minOpacity, CONFIG.maxOpacity),
+                    baseOpacity: baseOpacity,
+                    opacity: baseOpacity,
                     dx: rand(CONFIG.minVelocity, CONFIG.maxVelocity) * (Math.random() < 0.5 ? 1 : -1),
                     dy: rand(CONFIG.minVelocity, CONFIG.maxVelocity) * (Math.random() < 0.5 ? 1 : -1)
                 };
-                dot.opacity = dot.baseOpacity;
                 this.dots.push(dot);
             }
         }
@@ -170,12 +167,35 @@
 
         // Cursor position in scroll-space
         var cursorScrollX = this.cursorX + scrollOffset;
-        var cursorScrollY = this.cursorY;
+        var cursorY = this.cursorY;
 
         for (var i = 0; i < this.dots.length; i++) {
             var dot = this.dots[i];
 
-            // Ambient drift
+            // Cursor interaction (attract + glow, applied before drift so
+            // ambient movement can still carry dots away from the cursor)
+            if (this.cursorActive) {
+                var cdx = cursorScrollX - dot.x;
+                var cdy = cursorY - dot.y;
+                var dist = Math.sqrt(cdx * cdx + cdy * cdy);
+
+                if (dist < CONFIG.cursorRadius) {
+                    // Opacity boost toward cursor target
+                    dot.opacity = lerp(dot.opacity, CONFIG.cursorOpacityTarget, 0.05);
+                    // Drift gently toward cursor
+                    dot.x = lerp(dot.x, cursorScrollX, CONFIG.cursorLerpFactor);
+                    dot.y = lerp(dot.y, cursorY, CONFIG.cursorLerpFactor);
+                } else {
+                    // Decay back to base opacity
+                    dot.opacity = lerp(dot.opacity, dot.baseOpacity, 0.03);
+                }
+            } else {
+                // No cursor — decay to base
+                dot.opacity = lerp(dot.opacity, dot.baseOpacity, 0.03);
+            }
+
+            // Ambient drift (applied after cursor lerp so dots are never
+            // permanently trapped — drift continuously pulls them away)
             dot.x += dot.dx;
             dot.y += dot.dy;
 
@@ -194,27 +214,6 @@
             } else if (dot.y > this.viewportHeight) {
                 dot.y = this.viewportHeight;
                 dot.dy = -Math.abs(dot.dy);
-            }
-
-            // Cursor interaction
-            if (this.cursorActive) {
-                var cdx = cursorScrollX - dot.x;
-                var cdy = cursorScrollY - dot.y;
-                var dist = Math.sqrt(cdx * cdx + cdy * cdy);
-
-                if (dist < CONFIG.cursorRadius) {
-                    // Opacity boost toward cursor target
-                    dot.opacity = lerp(dot.opacity, CONFIG.cursorOpacityTarget, 0.05);
-                    // Drift gently toward cursor
-                    dot.x = lerp(dot.x, cursorScrollX, CONFIG.cursorLerpFactor);
-                    dot.y = lerp(dot.y, cursorScrollY, CONFIG.cursorLerpFactor);
-                } else {
-                    // Decay back to base opacity
-                    dot.opacity = lerp(dot.opacity, dot.baseOpacity, 0.03);
-                }
-            } else {
-                // No cursor — decay to base
-                dot.opacity = lerp(dot.opacity, dot.baseOpacity, 0.03);
             }
         }
     };
