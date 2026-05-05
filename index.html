@@ -44,16 +44,29 @@
         <a href="contact.html">Contact</a>
     </div>
 
+    <!-- Atmosphere (fixed behind everything) -->
+    <canvas id="particle-canvas"></canvas>
+    <div class="cursor-glow"></div>
+
     <!-- Horizontal Scroll Wrapper (desktop) -->
     <main class="horizontal-scroll" id="horizontal-scroll">
         <div class="panels">
 
+            <!-- Atmosphere elements (scroll with content) -->
+            <div class="gradient-blob blob-1"></div>
+            <div class="gradient-blob blob-2"></div>
+            <div class="gradient-blob blob-3"></div>
+            <div class="typo-fragment" data-text="CREATE"></div>
+            <div class="typo-fragment" data-text="BUILD"></div>
+            <div class="typo-fragment" data-text="LAUNCH"></div>
+
             <!-- Panel 1: Hero -->
             <section class="panel panel-hero" id="panel-hero">
                 <div class="panel-content">
+                    <span class="label">SIDEQUEST DIGITAL</span>
                     <h1 class="hero-title">
-                        <span class="hero-line">Be Known.</span>
-                        <span class="hero-line text-gradient">Stand Out.</span>
+                        <span class="hero-line" data-scramble="1500">Be Known.</span>
+                        <span class="hero-line text-gradient" data-scramble="1500">Stand Out.</span>
                     </h1>
                     <p class="hero-subtitle">Crafting one-of-a-kind digital experiences for communities, schools, and small businesses.</p>
                 </div>
@@ -63,111 +76,119 @@
                 </div>
             </section>
 
-            <!-- Panel 2: Chill Air -->
-            <section class="panel panel-project" id="panel-chill-air">
+            <!-- Panel 2: Chill Air — image left (55%), text right -->
+            <section class="panel panel-project panel-chill-air" id="panel-chill-air">
                 <div class="panel-content project-showcase">
-                    <div class="project-visual">
+                    <div class="project-visual" data-tilt>
                         <img src="projects/chill-air/assets/hero.jpg" alt="Chill Air">
                     </div>
                     <div class="project-info">
                         <span class="label">Websites</span>
-                        <h2 class="panel-title">Chill Air</h2>
+                        <h2 class="panel-title" data-scramble="700">Chill Air</h2>
                         <p class="panel-desc">Website + Client Portal for a heat pump installer. Clean, fast, built to convert.</p>
                         <div class="project-tags">
                             <span class="tag">Website</span>
                             <span class="tag">Client Portal</span>
                             <span class="tag">Small Business</span>
                         </div>
-                        <a href="projects/chill-air/" class="btn-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="projects/chill-air/" class="btn-link" data-magnetic>View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                     </div>
                 </div>
             </section>
 
-            <!-- Panel 3: Storybook Weddings -->
-            <section class="panel panel-project" id="panel-storybook">
+            <!-- Panel 3: Storybook Weddings — text left (right-aligned, 35%), image right (65%) -->
+            <section class="panel panel-project panel-storybook" id="panel-storybook">
                 <div class="panel-content project-showcase">
-                    <div class="project-visual">
-                        <img src="projects/storybook-weddings/assets/hero.png" alt="Storybook Weddings">
-                    </div>
                     <div class="project-info">
                         <span class="label">Portals</span>
-                        <h2 class="panel-title">Storybook Weddings</h2>
+                        <h2 class="panel-title" data-scramble="800">Storybook Weddings</h2>
                         <p class="panel-desc">Wedding photography site + secure client portal. A space for couples to relive their day.</p>
                         <div class="project-tags">
                             <span class="tag">Website</span>
                             <span class="tag">Client Portal</span>
                             <span class="tag">Photography</span>
                         </div>
-                        <a href="projects/storybook-weddings/" class="btn-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="projects/storybook-weddings/" class="btn-link" data-magnetic>View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                    <div class="project-visual" data-tilt>
+                        <img src="projects/storybook-weddings/assets/hero.png" alt="Storybook Weddings">
                     </div>
                 </div>
             </section>
 
-            <!-- Panel 4: Technicolour Thoughts -->
-            <section class="panel panel-project" id="panel-technicolour">
-                <div class="panel-content project-showcase">
-                    <div class="project-visual">
+            <!-- Panel 4: Technicolour Thoughts — massive title top-left, image bottom-right, desc bottom-left -->
+            <section class="panel panel-project panel-technicolour" id="panel-technicolour">
+                <div class="panel-content project-showcase technicolour-layout">
+                    <div class="project-info technicolour-info">
+                        <span class="label">Websites</span>
+                        <h2 class="panel-title" data-scramble="600">Technicolour Thoughts</h2>
+                    </div>
+                    <div class="project-visual technicolour-visual" data-tilt>
                         <img src="projects/technicolour-thoughts/assets/hero.jpg" alt="Technicolour Thoughts">
                     </div>
-                    <div class="project-info">
-                        <span class="label">Websites</span>
-                        <h2 class="panel-title">Technicolour Thoughts</h2>
+                    <div class="project-meta technicolour-meta">
                         <p class="panel-desc">A digital production studio bursting with creative spark — wild colours, interactive cards, and a sparkly cursor.</p>
                         <div class="project-tags">
                             <span class="tag">Website</span>
                             <span class="tag">Brand</span>
                             <span class="tag">Production Studio</span>
                         </div>
-                        <a href="projects/technicolour-thoughts/" class="btn-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="projects/technicolour-thoughts/" class="btn-link" data-magnetic>View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                     </div>
                 </div>
             </section>
 
-            <!-- Panel 5: My Living Hope -->
-            <section class="panel panel-project" id="panel-living-hope">
+            <!-- Panel 5: My Living Hope — image left (70% dominant), compact text right (30%) -->
+            <section class="panel panel-project panel-living-hope" id="panel-living-hope">
                 <div class="panel-content project-showcase">
-                    <div class="project-visual">
+                    <div class="project-visual" data-tilt>
                         <img src="projects/my-living-hope/assets/hero.webp" alt="My Living Hope">
                     </div>
                     <div class="project-info">
                         <span class="label">Websites</span>
-                        <h2 class="panel-title">My Living Hope</h2>
+                        <h2 class="panel-title" data-scramble="700">My Living Hope</h2>
                         <p class="panel-desc">Custom Shopify theme for a community-building store. E-commerce with heart.</p>
                         <div class="project-tags">
                             <span class="tag">Website</span>
                             <span class="tag">E-Commerce</span>
                             <span class="tag">Shopify</span>
                         </div>
-                        <a href="projects/my-living-hope/" class="btn-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="projects/my-living-hope/" class="btn-link" data-magnetic>View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                     </div>
                 </div>
             </section>
 
-            <!-- Panel 6: 24CHCH -->
-            <section class="panel panel-project" id="panel-24chch">
-                <div class="panel-content project-showcase">
-                    <div class="project-visual">
+            <!-- Panel 6: Discover (replaces 24CHCH) -->
+            <section class="panel panel-discover" id="panel-discover">
+                <div class="panel-content">
+                    <a class="discover-thumb" href="projects/24chch/" data-tilt="light">
                         <img src="projects/24chch/assets/hero.png" alt="24CHCH">
+                    </a>
+                    <a class="discover-thumb" href="projects/chill-air/" data-tilt="light">
+                        <img src="projects/chill-air/assets/hero.jpg" alt="Chill Air">
+                    </a>
+                    <div class="discover-center">
+                        <h2 class="panel-title" data-scramble="600">There's more.</h2>
+                        <a href="work.html" class="btn-link" data-magnetic>See All Work <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                     </div>
-                    <div class="project-info">
-                        <span class="label">Websites</span>
-                        <h2 class="panel-title">24CHCH</h2>
-                        <p class="panel-desc">Website for the annual 24-hour short film competition. Cinematic, bold, event-driven.</p>
-                        <div class="project-tags">
-                            <span class="tag">Website</span>
-                            <span class="tag">Event</span>
-                        </div>
-                        <a href="projects/24chch/" class="btn-link">View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                    </div>
+                    <a class="discover-thumb" href="projects/storybook-weddings/" data-tilt="light">
+                        <img src="projects/storybook-weddings/assets/hero.png" alt="Storybook Weddings">
+                    </a>
+                    <a class="discover-thumb" href="projects/technicolour-thoughts/" data-tilt="light">
+                        <img src="projects/technicolour-thoughts/assets/hero.jpg" alt="Technicolour Thoughts">
+                    </a>
+                    <a class="discover-thumb" href="projects/my-living-hope/" data-tilt="light">
+                        <img src="projects/my-living-hope/assets/hero.webp" alt="My Living Hope">
+                    </a>
                 </div>
             </section>
 
             <!-- Panel 7: CTA -->
             <section class="panel panel-cta" id="panel-cta">
                 <div class="panel-content">
-                    <h2 class="panel-title">Got a project<br>in mind<span class="text-gradient">?</span></h2>
+                    <h2 class="panel-title" data-scramble="400">Got a project<br>in mind<span class="text-gradient">?</span></h2>
                     <p class="panel-desc">Every build starts with a conversation. Let's figure out what you need.</p>
-                    <a href="contact.html" class="btn-primary">
+                    <a href="contact.html" class="btn-primary" data-magnetic>
                         Get In Touch
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -181,9 +202,28 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 
+    <!-- Atmosphere & Interactions -->
+    <script src="js/canvas.js"></script>
+    <script src="js/interactions.js"></script>
+
     <!-- Site JS -->
     <script src="js/main.js"></script>
     <script src="js/scroll.js"></script>
     <script src="js/animations.js"></script>
+
+    <!-- Init -->
+    <script>
+    (function() {
+        var isDesktop = window.matchMedia('(min-width: 769px)').matches;
+        var canvas = document.getElementById('particle-canvas');
+        var canvasInstance = null;
+        if (isDesktop && canvas) {
+            canvasInstance = window.initParticleCanvas(canvas);
+        }
+        if (isDesktop && window.initInteractions) {
+            window.initInteractions(canvasInstance);
+        }
+    })();
+    </script>
 </body>
 </html>
