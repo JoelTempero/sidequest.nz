@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Living Hope — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <style>
+        .mlh-hero {
+            position: relative;
+            min-height: 65vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .mlh-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/hero.webp') center/cover no-repeat;
+            filter: brightness(0.3) saturate(0.7);
+        }
+        .mlh-hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--bg-deep) 30%, transparent 70%),
+                        linear-gradient(to top, var(--bg-deep) 0%, transparent 40%);
+        }
+        .mlh-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-3xl) var(--space-xl);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        .mlh-hero-logo {
+            width: 90px;
+            height: 90px;
+            flex-shrink: 0;
+            filter: invert(1) brightness(2);
+        }
+        .mlh-hero-text .overline {
+            font-family: var(--font-heading);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-orange);
+            display: block;
+            margin-bottom: var(--space-md);
+        }
+        .mlh-hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: var(--text-5xl);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+        .mlh-hero-text p {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        .mlh-body {
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+        .mlh-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-3xl);
+            align-items: start;
+            margin-bottom: var(--space-4xl);
+        }
+        .mlh-content h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+        }
+        .mlh-content p {
+            font-size: var(--text-lg);
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        .mlh-content p strong {
+            color: var(--text-primary);
+        }
+        .mlh-sidebar {
+            position: sticky;
+            top: calc(var(--nav-height) + var(--space-xl));
+        }
+        .mlh-detail-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-2xl);
+        }
+        .mlh-detail-card h3 {
+            font-family: var(--font-heading);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            color: var(--accent-purple-light);
+        }
+        .mlh-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .mlh-detail-row:last-child { border-bottom: none; }
+        .mlh-detail-row span:first-child {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+        }
+        .mlh-detail-row span:last-child {
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+        }
+        .mlh-screenshot {
+            margin-bottom: var(--space-4xl);
+        }
+        .mlh-screenshot img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+        .mlh-cta {
+            text-align: center;
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-3xl);
+        }
+        .mlh-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-2xl);
+            background: var(--accent-purple);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            transition: background 0.3s var(--ease-out);
+        }
+        .mlh-cta a:hover { background: #7c3aed; }
+        .mlh-back {
+            text-align: center;
+            padding-bottom: var(--space-3xl);
+        }
+        .mlh-back a {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .mlh-back a:hover { color: var(--text-primary); }
+        @media (max-width: 768px) {
+            .mlh-hero-content { flex-direction: column; text-align: center; align-items: center; }
+            .mlh-hero-text p { margin-inline: auto; }
+            .mlh-content { grid-template-columns: 1fr; }
+            .mlh-hero { min-height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+
+    <main class="page-content" style="padding-top: var(--nav-height);">
+        <section class="mlh-hero">
+            <div class="mlh-hero-bg"></div>
+            <div class="mlh-hero-content">
+                <img src="assets/logo.png" alt="My Living Hope" class="mlh-hero-logo">
+                <div class="mlh-hero-text">
+                    <span class="overline">E-Commerce &middot; Shopify</span>
+                    <h1>My Living Hope</h1>
+                    <p>A custom Shopify theme for a store that builds community through faith-inspired products.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="mlh-body">
+            <section class="mlh-content">
+                <div>
+                    <h2>Building community, one product at a time</h2>
+                    <p>My Living Hope sells community-building products for Christian communities. Our custom Shopify theme includes <strong>fully customisable sections</strong> to share their story and an <strong>interactive widget</strong> where users can try out one of the products digitally — straight on the main page.</p>
+                    <p>The goal was to create a store that feels warm and inviting, not just transactional. Every section was designed to tell a story, from the hero banner through to the product grid. The theme is fully manageable through Shopify's admin — the client can update content, images, and products without needing a developer.</p>
+                </div>
+                <div class="mlh-sidebar">
+                    <div class="mlh-detail-card">
+                        <h3>Project Details</h3>
+                        <div class="mlh-detail-row">
+                            <span>Client</span>
+                            <span>Jesse Major</span>
+                        </div>
+                        <div class="mlh-detail-row">
+                            <span>Platform</span>
+                            <span>Shopify</span>
+                        </div>
+                        <div class="mlh-detail-row">
+                            <span>Type</span>
+                            <span>Custom Theme</span>
+                        </div>
+                        <div class="mlh-detail-row">
+                            <span>Location</span>
+                            <span>Christchurch, NZ</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mlh-screenshot">
+                <img src="assets/gallery-1.png" alt="My Living Hope store homepage" loading="lazy">
+            </section>
+
+            <div class="mlh-cta">
+                <a href="https://mylivinghope.org.nz" target="_blank">Visit mylivinghope.org.nz &rarr;</a>
+            </div>
+
+            <div class="mlh-back">
+                <a href="../../work.html">&larr; Back to all projects</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

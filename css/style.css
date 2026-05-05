@@ -27,7 +27,7 @@
 
   /* Fonts */
   --font-heading: 'Outfit', system-ui, sans-serif;
-  --font-body:    'Inter', system-ui, sans-serif;
+  --font-body:    'Syne', system-ui, sans-serif;
 
   /* Typography scale — clamp(min, preferred, max) */
   --text-xs:   clamp(0.6875rem, 0.65rem + 0.19vw, 0.75rem);   /* 11–12px */

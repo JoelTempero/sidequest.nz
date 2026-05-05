@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -26,7 +26,6 @@
             </a>
             <ul class="nav-links">
                 <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
                 <li><a href="work.html" class="nav-link">Work</a></li>
                 <li><a href="contact.html" class="nav-link active">Contact</a></li>
             </ul>
@@ -37,7 +36,6 @@
     </nav>
     <div class="nav-mobile">
         <a href="/">Home</a>
-        <a href="about.html">About</a>
         <a href="work.html">Work</a>
         <a href="contact.html">Contact</a>
     </div>
@@ -51,6 +49,15 @@
                         <span class="label">Get In Touch</span>
                         <h1>Let's Talk</h1>
                         <p class="contact-intro">Got an idea? A problem? A vague notion that you need "something digital"? Let's chat.</p>
+
+                        <div class="contact-bio">
+                            <div class="contact-bio-image">
+                                <img src="images/joel.jpg" alt="Joel Tempero">
+                            </div>
+                            <div class="contact-bio-text">
+                                <p><strong>Joel Tempero</strong> — solo developer based in Christchurch, NZ. Building custom digital solutions for communities, schools, and small businesses. You talk directly to the person building your thing.</p>
+                            </div>
+                        </div>
 
                         <div class="contact-details">
                             <div class="contact-detail">
@@ -106,36 +113,21 @@
                         <p class="form-result" id="form-result"></p>
                     </form>
                 </div>
+                <div class="contact-legal">
+                    <p>&copy; 2025 Sidequest Digital. All rights reserved.</p>
+                    <div class="contact-legal-links">
+                        <a href="pages/terms.html">Terms</a>
+                        <a href="pages/privacy.html">Privacy</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
-
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <span class="footer-brand-name">Sidequest Digital</span>
-                <span class="footer-tagline">Be Known. Stand Out.</span>
-            </div>
-            <div class="footer-links">
-                <a href="about.html" class="footer-link">About</a>
-                <a href="work.html" class="footer-link">Work</a>
-                <a href="contact.html" class="footer-link">Contact</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p class="footer-copyright">&copy; 2025 Sidequest Digital. All rights reserved.</p>
-            <div class="footer-legal">
-                <a href="pages/terms.html">Terms</a>
-                <a href="pages/privacy.html">Privacy</a>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Entrance animations
         gsap.from('.contact-info > *', {
             opacity: 0, y: 30, duration: 0.7, stagger: 0.12, ease: 'power3.out', delay: 0.2
         });
@@ -143,7 +135,6 @@
             opacity: 0, y: 30, duration: 0.7, ease: 'power3.out', delay: 0.4
         });
 
-        // Form submission
         const form = document.getElementById('contact-form');
         const result = document.getElementById('form-result');
         const submitBtn = document.getElementById('submit-btn');

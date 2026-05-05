@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24CHCH — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <style>
+        .chch-hero {
+            position: relative;
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .chch-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/hero.png') center/cover no-repeat;
+            filter: brightness(0.25);
+        }
+        .chch-hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(249, 115, 22, 0.12), transparent 60%),
+                linear-gradient(to top, var(--bg-deep), transparent 50%);
+        }
+        .chch-hero-content {
+            position: relative;
+            z-index: 1;
+            padding: var(--space-xl);
+        }
+        .chch-hero-content .overline {
+            font-family: var(--font-heading);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-orange);
+            display: block;
+            margin-bottom: var(--space-xl);
+        }
+        .chch-hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-xl);
+        }
+        .chch-hero-content h1 span {
+            display: block;
+            font-size: 0.4em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            margin-top: var(--space-sm);
+        }
+        .chch-hero-content .intro {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin-inline: auto;
+            line-height: 1.6;
+        }
+        .chch-body {
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+        .chch-story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+            margin-bottom: var(--space-4xl);
+        }
+        .chch-story-text h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+        }
+        .chch-story-text p {
+            font-size: var(--text-lg);
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        .chch-story-text p strong {
+            color: var(--text-primary);
+        }
+        .chch-story-image img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+        .chch-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-4xl);
+        }
+        .chch-feature {
+            padding: var(--space-xl);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+        .chch-feature h3 {
+            font-family: var(--font-heading);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--accent-orange);
+        }
+        .chch-feature p {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .chch-cta {
+            text-align: center;
+            padding: var(--space-3xl);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            margin-bottom: var(--space-3xl);
+        }
+        .chch-cta h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+        .chch-cta p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        .chch-cta a {
+            display: inline-flex;
+            padding: var(--space-md) var(--space-2xl);
+            background: var(--accent-orange);
+            color: #000;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        .chch-cta a:hover { opacity: 0.85; }
+        .chch-back {
+            text-align: center;
+            padding-bottom: var(--space-3xl);
+        }
+        .chch-back a {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .chch-back a:hover { color: var(--text-primary); }
+        @media (max-width: 768px) {
+            .chch-story { grid-template-columns: 1fr; }
+            .chch-features { grid-template-columns: 1fr; }
+            .chch-hero { min-height: 55vh; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+
+    <main class="page-content" style="padding-top: var(--nav-height);">
+        <section class="chch-hero">
+            <div class="chch-hero-bg"></div>
+            <div class="chch-hero-content">
+                <span class="overline">Event Website</span>
+                <h1>24CHCH<span>Short Film Competition</span></h1>
+                <p class="intro">An annual local filmmakers event in Christchurch. Dramatic flair meets digestible design.</p>
+            </div>
+        </section>
+
+        <div class="chch-body">
+            <section class="chch-story">
+                <div class="chch-story-text">
+                    <h2>Lights, camera, website</h2>
+                    <p>24CHCH is an annual local filmmakers event hosted in Christchurch. The goal was to create an effective but straightforward experience — <strong>a bit of dramatic flair, but ultimately a digestible and easy-to-follow site</strong>.</p>
+                    <p>The site includes a <strong>countdown timer</strong>, galleries for previous competition entries, and is hooked up to <strong>forms and Mailchimp newsletter widgets</strong> to keep the community in the loop year-round.</p>
+                </div>
+                <div class="chch-story-image">
+                    <img src="assets/gallery-1.png" alt="24CHCH website gallery section" loading="lazy">
+                </div>
+            </section>
+
+            <div class="chch-features">
+                <div class="chch-feature">
+                    <h3>Countdown</h3>
+                    <p>Live countdown to competition day builds anticipation and urgency.</p>
+                </div>
+                <div class="chch-feature">
+                    <h3>Past Entries</h3>
+                    <p>Gallery showcasing previous years' films — celebrating the community.</p>
+                </div>
+                <div class="chch-feature">
+                    <h3>Newsletter</h3>
+                    <p>Mailchimp integration keeps filmmakers informed year-round.</p>
+                </div>
+            </div>
+
+            <section class="chch-cta">
+                <h2>Check it out</h2>
+                <p>See the site live and get excited for the next 24CHCH.</p>
+                <a href="https://24chch.nz" target="_blank">Visit 24chch.nz &rarr;</a>
+            </section>
+
+            <div class="chch-back">
+                <a href="../../work.html">&larr; Back to all projects</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

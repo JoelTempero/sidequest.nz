@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storybook Weddings — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <style>
+        .sb-hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .sb-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/hero.png') center/cover no-repeat;
+            filter: brightness(0.3) saturate(0.8);
+        }
+        .sb-hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, var(--bg-deep) 80%);
+        }
+        .sb-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            padding: var(--space-xl);
+        }
+        .sb-hero-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: var(--space-xl);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .sb-hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: var(--text-5xl);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+        .sb-hero-content p {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .sb-tags {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-top: var(--space-xl);
+        }
+        .sb-tag {
+            padding: var(--space-xs) var(--space-md);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+        .sb-body {
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+        .sb-story {
+            max-width: 720px;
+            margin-inline: auto;
+            text-align: center;
+            margin-bottom: var(--space-4xl);
+        }
+        .sb-story h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+        }
+        .sb-story p {
+            font-size: var(--text-lg);
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        .sb-story p strong {
+            color: var(--text-primary);
+        }
+        .sb-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-bottom: var(--space-4xl);
+        }
+        .sb-feature {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-2xl);
+            text-align: center;
+        }
+        .sb-feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+        }
+        .sb-feature h3 {
+            font-family: var(--font-heading);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+        .sb-feature p {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .sb-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-4xl);
+        }
+        .sb-gallery img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+        .sb-cta {
+            text-align: center;
+            padding: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+        .sb-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-2xl);
+            background: var(--accent-purple);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: var(--text-base);
+            transition: background 0.3s var(--ease-out);
+        }
+        .sb-cta a:hover { background: #7c3aed; }
+        .sb-back {
+            text-align: center;
+            padding-bottom: var(--space-3xl);
+        }
+        .sb-back a {
+            color: var(--text-muted);
+            font-size: var(--text-base);
+            transition: color 0.3s var(--ease-out);
+        }
+        .sb-back a:hover { color: var(--text-primary); }
+        @media (max-width: 768px) {
+            .sb-features { grid-template-columns: 1fr; }
+            .sb-gallery { grid-template-columns: 1fr; }
+            .sb-hero { min-height: 60vh; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+
+    <main class="page-content" style="padding-top: var(--nav-height);">
+        <section class="sb-hero">
+            <div class="sb-hero-bg"></div>
+            <div class="sb-hero-content">
+                <img src="assets/logo.png" alt="Storybook Weddings" class="sb-hero-logo">
+                <h1>Storybook Weddings</h1>
+                <p>Wedding photography and videography, captured with heart. We built the digital experience to match.</p>
+                <div class="sb-tags">
+                    <span class="sb-tag">Website</span>
+                    <span class="sb-tag">Client Portal</span>
+                    <span class="sb-tag">Weddings</span>
+                    <span class="sb-tag">Photography</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="sb-body">
+            <section class="sb-story">
+                <h2>More than a portfolio site</h2>
+                <p>Storybook Weddings is a Canterbury-based wedding photography and videography service. We created a flash new website with some fun tricks up the sleeve — <strong>animated graphics</strong> and an <strong>instant pricing calculator</strong> so couples can get an idea of their investment before even reaching out.</p>
+                <p>But the real magic is behind the login. We built a <strong>client portal</strong> where the Storybook team keeps their couples up to date with file delivery, invoices, and all their wedding day info organised in one place.</p>
+            </section>
+
+            <div class="sb-features">
+                <div class="sb-feature">
+                    <div class="sb-feature-icon">&#x1f3a8;</div>
+                    <h3>Animated Design</h3>
+                    <p>Custom graphics and interactive elements that bring the brand to life.</p>
+                </div>
+                <div class="sb-feature">
+                    <div class="sb-feature-icon">&#x1f4b0;</div>
+                    <h3>Price Calculator</h3>
+                    <p>Instant pricing tool so couples can explore options before getting in touch.</p>
+                </div>
+                <div class="sb-feature">
+                    <div class="sb-feature-icon">&#x1f4cb;</div>
+                    <h3>Client Portal</h3>
+                    <p>File delivery, invoicing, and wedding details — all in one organised space.</p>
+                </div>
+            </div>
+
+            <div class="sb-gallery">
+                <img src="assets/gallery-1.png" alt="Storybook Weddings booking flow" loading="lazy">
+                <img src="assets/gallery-2.png" alt="Storybook Weddings portfolio section" loading="lazy">
+            </div>
+
+            <div class="sb-cta">
+                <a href="https://storybook.nz" target="_blank">Visit storybook.nz &rarr;</a>
+            </div>
+
+            <div class="sb-back">
+                <a href="../../work.html">&larr; Back to all projects</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

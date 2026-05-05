@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Air — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <style>
+        .project-hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .project-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/hero.jpg') center/cover no-repeat;
+            filter: brightness(0.4);
+        }
+        .project-hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg-deep) 0%, transparent 60%);
+        }
+        .project-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-3xl) var(--space-xl);
+            width: 100%;
+        }
+        .project-hero-content .label {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-orange);
+            margin-bottom: var(--space-md);
+        }
+        .project-hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: var(--text-5xl);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+        .project-hero-content .tagline {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+        .project-meta {
+            display: flex;
+            gap: var(--space-2xl);
+            flex-wrap: wrap;
+            margin-top: var(--space-xl);
+        }
+        .project-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        .project-meta-item span:first-child {
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+        .project-meta-item span:last-child {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+        }
+        .project-body {
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+        .project-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: start;
+        }
+        .project-intro h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+        }
+        .project-intro p {
+            font-size: var(--text-lg);
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        .project-intro p strong {
+            color: var(--text-primary);
+        }
+        .highlight-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-2xl);
+        }
+        .highlight-card h3 {
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            color: var(--accent-purple-light);
+        }
+        .highlight-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .highlight-card ul li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .highlight-card ul li:last-child {
+            border-bottom: none;
+        }
+        .project-gallery {
+            margin-top: var(--space-4xl);
+        }
+        .project-gallery h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2xl);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: var(--space-lg);
+        }
+        .gallery-grid img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+        .project-cta {
+            margin-top: var(--space-4xl);
+            text-align: center;
+            padding: var(--space-3xl);
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.1), rgba(249, 115, 22, 0.05));
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+        }
+        .project-cta h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+        .project-cta p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            background: var(--accent-purple);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: var(--text-base);
+            transition: background 0.3s var(--ease-out);
+        }
+        .btn-primary:hover { background: #7c3aed; }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: var(--text-base);
+            transition: all 0.3s var(--ease-out);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-purple-light);
+            color: var(--text-primary);
+        }
+        .project-nav {
+            margin-top: var(--space-3xl);
+            padding-bottom: var(--space-3xl);
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .project-intro { grid-template-columns: 1fr; }
+            .project-hero { min-height: 50vh; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+
+    <main class="page-content" style="padding-top: var(--nav-height);">
+        <section class="project-hero">
+            <div class="project-hero-bg"></div>
+            <div class="project-hero-content">
+                <span class="label">Website + Client Portal</span>
+                <h1>Chill Air</h1>
+                <p class="tagline">A strong digital home base for a one-man heat pump operation — professional, clear, and built to convert.</p>
+                <div class="project-meta">
+                    <div class="project-meta-item">
+                        <span>Client</span>
+                        <span>Greg Hicks</span>
+                    </div>
+                    <div class="project-meta-item">
+                        <span>Type</span>
+                        <span>Website + Portal</span>
+                    </div>
+                    <div class="project-meta-item">
+                        <span>Location</span>
+                        <span>Canterbury, NZ</span>
+                    </div>
+                    <div class="project-meta-item">
+                        <span>Live at</span>
+                        <span><a href="https://chillair.co.nz" target="_blank" style="color: var(--accent-purple-light);">chillair.co.nz</a></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="project-body">
+            <section class="project-intro">
+                <div>
+                    <h2>Meet Greg</h2>
+                    <p>He's the owner-operator behind <strong>Chill Air</strong>, delivering reliable heating and cooling solutions with a friendly, no-fuss approach. Chill Air needed a website that felt professional, explained services clearly, and made it easy for customers to get in touch for quotes and bookings.</p>
+                    <p>We designed and built <strong>chillair.co.nz</strong> as a clean, mobile-first site that prioritises clarity and conversion. Confident visual identity, straightforward service information, and clear calls-to-action throughout — with a simple enquiry flow so visitors can quickly understand what Chill Air offers and take the next step.</p>
+                    <p>Behind the scenes, the site was structured with SEO-friendly page hierarchy and performance in mind, so it loads fast and reads well on any device.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>What we built</h3>
+                    <ul>
+                        <li>Mobile-first responsive website</li>
+                        <li>SEO-optimised page structure</li>
+                        <li>Client portal for job management</li>
+                        <li>Xero invoicing integration</li>
+                        <li>Client progress updates</li>
+                        <li>Calendar & scheduling system</li>
+                        <li>Performance-tuned for fast loads</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="project-gallery">
+                <h2>The Build</h2>
+                <div class="gallery-grid">
+                    <img src="assets/gallery-1.png" alt="Chill Air homepage" loading="lazy">
+                    <img src="assets/gallery-2.png" alt="Chill Air services page" loading="lazy">
+                    <img src="assets/gallery-3.png" alt="Chill Air contact section" loading="lazy">
+                </div>
+            </section>
+
+            <section class="project-cta">
+                <h2>The result?</h2>
+                <p>A site that works like a quiet salesperson 24/7 — building trust at first glance, turning more visitors into enquiries, and supporting long-term growth through search visibility.</p>
+                <a href="https://chillair.co.nz" target="_blank" class="btn-primary">Visit chillair.co.nz &rarr;</a>
+            </section>
+
+            <div class="project-nav">
+                <a href="../../work.html" class="btn-outline">&larr; Back to all projects</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

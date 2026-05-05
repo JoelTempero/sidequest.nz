@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technicolour Thoughts — Sidequest Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <style>
+        .tc-hero {
+            position: relative;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .tc-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/hero.jpg') center/cover no-repeat;
+            filter: brightness(0.35) saturate(1.3);
+        }
+        .tc-hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(255, 0, 128, 0.15), rgba(0, 200, 255, 0.1), rgba(255, 200, 0, 0.1)),
+                linear-gradient(to top, var(--bg-deep) 0%, transparent 50%);
+        }
+        .tc-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-3xl) var(--space-xl);
+            width: 100%;
+        }
+        .tc-hero-content .overline {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            background: linear-gradient(90deg, #ff0080, #00c8ff, #ffc800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        .tc-hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: var(--text-5xl);
+            font-weight: 900;
+            line-height: 1.05;
+            max-width: 700px;
+        }
+        .tc-hero-content h1 em {
+            font-style: normal;
+            background: linear-gradient(90deg, #ff0080, #ffc800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tc-hero-content .subtitle {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin-top: var(--space-xl);
+            line-height: 1.6;
+        }
+        .tc-body {
+            max-width: var(--container-max);
+            margin-inline: auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+        .tc-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+            margin-bottom: var(--space-4xl);
+        }
+        .tc-split.reverse { direction: rtl; }
+        .tc-split.reverse > * { direction: ltr; }
+        .tc-split-text h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+        }
+        .tc-split-text p {
+            font-size: var(--text-lg);
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .tc-split-text p strong {
+            color: var(--text-primary);
+        }
+        .tc-split-image img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+        .tc-highlights {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-4xl);
+        }
+        .tc-highlight {
+            text-align: center;
+            padding: var(--space-xl);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+        .tc-highlight-icon {
+            font-size: 1.8rem;
+            margin-bottom: var(--space-md);
+        }
+        .tc-highlight h3 {
+            font-family: var(--font-heading);
+            font-size: var(--text-base);
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+        .tc-highlight p {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+        }
+        .tc-cta {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-xl);
+            background: linear-gradient(135deg, rgba(255, 0, 128, 0.08), rgba(0, 200, 255, 0.05));
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+        }
+        .tc-cta h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+        .tc-cta p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        .tc-cta a {
+            display: inline-flex;
+            padding: var(--space-md) var(--space-2xl);
+            background: linear-gradient(90deg, #ff0080, #ffc800);
+            color: #000;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: var(--text-base);
+            transition: opacity 0.3s;
+        }
+        .tc-cta a:hover { opacity: 0.85; }
+        .tc-back {
+            text-align: center;
+            padding: var(--space-3xl) 0;
+        }
+        .tc-back a {
+            color: var(--text-muted);
+            font-size: var(--text-base);
+            transition: color 0.3s;
+        }
+        .tc-back a:hover { color: var(--text-primary); }
+        @media (max-width: 768px) {
+            .tc-split, .tc-split.reverse { grid-template-columns: 1fr; direction: ltr; }
+            .tc-highlights { grid-template-columns: repeat(2, 1fr); }
+            .tc-hero { min-height: 60vh; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="../../images/logo-icon.png" alt="Sidequest Digital">
+                <span>Sidequest Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="../../work.html" class="nav-link active">Work</a></li>
+                <li><a href="../../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-mobile">
+        <a href="/">Home</a>
+        <a href="../../work.html">Work</a>
+        <a href="../../contact.html">Contact</a>
+    </div>
+
+    <main class="page-content" style="padding-top: var(--nav-height);">
+        <section class="tc-hero">
+            <div class="tc-hero-bg"></div>
+            <div class="tc-hero-content">
+                <span class="overline">Brand + Website</span>
+                <h1>Technicolour<br><em>Thoughts</em></h1>
+                <p class="subtitle">A digital production studio based in Christchurch, NZ. Creating content for artists, businesses, and communities — we built a site to match the energy.</p>
+            </div>
+        </section>
+
+        <div class="tc-body">
+            <section class="tc-split">
+                <div class="tc-split-text">
+                    <h2>Capturing the creative spark</h2>
+                    <p>Technicolour Thoughts serves a wide audience, creating content for artists, businesses and communities. The website we made captures that creative spark — <strong>a wild colour palette, fun interactive video cards, and even a sparkly cursor</strong>. This 2-page site is jam-packed with character and creativity.</p>
+                </div>
+                <div class="tc-split-image">
+                    <img src="assets/gallery-1.jpg" alt="Technicolour Thoughts homepage" loading="lazy">
+                </div>
+            </section>
+
+            <div class="tc-highlights">
+                <div class="tc-highlight">
+                    <div class="tc-highlight-icon">&#x1f308;</div>
+                    <h3>Wild Palette</h3>
+                    <p>Vivid colours that pop</p>
+                </div>
+                <div class="tc-highlight">
+                    <div class="tc-highlight-icon">&#x1f3ac;</div>
+                    <h3>Video Cards</h3>
+                    <p>Interactive portfolio pieces</p>
+                </div>
+                <div class="tc-highlight">
+                    <div class="tc-highlight-icon">&#x2728;</div>
+                    <h3>Sparkly Cursor</h3>
+                    <p>Playful micro-interaction</p>
+                </div>
+                <div class="tc-highlight">
+                    <div class="tc-highlight-icon">&#x1f4f1;</div>
+                    <h3>Fully Responsive</h3>
+                    <p>Works everywhere</p>
+                </div>
+            </div>
+
+            <section class="tc-split reverse">
+                <div class="tc-split-text">
+                    <h2>Small but mighty</h2>
+                    <p>Sometimes two pages is all you need. We focused on making every pixel count — the landing page hooks you with movement and colour, while the portfolio page lets the work speak for itself through <strong>hover-activated video previews</strong> and a clean grid layout.</p>
+                </div>
+                <div class="tc-split-image">
+                    <img src="assets/gallery-2.jpg" alt="Technicolour Thoughts portfolio page" loading="lazy">
+                </div>
+            </section>
+
+            <section class="tc-cta">
+                <h2>See it live</h2>
+                <p>Jump in and explore the colour for yourself.</p>
+                <a href="https://technicolour.nz" target="_blank">Visit technicolour.nz &rarr;</a>
+            </section>
+
+            <div class="tc-back">
+                <a href="../../work.html">&larr; Back to all projects</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
