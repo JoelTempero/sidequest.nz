@@ -1,0 +1,209 @@
+/* ===== Horizontal Scroll Layout (Desktop) ===== */
+.horizontal-scroll {
+    padding-top: var(--nav-height);
+}
+
+.panels {
+    display: flex;
+    width: fit-content;
+}
+
+.panel {
+    width: 100vw;
+    height: calc(100vh - var(--nav-height));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    padding: var(--space-3xl);
+}
+
+.panel-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+}
+
+.panel-glow {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.panel-glow-purple {
+    background: var(--accent-purple);
+    top: 20%;
+    left: -10%;
+}
+
+.panel-glow-orange {
+    background: var(--accent-orange);
+    bottom: 20%;
+    right: -10%;
+}
+
+/* Hero panel specific */
+.panel-hero {
+    text-align: center;
+}
+
+.hero-title {
+    margin-bottom: var(--space-xl);
+}
+
+.hero-line {
+    display: block;
+}
+
+.hero-subtitle {
+    font-size: var(--text-xl);
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.hero-scroll-cue {
+    position: absolute;
+    bottom: var(--space-2xl);
+    right: var(--space-2xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+}
+
+/* Service panels */
+.panel-service .panel-title {
+    font-size: var(--text-3xl);
+    margin: var(--space-md) 0 var(--space-lg);
+}
+
+.panel-service .panel-desc {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+/* Featured project card within panels */
+.featured-project {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    max-width: 480px;
+    transition: border-color 0.3s var(--ease-out);
+}
+
+.featured-project:hover {
+    border-color: var(--accent-purple);
+}
+
+.featured-project-link {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.featured-project-image {
+    width: 120px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--bg-surface);
+}
+
+.featured-project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.featured-project-info h4 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+}
+
+.featured-project-info p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+/* Teaser panel */
+.panel-teaser {
+    text-align: center;
+}
+
+.panel-teaser .panel-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-lg);
+}
+
+.panel-teaser .panel-desc {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+/* CTA Button */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    background: var(--accent-purple);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.btn-primary:hover {
+    background: var(--accent-purple-light);
+    transform: translateY(-2px);
+}
+
+/* ===== Mobile: Vertical Stack ===== */
+@media (max-width: 768px) {
+    .panels {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .panel {
+        width: 100%;
+        height: auto;
+        min-height: 80vh;
+        padding: var(--space-4xl) var(--space-xl);
+    }
+
+    .panel-hero {
+        min-height: calc(100vh - var(--nav-height));
+    }
+
+    .hero-scroll-cue {
+        display: none;
+    }
+
+    .featured-project-link {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .featured-project-image {
+        width: 100%;
+        height: 160px;
+    }
+}
