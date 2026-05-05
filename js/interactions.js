@@ -69,13 +69,13 @@
             el.style.overflow = 'hidden';
             el.style.willChange = 'transform';
 
-            // Inject shine overlay
+            // Inject shine overlay — no CSS transition, opacity driven by JS (m2)
             var shine = document.createElement('div');
             shine.className = 'tilt-shine';
             shine.style.cssText =
                 'position:absolute;inset:0;' +
                 'background:linear-gradient(135deg,rgba(255,255,255,0.25) 0%,transparent 60%);' +
-                'pointer-events:none;opacity:0;transition:opacity 0.3s;';
+                'pointer-events:none;opacity:0;';
             el.appendChild(shine);
 
             var maxDeg = el.getAttribute('data-tilt') === 'light' ? 4 : 8;
@@ -84,6 +84,7 @@
                 el: el,
                 shine: shine,
                 maxDeg: maxDeg,
+                cachedRect: el.getBoundingClientRect(), // C1: cache rect
                 currentRotX: 0,
                 currentRotY: 0,
                 targetRotX: 0,
@@ -93,12 +94,15 @@
             });
         }
 
-        // Single RAF loop for all tilt items
-        var running = true;
+        // I2: conditional RAF — only runs when at least one item is active
+        var activeCount = 0;
         var rafId = null;
 
         function tick() {
-            if (!running) return;
+            if (activeCount <= 0) {
+                rafId = null;
+                return;
+            }
 
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
@@ -107,14 +111,18 @@
                     item.currentRotX = lerp(item.currentRotX, item.targetRotX, 0.1);
                     item.currentRotY = lerp(item.currentRotY, item.targetRotY, 0.1);
 
+                    // m1: avoid toFixed string allocation — use Math.round
+                    var rotX = Math.round(item.currentRotX * 100) / 100;
+                    var rotY = Math.round(item.currentRotY * 100) / 100;
+
                     item.el.style.transform =
-                        'perspective(800px) rotateX(' + item.currentRotX.toFixed(2) +
-                        'deg) rotateY(' + item.currentRotY.toFixed(2) + 'deg)';
+                        'perspective(800px) rotateX(' + rotX +
+                        'deg) rotateY(' + rotY + 'deg)';
 
                     // Shift shine gradient angle based on tilt
                     var angle = 135 + item.currentRotY * 3 - item.currentRotX * 3;
                     item.shine.style.background =
-                        'linear-gradient(' + angle.toFixed(0) +
+                        'linear-gradient(' + Math.round(angle) +
                         'deg,rgba(255,255,255,0.25) 0%,transparent 60%)';
                     item.shine.style.opacity = '0.15';
                 }
@@ -123,13 +131,20 @@
             rafId = requestAnimationFrame(tick);
         }
 
-        rafId = requestAnimationFrame(tick);
+        function startLoop() {
+            if (!rafId) {
+                rafId = requestAnimationFrame(tick);
+            }
+        }
 
         return {
             items: items,
+            activeCount: activeCount,
+            incrementActive: function () { activeCount++; startLoop(); },
+            decrementActive: function () { activeCount = Math.max(0, activeCount - 1); },
             stop: function () {
-                running = false;
-                if (rafId) cancelAnimationFrame(rafId);
+                activeCount = 0;
+                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
             }
         };
     }
@@ -148,6 +163,7 @@
 
             items.push({
                 el: el,
+                cachedRect: el.getBoundingClientRect(), // C1: cache rect
                 attracted: false,
                 tween: null
             });
@@ -185,6 +201,37 @@
         var panelsContainer = document.querySelector('.panels');
         if (!panelsContainer) return;
 
+        // C1: debounced resize listener to refresh cached rects
+        var resizeTimer = null;
+        function refreshCachedRects() {
+            if (tiltState) {
+                for (var i = 0; i < tiltState.items.length; i++) {
+                    tiltState.items[i].cachedRect = tiltState.items[i].el.getBoundingClientRect();
+                }
+            }
+            if (magneticState) {
+                for (var j = 0; j < magneticState.items.length; j++) {
+                    magneticState.items[j].cachedRect = magneticState.items[j].el.getBoundingClientRect();
+                }
+            }
+        }
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(refreshCachedRects, 200);
+        });
+
+        // Also refresh on scroll (horizontal scroll changes element positions)
+        var scrollTimer = null;
+        panelsContainer.addEventListener('scroll', function () {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(refreshCachedRects, 100);
+        });
+        // GSAP ScrollTrigger may scroll the wrapper, so listen on window too
+        window.addEventListener('scroll', function () {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(refreshCachedRects, 100);
+        });
+
         // ── Single delegated mousemove ─────────────────────────
 
         panelsContainer.addEventListener('mousemove', function (e) {
@@ -206,7 +253,7 @@
             if (tiltState) {
                 for (var i = 0; i < tiltState.items.length; i++) {
                     var item = tiltState.items[i];
-                    var rect = item.el.getBoundingClientRect();
+                    var rect = item.cachedRect; // C1: use cached rect
 
                     if (mx >= rect.left && mx <= rect.right &&
                         my >= rect.top && my <= rect.bottom) {
@@ -215,7 +262,10 @@
                             item.leaveTween.kill();
                             item.leaveTween = null;
                         }
-                        item.active = true;
+                        if (!item.active) {
+                            item.active = true;
+                            tiltState.incrementActive(); // I2: start RAF if needed
+                        }
 
                         var centreX = rect.left + rect.width / 2;
                         var centreY = rect.top + rect.height / 2;
@@ -230,25 +280,28 @@
                         item.active = false;
                         item.shine.style.opacity = '0';
 
-                        (function (itm) {
+                        (function (itm, ts) {
                             itm.leaveTween = gsap.to(itm, {
                                 currentRotX: 0,
                                 currentRotY: 0,
                                 duration: 0.4,
                                 ease: 'power2.out',
                                 onUpdate: function () {
+                                    var rx = Math.round(itm.currentRotX * 100) / 100;
+                                    var ry = Math.round(itm.currentRotY * 100) / 100;
                                     itm.el.style.transform =
                                         'perspective(800px) rotateX(' +
-                                        itm.currentRotX.toFixed(2) + 'deg) rotateY(' +
-                                        itm.currentRotY.toFixed(2) + 'deg)';
+                                        rx + 'deg) rotateY(' +
+                                        ry + 'deg)';
                                 },
                                 onComplete: function () {
                                     itm.el.style.transform =
                                         'perspective(800px) rotateX(0deg) rotateY(0deg)';
                                     itm.leaveTween = null;
+                                    ts.decrementActive(); // I2: stop RAF when last item done
                                 }
                             });
-                        })(item);
+                        })(item, tiltState);
                     }
                 }
             }
@@ -257,7 +310,7 @@
             if (magneticState) {
                 for (var j = 0; j < magneticState.items.length; j++) {
                     var mItem = magneticState.items[j];
-                    var mRect = mItem.el.getBoundingClientRect();
+                    var mRect = mItem.cachedRect; // C1: use cached rect
                     var mCentreX = mRect.left + mRect.width / 2;
                     var mCentreY = mRect.top + mRect.height / 2;
                     var dx = mx - mCentreX;
@@ -276,9 +329,8 @@
                             mItem.tween = null;
                         }
 
-                        mItem.el.style.transform =
-                            'translate(' + translateX.toFixed(1) + 'px, ' +
-                            translateY.toFixed(1) + 'px)';
+                        // I1: use gsap.set so GSAP owns the transform throughout
+                        gsap.set(mItem.el, { x: translateX, y: translateY });
                         mItem.attracted = true;
                     } else if (mItem.attracted) {
                         // Outside range — spring back
