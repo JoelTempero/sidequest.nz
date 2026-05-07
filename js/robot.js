@@ -36,7 +36,7 @@ const ROBOT_SVG = /* html */`
 
   <!-- JET PLUME — anchored at the nozzle (36, 54) in SVG space -->
   <!-- transformOrigin set inline because Safari needs it on the element -->
-  <g id="rbt-jet" style="transform-origin: 36px 54px; transform-box: fill-box;">
+  <g id="rbt-jet" style="transform-origin: 36px 54px;">
     <ellipse cx="36" cy="68" rx="6" ry="14" fill="rgba(196,181,253,0.85)"/>
     <ellipse cx="36" cy="66" rx="3.5" ry="9" fill="#f5f0ff"/>
     <ellipse cx="36" cy="64" rx="1.6" ry="5" fill="#fff"/>
@@ -259,6 +259,7 @@ export function mountRobot(rootEl) {
     destroy() {
       cancelLoop();
       window.removeEventListener('mousemove', onMove);
+      rootEl.innerHTML = '';
     },
   };
 }
