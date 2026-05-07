@@ -407,6 +407,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // Outer grid container — full height, two columns
   const grid = document.createElement('div');
+  grid.className = 'project-grid';
   grid.style.cssText = `
     position: relative;
     height: 100%;
@@ -507,6 +508,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // ── Image column ───────────────────────────────────────────────────────────
   const imgCol = document.createElement('div');
+  imgCol.className = 'project-image-col';
   imgCol.style.cssText = `
     grid-column: ${imageOnRight ? 2 : 1};
     justify-self: ${imageOnRight ? 'end' : 'start'};

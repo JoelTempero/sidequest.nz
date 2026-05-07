@@ -36,6 +36,50 @@ body.homepage .panel {
   z-index: 1;
 }
 
+@media (max-width: 900px) {
+  body.homepage {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+  }
+
+  body.homepage #track {
+    flex-direction: column;
+    height: auto;
+    transform: none !important; /* override any inline transform set by scroll engine */
+  }
+
+  body.homepage .panel {
+    height: 100vh;
+    width: 100vw;
+    padding: 0 32px; /* tighter padding on mobile */
+  }
+
+  /* Hide bottom strip on mobile (counter is desktop chrome) */
+  body.homepage #bottom-strip {
+    display: none;
+  }
+
+  /* Robot is hidden via JS-side mode gating, but ensure the container doesn't fight scroll */
+  body.homepage #robot {
+    display: none;
+  }
+
+  /* Project panels: single-column stacked on mobile */
+  body.homepage .project-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 0; /* panel already handles padding */
+    align-content: center;
+  }
+
+  body.homepage .project-grid .project-image-col img,
+  body.homepage .project-grid .project-image-col > div {
+    width: min(280px, 70vw);
+    margin-bottom: 0;
+  }
+}
+
 /* ===== Pages (shared) ===== */
 .page-content {
     padding-top: var(--nav-height);

@@ -12,36 +12,73 @@ import {
 } from './panels.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Scroll engine
-  const trackEl = document.getElementById('track');
-  const { scrollRef, progressRef, activeIdxRef, jumpTo } = initScrollEngine({ trackEl });
+  const isDesktop = window.matchMedia('(min-width: 901px)').matches;
 
   const PANEL_COUNT = document.querySelectorAll('#track > .panel').length;
   const LOGOS_IDX = 6; // zero-based position of panel-logos in #track
 
-  // World (parallax background)
   const worldRoot = document.getElementById('world');
-  const totalWidth = PANEL_COUNT * window.innerWidth;
-  mountWorld(worldRoot, { scrollRef, totalWidth, mode: 'horizontal' });
 
-  // Robot (companion)
-  const robotRoot = document.getElementById('robot');
-  mountRobot(robotRoot);
+  if (isDesktop) {
+    // ── Desktop: horizontal scroll engine ──────────────────────────────────
+    const trackEl = document.getElementById('track');
+    const { scrollRef, progressRef, activeIdxRef, jumpTo } = initScrollEngine({ trackEl });
 
-  // Top nav + bottom strip
-  mountTopNav(document.getElementById('top-nav'), { jumpTo, activeIdxRef });
-  mountBottomStrip(document.getElementById('bottom-strip'), { progressRef, activeIdxRef });
+    const totalWidth = PANEL_COUNT * window.innerWidth;
+    mountWorld(worldRoot, { scrollRef, totalWidth, mode: 'horizontal' });
 
-  // Mount each panel into its data-panel section
-  mountHero(document.getElementById('panel-hero'));
-  mountQuest01(document.getElementById('panel-q1'));
-  mountQuest02(document.getElementById('panel-q2'));
-  mountQuest03(document.getElementById('panel-q3'));
-  mountQuest04(document.getElementById('panel-q4'));
-  mountSeeMore(document.getElementById('panel-see'));
-  mountLogos(document.getElementById('panel-logos'), {
-    scrollRef,
-    panelStartX: LOGOS_IDX * window.innerWidth, // logos is panel index 6
-  });
-  mountContact(document.getElementById('panel-contact'));
+    // Robot (companion)
+    const robotRoot = document.getElementById('robot');
+    mountRobot(robotRoot);
+
+    // Top nav + bottom strip
+    mountTopNav(document.getElementById('top-nav'), { jumpTo, activeIdxRef });
+    mountBottomStrip(document.getElementById('bottom-strip'), { progressRef, activeIdxRef });
+
+    // Mount each panel into its data-panel section
+    mountHero(document.getElementById('panel-hero'));
+    mountQuest01(document.getElementById('panel-q1'));
+    mountQuest02(document.getElementById('panel-q2'));
+    mountQuest03(document.getElementById('panel-q3'));
+    mountQuest04(document.getElementById('panel-q4'));
+    mountSeeMore(document.getElementById('panel-see'));
+    mountLogos(document.getElementById('panel-logos'), {
+      scrollRef,
+      panelStartX: LOGOS_IDX * window.innerWidth, // logos is panel index 6
+    });
+    mountContact(document.getElementById('panel-contact'));
+
+  } else {
+    // ── Mobile: native vertical scroll ─────────────────────────────────────
+    // No scroll engine — CSS stacks panels vertically, browser handles scroll.
+    // World renders in vertical mode (reads window.scrollY directly).
+    mountWorld(worldRoot, {
+      scrollRef: { current: 0 }, // unused dummy — vertical mode reads window.scrollY
+      totalWidth: window.innerWidth,
+      mode: 'vertical',
+    });
+
+    // Top nav with scrollIntoView fallback (no jumpTo from scroll engine)
+    const panels = document.querySelectorAll('#track > .panel');
+    mountTopNav(document.getElementById('top-nav'), {
+      jumpTo: (idx) => panels[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+      activeIdxRef: { current: 0 }, // static — no RAF subscription on mobile
+    });
+
+    // No robot, no bottom strip on mobile.
+
+    // Mount each panel
+    mountHero(document.getElementById('panel-hero'));
+    mountQuest01(document.getElementById('panel-q1'));
+    mountQuest02(document.getElementById('panel-q2'));
+    mountQuest03(document.getElementById('panel-q3'));
+    mountQuest04(document.getElementById('panel-q4'));
+    mountSeeMore(document.getElementById('panel-see'));
+    // Logos panel: pass a dummy scrollRef and panelStartX=0 (parallax pan is negligible on mobile)
+    mountLogos(document.getElementById('panel-logos'), {
+      scrollRef: { current: 0 },
+      panelStartX: 0,
+    });
+    mountContact(document.getElementById('panel-contact'));
+  }
 });
