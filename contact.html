@@ -19,159 +19,46 @@
 
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
-<body>
-    <div id="transition-overlay"></div>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="/" class="nav-logo">
-                <img src="images/logo-icon.png" alt="Sidequest Digital">
-                <span>Sidequest Digital</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="work.html" class="nav-link">Work</a></li>
-                <li><a href="contact.html" class="nav-link active">Contact</a></li>
-            </ul>
-            <button class="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
+<body class="sky">
+  <div id="transition-overlay"></div>
+  <div id="environment"></div>
+  <nav id="top-nav"></nav>
+  <main id="elevated">
+    <div class="elevated-content">
+      <span class="eyebrow">KIA ORA</span>
+      <h1 id="elevated-h">I'm <span class="name">Joel.</span> <span class="muted">Say hi.</span></h1>
+      <p class="bio">Solo developer based in Christchurch, NZ. Building custom websites, apps, and portals for communities, schools, and small businesses. You talk directly to the person building your thing.</p>
+      <div class="contact-lines">
+        <a class="email" href="mailto:joel@tempero.nz">joel@tempero.nz</a>
+        <a class="phone" href="tel:+642040239009">+64 204 023 9009</a>
+      </div>
+      <form action="https://api.web3forms.com/submit" method="POST" class="elevated-form" id="contact-form">
+        <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
+        <input type="hidden" name="subject" value="New Contact from Sidequest Website">
+        <input type="hidden" name="from_name" value="Sidequest Website">
+        <input type="checkbox" name="botcheck" style="display:none;">
+        <div class="form-row">
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+          <input type="email" id="email" name="email" placeholder="you@company.com" required>
         </div>
-    </nav>
-    <div class="nav-mobile">
-        <a href="/">Home</a>
-        <a href="work.html">Work</a>
-        <a href="contact.html">Contact</a>
+        <select id="project" name="project" required>
+          <option value="" disabled selected>What do you need?</option>
+          <option value="website">Website</option>
+          <option value="webapp">Web Application</option>
+          <option value="portal">Client Portal</option>
+          <option value="system">Management System</option>
+          <option value="other">Something Else</option>
+        </select>
+        <textarea id="message" name="message" placeholder="Tell me more" rows="4" required></textarea>
+        <button type="submit" class="elevated-submit" id="submit-btn">Send Message →</button>
+        <p class="form-result" id="form-result"></p>
+      </form>
+      <div class="legal">
+        <a href="pages/terms.html">Terms</a>
+        <a href="pages/privacy.html">Privacy</a>
+      </div>
     </div>
-
-    <main class="page-content">
-        <section class="contact-section">
-            <div class="container">
-                <div class="contact-glow"></div>
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <span class="label">Get In Touch</span>
-                        <h1>Let's Talk</h1>
-                        <p class="contact-intro">Got an idea? A problem? A vague notion that you need "something digital"? Let's chat.</p>
-
-                        <div class="contact-bio">
-                            <div class="contact-bio-image">
-                                <img src="images/joel.jpg" alt="Joel Tempero">
-                            </div>
-                            <div class="contact-bio-text">
-                                <p><strong>Joel Tempero</strong> — solo developer based in Christchurch, NZ. Building custom digital solutions for communities, schools, and small businesses. You talk directly to the person building your thing.</p>
-                            </div>
-                        </div>
-
-                        <div class="contact-details">
-                            <div class="contact-detail">
-                                <span class="label">Email</span>
-                                <a href="mailto:joel@tempero.nz">joel@tempero.nz</a>
-                            </div>
-                            <div class="contact-detail">
-                                <span class="label">Phone</span>
-                                <a href="tel:+64204023009">0204 023 9009</a>
-                            </div>
-                            <div class="contact-detail">
-                                <span class="label">Location</span>
-                                <span>Christchurch, New Zealand</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" id="contact-form">
-                        <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
-                        <input type="hidden" name="subject" value="New Contact from Sidequest Website">
-                        <input type="hidden" name="from_name" value="Sidequest Website">
-                        <input type="checkbox" name="botcheck" style="display:none;">
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Your name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="you@company.com" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="project">What do you need?</label>
-                            <select id="project" name="project" required>
-                                <option value="" disabled selected>Select a project type</option>
-                                <option value="website">Website</option>
-                                <option value="webapp">Web Application</option>
-                                <option value="portal">Client Portal</option>
-                                <option value="system">Management System</option>
-                                <option value="other">Something Else</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Tell me more</label>
-                            <textarea id="message" name="message" placeholder="What's on your mind?" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary btn-submit" id="submit-btn">
-                            Send Message
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </button>
-                        <p class="form-result" id="form-result"></p>
-                    </form>
-                </div>
-                <div class="contact-legal">
-                    <p>&copy; 2025 Sidequest Digital. All rights reserved.</p>
-                    <div class="contact-legal-links">
-                        <a href="pages/terms.html">Terms</a>
-                        <a href="pages/privacy.html">Privacy</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        gsap.from('.contact-info > *', {
-            opacity: 0, y: 30, duration: 0.7, stagger: 0.12, ease: 'power3.out', delay: 0.2
-        });
-        gsap.from('.contact-form', {
-            opacity: 0, y: 30, duration: 0.7, ease: 'power3.out', delay: 0.4
-        });
-
-        const form = document.getElementById('contact-form');
-        const result = document.getElementById('form-result');
-        const submitBtn = document.getElementById('submit-btn');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const originalHTML = submitBtn.innerHTML;
-            submitBtn.innerHTML = 'Sending...';
-            submitBtn.disabled = true;
-
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(Object.fromEntries(new FormData(form)))
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    result.textContent = 'Message sent! I\'ll be in touch soon.';
-                    result.style.color = '#22c55e';
-                    form.reset();
-                } else {
-                    throw new Error(data.message);
-                }
-            } catch (err) {
-                result.textContent = 'Something went wrong. Please try again.';
-                result.style.color = '#ef4444';
-            }
-
-            result.style.display = 'block';
-            submitBtn.innerHTML = originalHTML;
-            submitBtn.disabled = false;
-        });
-    </script>
+  </main>
+  <script type="module" src="js/contact-page.js"></script>
 </body>
 </html>
