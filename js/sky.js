@@ -231,71 +231,71 @@ function makeAurora(rootEl) {
 }
 
 /**
- * MOUNTAIN RIDGE SILHOUETTE — static SVG path at bottom 20% of viewport.
- * Peak heights cycling through deterministic array, filled #1a0f2e (deep violet).
- * Top edge stroke rgba(196,181,253,0.35) 1.5px for visible ridge-line glow.
+ * CLOUD DRIFT — 3 ellipse puffs in rgba(196,181,253,0.35).
+ * ONE shared RAF updates all 3 clouds each tick.
+ * Position vertically in the lower portion of the panel.
+ * Reduced motion: clouds frozen at initial position.
  */
-function makeMountainRidge(rootEl) {
-  const wrapper = div(`
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 20%;
-    pointer-events: none;
-  `);
-  rootEl.appendChild(wrapper);
+function makeCloudDrift(rootEl, trackedRaf) {
+  const vwBase = window.innerWidth;
+  const cloudData = [
+    { yPct: 74, width: 280, height: 48, speedMult: 1.0,  offset: 0 },
+    { yPct: 78, width: 210, height: 38, speedMult: 0.72, offset: vwBase / 3 },
+    { yPct: 71, width: 360, height: 56, speedMult: 0.55, offset: 2 * vwBase / 3 },
+  ];
 
-  const peakHeights = [110, 140, 80, 160, 120, 95, 135, 175, 100, 125];
-  const peakWidth = 700;
-  const viewW = 7000; // wide enough to cover any viewport
-  const viewH = 400;  // viewBox height for the ridge strip
+  const containers = cloudData.map((cloud, i) => {
+    const container = div(`
+      position: absolute;
+      top: ${cloud.yPct}%;
+      left: 0;
+      width: ${cloud.width}px;
+      height: ${cloud.height}px;
+      will-change: transform;
+      pointer-events: none;
+    `);
+    rootEl.appendChild(container);
 
-  // baseY: bottom of the ridge strip (where peaks rise from)
-  const baseY = viewH;
-  const total = Math.ceil(viewW / peakWidth) + 2;
+    const s = svg(
+      {
+        width: cloud.width,
+        height: cloud.height,
+        viewBox: `0 0 ${cloud.width} ${cloud.height}`,
+      },
+      'display: block; overflow: visible;',
+    );
+    container.appendChild(s);
 
-  let d = `M-${peakWidth},${baseY}`;
-  for (let i = 0; i < total; i++) {
-    const h  = peakHeights[i % peakHeights.length];
-    const x1 = i * peakWidth + peakWidth * 0.5;
-    const x2 = (i + 1) * peakWidth;
-    d += ` Q${x1},${baseY - h} ${x2},${baseY}`;
+    const cx = cloud.width * 0.5;
+    const cy = cloud.height * 0.5;
+    const rx = cloud.width * 0.5;
+    const ry = cloud.height * 0.5;
+
+    s.appendChild(svgEl('ellipse', { cx, cy, rx, ry, fill: 'rgba(196,181,253,0.35)' }));
+    s.appendChild(svgEl('ellipse', {
+      cx: cx + rx * 0.42, cy: cy - ry * 0.25,
+      rx: rx * 0.55, ry: ry * 0.65,
+      fill: 'rgba(196,181,253,0.35)',
+    }));
+    s.appendChild(svgEl('ellipse', {
+      cx: cx - rx * 0.35, cy: cy + ry * 0.18,
+      rx: rx * 0.45, ry: ry * 0.55,
+      fill: 'rgba(196,181,253,0.35)',
+    }));
+
+    return container;
+  });
+
+  if (!REDUCED_MOTION) {
+    trackedRaf(() => {
+      const now = performance.now();
+      const vw = window.innerWidth + 200;
+      cloudData.forEach((cloud, i) => {
+        const x = ((now * 0.02 * cloud.speedMult) + cloud.offset) % vw - 100;
+        containers[i].style.transform = `translate3d(${x}px, 0, 0)`;
+      });
+    });
   }
-  d += ` L${viewW + peakWidth},${viewH + 50} L-${peakWidth},${viewH + 50} Z`;
-
-  // Build just the ridge outline path (no fill area) for the glow stroke
-  let ridgeOutline = `M-${peakWidth},${baseY}`;
-  for (let i = 0; i < total; i++) {
-    const h  = peakHeights[i % peakHeights.length];
-    const x1 = i * peakWidth + peakWidth * 0.5;
-    const x2 = (i + 1) * peakWidth;
-    ridgeOutline += ` Q${x1},${baseY - h} ${x2},${baseY}`;
-  }
-
-  const s = svg(
-    {
-      width: '100%',
-      height: '100%',
-      viewBox: `0 0 ${viewW} ${viewH}`,
-      preserveAspectRatio: 'none',
-    },
-    'display: block; position: absolute; bottom: 0; left: 0;',
-  );
-  wrapper.appendChild(s);
-
-  // Filled mountain body — deep violet, not near-black
-  s.appendChild(svgEl('path', {
-    d,
-    fill: '#1a0f2e',
-  }));
-
-  // Ridge-line glow stroke — visible against the brighter sky above
-  s.appendChild(svgEl('path', {
-    d: ridgeOutline,
-    fill: 'none',
-    stroke: 'rgba(196,181,253,0.35)',
-    'stroke-width': '1.5',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-  }));
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
@@ -325,7 +325,7 @@ export function mountSky(rootEl) {
   makeSkyGradient(rootEl);
   makeStars(rootEl, trackedRaf);
   makeAurora(rootEl);
-  makeMountainRidge(rootEl);
+  makeCloudDrift(rootEl, trackedRaf);
 
   return {
     destroy() {
