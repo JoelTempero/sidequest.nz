@@ -285,6 +285,37 @@ body.underground .project-entry .project-image .vignette {
   pointer-events: none;
 }
 
+@media (max-width: 900px) {
+  body.underground #archive {
+    padding: 14vh 24px 18vh;
+    max-width: 100%;
+  }
+
+  body.underground .project-entry {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Reset entry-right alignment on mobile — flow as single column */
+  body.underground .project-entry.entry-right .text-col,
+  body.underground .project-entry.entry-right .image-col {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  body.underground .project-entry .image-col {
+    order: -1; /* image first, text second */
+  }
+
+  body.underground .project-entry .project-image {
+    width: min(320px, 80vw);
+  }
+
+  body.underground .archive-intro h1 {
+    font-size: clamp(28px, 7vw, 48px);
+  }
+}
+
 /* ── Sky (contact page) layout ────────────────────── */
 
 body.sky {
@@ -465,6 +496,46 @@ body.sky .legal a {
 
 body.sky .legal a:hover {
   color: var(--ink-2);
+}
+
+@media (max-width: 900px) {
+  body.sky {
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  body.sky #elevated {
+    height: auto;
+    min-height: 100vh;
+    padding: 14vh 24px;
+    justify-content: flex-start;
+  }
+
+  body.sky .elevated-content {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  body.sky .contact-lines {
+    align-items: flex-start;
+  }
+
+  body.sky .elevated-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  body.sky .elevated-submit {
+    align-self: flex-start;
+  }
+
+  body.sky .legal {
+    justify-content: flex-start;
+  }
+
+  body.sky .elevated-content h1 {
+    font-size: clamp(32px, 8vw, 56px);
+  }
 }
 
 /* ===== Work Page ===== */
