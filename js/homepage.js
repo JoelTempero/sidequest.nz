@@ -10,6 +10,7 @@ import {
   mountLogos,
   mountContact,
 } from './panels.js';
+import { transitionTo } from './transition.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
@@ -33,7 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
     mountRobot(robotRoot);
 
     // Top nav + bottom strip
-    mountTopNav(document.getElementById('top-nav'), { jumpTo, activeIdxRef });
+    mountTopNav(document.getElementById('top-nav'), {
+      jumpTo,
+      activeIdxRef,
+      onNavigate: (panelId) => {
+        if (panelId === 'panel-hero') {
+          jumpTo(0);
+        } else if (panelId === 'panel-q1') {
+          transitionTo({ destination: 'work.html', direction: 'down', duration: 800 });
+        } else if (panelId === 'panel-contact') {
+          transitionTo({ destination: 'contact.html', direction: 'up', duration: 800 });
+        }
+      },
+    });
     mountBottomStrip(document.getElementById('bottom-strip'), { progressRef, activeIdxRef });
 
     // Mount each panel into its data-panel section

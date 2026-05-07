@@ -205,10 +205,10 @@ export function mountHero(panelEl) {
  * Build and mount the fixed top nav bar.
  *
  * @param {HTMLElement} rootEl  - Parent to append into (e.g. document.body).
- * @param {{ jumpTo: (idx: number) => void, activeIdxRef: { current: number } }} opts
+ * @param {{ jumpTo: (idx: number) => void, activeIdxRef: { current: number }, onNavigate?: (panelId: string) => void }} opts
  * @returns {{ destroy: () => void }}
  */
-export function mountTopNav(rootEl, { jumpTo, activeIdxRef }) {
+export function mountTopNav(rootEl, { jumpTo, activeIdxRef, onNavigate }) {
   const nav = document.createElement('nav');
   nav.style.cssText = `
     position: fixed;
@@ -292,17 +292,21 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef }) {
     pointer-events: auto;
   `;
 
-  // Each link: { label, panelId, jumpIdx, isActive(idx) }
+  // Each link: { label, panelId, href, jumpIdx, isActive(idx) }
+  // href is the browser-fallback URL (used when JS navigation is unavailable or on mobile).
+  // panelId is the logical identifier passed to onNavigate for JS-driven transitions.
   const NAV_ITEMS = [
     {
       label:    'Home',
       panelId:  'panel-hero',
+      href:     'index.html',
       jumpIdx:  0,
       isActive: (idx) => idx === 0,
     },
     {
       label:    'Work',
       panelId:  'panel-q1',
+      href:     'work.html',
       jumpIdx:  1,
       // Active while on any of the four project panels or the index/logos panels
       isActive: (idx) => idx >= 1 && idx <= 4,
@@ -310,23 +314,35 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef }) {
     {
       label:    'Contact',
       panelId:  'panel-contact',
+      href:     'contact.html',
       jumpIdx:  7,
       isActive: (idx) => idx === 7,
     },
   ];
 
-  const linkEls = NAV_ITEMS.map(({ label, panelId, jumpIdx, isActive }) => {
+  const linkEls = NAV_ITEMS.map(({ label, panelId, href, jumpIdx, isActive }) => {
     const a = document.createElement('a');
     a.textContent   = label;
-    a.href          = `#${panelId}`;
+    a.href          = href;
     a.style.cssText = `
       cursor: pointer;
       color: #b8a8d4;
       text-decoration: none;
     `;
     a.addEventListener('click', (e) => {
-      e.preventDefault();
-      jumpTo(jumpIdx);
+      // If onNavigate is provided (desktop w/ transitions), use it for everything.
+      if (onNavigate) {
+        e.preventDefault();
+        onNavigate(panelId);
+        return;
+      }
+      // Otherwise: in-page anchors → preventDefault + jumpTo (mobile homepage / sub-pages).
+      // Cross-page hrefs → let the browser navigate natively.
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        jumpTo(jumpIdx);
+      }
+      // else: cross-page href — no preventDefault, browser navigates.
     });
     links.appendChild(a);
     return { el: a, isActive };
