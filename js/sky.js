@@ -112,7 +112,7 @@ function makeStars(rootEl, trackedRaf) {
     const r = i % 4 === 0 ? 1.4 : 1.0;
     const phase = i * 0.83;
 
-    const staticOpacity = REDUCED_MOTION ? 0.55 : 0.4 + 0.4 * Math.sin(phase);
+    const staticOpacity = REDUCED_MOTION ? 0.5 : 0.5 + 0.4 * Math.sin(phase);
 
     const c = svgEl('circle', {
       cx: `${cx}%`,
@@ -131,7 +131,7 @@ function makeStars(rootEl, trackedRaf) {
     trackedRaf(() => {
       const t = performance.now() * 0.001;
       for (let i = 0; i < circles.length; i++) {
-        const opacity = 0.4 + 0.4 * Math.sin(t + phases[i]);
+        const opacity = 0.5 + 0.4 * Math.sin(t + phases[i]);
         circles[i].setAttribute('opacity', opacity);
       }
     });
@@ -253,10 +253,11 @@ function makeMountainRidge(rootEl) {
  * Reduced motion: clouds frozen at initial position.
  */
 function makeCloudDrift(rootEl, trackedRaf) {
+  const vwBase = window.innerWidth;
   const cloudData = [
-    { yPct: 74, width: 220, height: 38, speedMult: 1.0 },
-    { yPct: 78, width: 160, height: 28, speedMult: 0.72 },
-    { yPct: 71, width: 290, height: 48, speedMult: 0.55 },
+    { yPct: 74, width: 220, height: 38, speedMult: 1.0,  offset: 0 },
+    { yPct: 78, width: 160, height: 28, speedMult: 0.72, offset: vwBase / 3 },
+    { yPct: 71, width: 290, height: 48, speedMult: 0.55, offset: 2 * vwBase / 3 },
   ];
 
   const containers = cloudData.map((cloud, i) => {
@@ -320,7 +321,7 @@ function makeCloudDrift(rootEl, trackedRaf) {
       const now = performance.now();
       const vw = window.innerWidth + 200;
       cloudData.forEach((cloud, i) => {
-        const x = (now * 0.02 * cloud.speedMult) % vw;
+        const x = ((now * 0.02 * cloud.speedMult) + cloud.offset) % vw - 100;
         containers[i].style.transform = `translate3d(${x}px, 0, 0)`;
       });
     });
