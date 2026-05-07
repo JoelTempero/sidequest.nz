@@ -357,7 +357,7 @@ function ProjectImage(src, alt) {
     margin-bottom: 18vh;
     box-shadow: 0 60px 140px -40px rgba(0,0,0,0.7), 0 0 0 1px rgba(196,181,253,0.20);
     overflow: hidden;
-    background: #111;
+    background: #100819;
   `;
 
   const img = document.createElement('img');
@@ -434,7 +434,7 @@ export function mountProjectPanel(panelEl, opts) {
     font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #f5f0ff;
+    color: #c4b5fd;
     display: inline-flex;
     gap: 14px;
     align-items: center;
@@ -470,7 +470,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // Sub-line — uppercased, mono, muted
   const subEl = document.createElement('div');
-  subEl.textContent = sub.toUpperCase();
+  subEl.textContent = sub;
   subEl.style.cssText = `
     margin-top: 24px;
     font-family: "IBM Plex Mono", monospace;
@@ -532,17 +532,17 @@ export function mountProjectPanel(panelEl, opts) {
 // ─── Quest panel exports ───────────────────────────────────────────────────────
 
 /**
- * Quest 01 — Chill Air / EDUCATION
+ * Quest 01 — Chill Air / TRADES
  * @param {HTMLElement} panelEl
  * @returns {{ destroy: () => void }}
  */
 export function mountQuest01(panelEl) {
   return mountProjectPanel(panelEl, {
     number: 1,
-    sector: 'EDUCATION',
+    sector: 'TRADES',
     headline: 'Job sheets, off the kitchen counter.',
     sub: 'Chill Air · website + client portal · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80',
+    imageSrc: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=1200&q=80',
     imageAlt: 'Chill Air',
     ctaHref: 'projects/chill-air/',
     align: 'left',
@@ -550,17 +550,17 @@ export function mountQuest01(panelEl) {
 }
 
 /**
- * Quest 02 — Storybook Weddings / COMMUNITY
+ * Quest 02 — Storybook Weddings / WEDDINGS
  * @param {HTMLElement} panelEl
  * @returns {{ destroy: () => void }}
  */
 export function mountQuest02(panelEl) {
   return mountProjectPanel(panelEl, {
     number: 2,
-    sector: 'COMMUNITY',
+    sector: 'WEDDINGS',
     headline: 'Photos delivered, not chased.',
     sub: 'Storybook Weddings · website + client portal · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a',
+    imageSrc: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=1200&q=80',
     imageAlt: 'Storybook Weddings',
     ctaHref: 'projects/storybook-weddings/',
     align: 'right',
@@ -568,17 +568,17 @@ export function mountQuest02(panelEl) {
 }
 
 /**
- * Quest 03 — My Living Hope / ARTS
+ * Quest 03 — My Living Hope / COMMERCE
  * @param {HTMLElement} panelEl
  * @returns {{ destroy: () => void }}
  */
 export function mountQuest03(panelEl) {
   return mountProjectPanel(panelEl, {
     number: 3,
-    sector: 'ARTS',
+    sector: 'COMMERCE',
     headline: "Off-the-shelf wouldn't do.",
     sub: 'My Living Hope · custom Shopify theme · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6',
+    imageSrc: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1200&q=80',
     imageAlt: 'My Living Hope',
     ctaHref: 'projects/my-living-hope/',
     align: 'left',
@@ -586,17 +586,17 @@ export function mountQuest03(panelEl) {
 }
 
 /**
- * Quest 04 — 24CHCH / SELF
+ * Quest 04 — 24CHCH / ARTS
  * @param {HTMLElement} panelEl
  * @returns {{ destroy: () => void }}
  */
 export function mountQuest04(panelEl) {
   return mountProjectPanel(panelEl, {
     number: 4,
-    sector: 'SELF',
+    sector: 'ARTS',
     headline: 'One weekend, every short film.',
     sub: '24CHCH · annual film competition · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f',
+    imageSrc: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=1200&q=80',
     imageAlt: '24CHCH',
     ctaHref: 'projects/24chch/',
     align: 'right',
