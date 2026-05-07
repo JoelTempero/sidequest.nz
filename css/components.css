@@ -320,3 +320,11 @@ button:focus:not(:focus-visible) {
   pointer-events: none;
   opacity: 0;
 }
+
+/* Defensive: reduced-motion users must never see the overlay linger */
+@media (prefers-reduced-motion: reduce) {
+  #transition-overlay {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+}
