@@ -338,6 +338,271 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef }) {
   };
 }
 
+// ─── Project Panels ───────────────────────────────────────────────────────────
+
+/**
+ * ProjectImage(src, alt) — image container with vignette overlay, filter, box-shadow.
+ * Returns the container div element.
+ *
+ * @param {string} src
+ * @param {string} alt
+ * @returns {HTMLElement}
+ */
+function ProjectImage(src, alt) {
+  const container = document.createElement('div');
+  container.style.cssText = `
+    width: min(420px, 32vw);
+    aspect-ratio: 4/5;
+    position: relative;
+    margin-bottom: 18vh;
+    box-shadow: 0 60px 140px -40px rgba(0,0,0,0.7), 0 0 0 1px rgba(196,181,253,0.20);
+    overflow: hidden;
+    background: #111;
+  `;
+
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt;
+  img.style.cssText = `
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) contrast(1.05);
+    display: block;
+  `;
+  container.appendChild(img);
+
+  // Subtle violet vignette overlay — positioned div on top of the image
+  const vignette = document.createElement('div');
+  vignette.style.cssText = `
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(124,58,237,0.18) 0%, transparent 35%, rgba(8,6,13,0.45) 100%);
+    pointer-events: none;
+  `;
+  container.appendChild(vignette);
+
+  return container;
+}
+
+/**
+ * mountProjectPanel(panelEl, opts) — generic Quest panel (two-column grid, text + image).
+ *
+ * @param {HTMLElement} panelEl
+ * @param {{
+ *   number: number,
+ *   sector: string,
+ *   headline: string,
+ *   sub: string,
+ *   imageSrc: string,
+ *   imageAlt: string,
+ *   ctaHref: string,
+ *   align: 'left' | 'right',
+ * }} opts
+ * @returns {{ destroy: () => void }}
+ */
+export function mountProjectPanel(panelEl, opts) {
+  const { number, sector, headline, sub, imageSrc, imageAlt, ctaHref, align = 'left' } = opts;
+  const imageOnRight = align === 'left';
+
+  // Outer grid container — full height, two columns
+  const grid = document.createElement('div');
+  grid.style.cssText = `
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 80px;
+    gap: 60px;
+  `;
+  panelEl.appendChild(grid);
+
+  // ── Text column ────────────────────────────────────────────────────────────
+  const textCol = document.createElement('div');
+  textCol.style.cssText = `
+    grid-column: ${imageOnRight ? 1 : 2};
+    text-align: ${align};
+    justify-self: ${align === 'right' ? 'end' : 'start'};
+    max-width: 560px;
+  `;
+
+  // Eyebrow — mixed colour: "QUEST 0X / 04" in violet, tick, sector in default ink
+  const brow = document.createElement('div');
+  brow.style.cssText = `
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #f5f0ff;
+    display: inline-flex;
+    gap: 14px;
+    align-items: center;
+  `;
+
+  const questLabel = document.createElement('span');
+  questLabel.textContent = `QUEST ${String(number).padStart(2, '0')} / 04`;
+  questLabel.style.color = '#c4b5fd';
+  brow.appendChild(questLabel);
+
+  brow.appendChild(tick());
+
+  const sectorLabel = document.createElement('span');
+  sectorLabel.textContent = sector;
+  brow.appendChild(sectorLabel);
+
+  textCol.appendChild(brow);
+
+  // H2 headline
+  const h2 = document.createElement('h2');
+  h2.textContent = headline;
+  h2.style.cssText = `
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    font-size: clamp(34px, 3.6vw, 62px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #f5f0ff;
+    margin: 24px 0 0;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  `;
+  textCol.appendChild(h2);
+
+  // Sub-line — uppercased, mono, muted
+  const subEl = document.createElement('div');
+  subEl.textContent = sub.toUpperCase();
+  subEl.style.cssText = `
+    margin-top: 24px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b8a8d4;
+  `;
+  textCol.appendChild(subEl);
+
+  // Quest CTA — "View case study →" real <a> link
+  const cta = document.createElement('a');
+  cta.href = ctaHref;
+  cta.textContent = 'View case study →';
+  cta.style.cssText = `
+    display: inline-block;
+    margin-top: 20px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  `;
+  cta.addEventListener('mouseenter', () => {
+    cta.style.borderBottomColor = 'rgba(196,181,253,0.40)';
+  });
+  cta.addEventListener('mouseleave', () => {
+    cta.style.borderBottomColor = 'transparent';
+  });
+  textCol.appendChild(cta);
+
+  // ── Image column ───────────────────────────────────────────────────────────
+  const imgCol = document.createElement('div');
+  imgCol.style.cssText = `
+    grid-column: ${imageOnRight ? 2 : 1};
+    justify-self: ${imageOnRight ? 'end' : 'start'};
+  `;
+  imgCol.appendChild(ProjectImage(imageSrc, imageAlt));
+
+  // Append columns in DOM order (grid-column handles visual placement)
+  if (imageOnRight) {
+    grid.appendChild(textCol);
+    grid.appendChild(imgCol);
+  } else {
+    grid.appendChild(imgCol);
+    grid.appendChild(textCol);
+  }
+
+  return {
+    destroy() {
+      grid.remove();
+    },
+  };
+}
+
+// ─── Quest panel exports ───────────────────────────────────────────────────────
+
+/**
+ * Quest 01 — Chill Air / EDUCATION
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountQuest01(panelEl) {
+  return mountProjectPanel(panelEl, {
+    number: 1,
+    sector: 'EDUCATION',
+    headline: 'Job sheets, off the kitchen counter.',
+    sub: 'Chill Air · website + client portal · 2026',
+    imageSrc: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80',
+    imageAlt: 'Chill Air',
+    ctaHref: 'projects/chill-air/',
+    align: 'left',
+  });
+}
+
+/**
+ * Quest 02 — Storybook Weddings / COMMUNITY
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountQuest02(panelEl) {
+  return mountProjectPanel(panelEl, {
+    number: 2,
+    sector: 'COMMUNITY',
+    headline: 'Photos delivered, not chased.',
+    sub: 'Storybook Weddings · website + client portal · 2026',
+    imageSrc: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a',
+    imageAlt: 'Storybook Weddings',
+    ctaHref: 'projects/storybook-weddings/',
+    align: 'right',
+  });
+}
+
+/**
+ * Quest 03 — My Living Hope / ARTS
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountQuest03(panelEl) {
+  return mountProjectPanel(panelEl, {
+    number: 3,
+    sector: 'ARTS',
+    headline: "Off-the-shelf wouldn't do.",
+    sub: 'My Living Hope · custom Shopify theme · 2026',
+    imageSrc: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6',
+    imageAlt: 'My Living Hope',
+    ctaHref: 'projects/my-living-hope/',
+    align: 'left',
+  });
+}
+
+/**
+ * Quest 04 — 24CHCH / SELF
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountQuest04(panelEl) {
+  return mountProjectPanel(panelEl, {
+    number: 4,
+    sector: 'SELF',
+    headline: 'One weekend, every short film.',
+    sub: '24CHCH · annual film competition · 2026',
+    imageSrc: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f',
+    imageAlt: '24CHCH',
+    ctaHref: 'projects/24chch/',
+    align: 'right',
+  });
+}
+
 // ─── Bottom Strip ─────────────────────────────────────────────────────────────
 
 /**
