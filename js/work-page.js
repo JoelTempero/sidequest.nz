@@ -16,18 +16,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   mountUnderground(document.getElementById('environment'));
 
   // 2. Mount top nav with Work active
-  mountTopNav(document.getElementById('top-nav'), {
+  const navOpts = {
     jumpTo: () => {},
     activeIdxRef: { current: 1 },
-    onNavigate: (panelId) => {
-      if (isMobile) return;
+  };
+
+  if (!isMobile) {
+    navOpts.onNavigate = (panelId) => {
       if (panelId === 'panel-hero') {
         transitionTo({ destination: 'index.html', direction: 'return-up', duration: 800 });
       } else if (panelId === 'panel-contact') {
         transitionTo({ destination: 'contact.html', direction: 'transit-up', duration: 1600 });
       }
-    },
-  });
+    };
+  }
+
+  mountTopNav(document.getElementById('top-nav'), navOpts);
 
   // 3. Load and render projects
   try {

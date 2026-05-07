@@ -15,18 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
   mountSky(document.getElementById('environment'));
 
   // 2. Mount top nav with Contact active
-  mountTopNav(document.getElementById('top-nav'), {
+  const navOpts = {
     jumpTo: () => {},
     activeIdxRef: { current: 7 }, // Contact is active at idx 7
-    onNavigate: (panelId) => {
-      if (isMobile) return;
+  };
+
+  if (!isMobile) {
+    navOpts.onNavigate = (panelId) => {
       if (panelId === 'panel-hero') {
         transitionTo({ destination: 'index.html', direction: 'return-down', duration: 800 });
       } else if (panelId === 'panel-q1') {
         transitionTo({ destination: 'work.html', direction: 'transit-down', duration: 1600 });
       }
-    },
-  });
+    };
+  }
+
+  mountTopNav(document.getElementById('top-nav'), navOpts);
 
   // 3. Wire form submit (port from old contact.html)
   wireForm();
