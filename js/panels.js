@@ -292,35 +292,42 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef }) {
     pointer-events: auto;
   `;
 
-  // Each link: { label, onClick, isActive(idx) }
+  // Each link: { label, panelId, jumpIdx, isActive(idx) }
   const NAV_ITEMS = [
     {
       label:    'Home',
-      onClick:  () => jumpTo(0),
+      panelId:  'panel-hero',
+      jumpIdx:  0,
       isActive: (idx) => idx === 0,
     },
     {
       label:    'Work',
-      onClick:  () => jumpTo(1),
+      panelId:  'panel-q1',
+      jumpIdx:  1,
       // Active while on any of the four project panels or the index/logos panels
       isActive: (idx) => idx >= 1 && idx <= 4,
     },
     {
       label:    'Contact',
-      onClick:  () => jumpTo(7),
+      panelId:  'panel-contact',
+      jumpIdx:  7,
       isActive: (idx) => idx === 7,
     },
   ];
 
-  const linkEls = NAV_ITEMS.map(({ label, onClick, isActive }) => {
+  const linkEls = NAV_ITEMS.map(({ label, panelId, jumpIdx, isActive }) => {
     const a = document.createElement('a');
     a.textContent   = label;
+    a.href          = `#${panelId}`;
     a.style.cssText = `
       cursor: pointer;
       color: #b8a8d4;
       text-decoration: none;
     `;
-    a.addEventListener('click', onClick);
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      jumpTo(jumpIdx);
+    });
     links.appendChild(a);
     return { el: a, isActive };
   });
