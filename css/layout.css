@@ -66,17 +66,27 @@ body.homepage .panel {
   }
 
   /* Project panels: single-column stacked on mobile */
+  /* Project panels: single-column stacked on mobile */
+  /* !important needed to beat inline styles set by mountProjectPanel */
   body.homepage .project-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 0; /* panel already handles padding */
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding: 0 !important; /* panel already handles padding */
     align-content: center;
+    height: auto !important; /* let content determine height on mobile */
+  }
+
+  /* Reset grid-column placement so both cols flow into the single column */
+  body.homepage .project-grid > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: start !important;
   }
 
   body.homepage .project-grid .project-image-col img,
   body.homepage .project-grid .project-image-col > div {
-    width: min(280px, 70vw);
-    margin-bottom: 0;
+    width: min(280px, 70vw) !important;
+    margin-bottom: 0 !important;
   }
 }
 
