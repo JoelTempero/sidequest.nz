@@ -1,5 +1,13 @@
 /* ── Homepage layout ────────────────────── */
 
+/* Lock the html element on the homepage too — without this, the browser uses
+   native horizontal scroll on <html> (because #track is wider than the viewport)
+   and intercepts trackpad/wheel input before our scroll engine sees it. */
+html:has(body.homepage) {
+  overflow: hidden;
+  height: 100%;
+}
+
 body.homepage {
   overflow: hidden;
   height: 100%;
@@ -37,6 +45,12 @@ body.homepage .panel {
 }
 
 @media (max-width: 900px) {
+  html:has(body.homepage) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
   body.homepage {
     overflow-y: auto;
     overflow-x: hidden;
