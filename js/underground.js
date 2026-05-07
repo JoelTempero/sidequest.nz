@@ -77,7 +77,7 @@ function makeCaveDepth(rootEl, { H, trackedRaf, getScrollY }) {
     width: 100%; height: ${H}px;
     will-change: transform;
     background: linear-gradient(180deg,
-      #0a0612 0%,
+      #06040b 0%,
       #1a0f2e 45%,
       #2a1351 100%);
   `);

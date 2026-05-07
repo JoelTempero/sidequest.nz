@@ -68,18 +68,21 @@ function rafOrStatic(fn) {
 
 /**
  * SKY GRADIENT — static vertical gradient, full viewport.
- * #0a0612 → #2d1654 → #4a2378 → #5d2a8e → #6d3aa8 (top to bottom — bolder dusk).
+ * Bright violet at top (deep dusk sky) → dark at bottom (matches the
+ * homepage's atmospheric top so the seam is invisible when scrolling
+ * up out of homepage into sky).
+ * #6d3aa8 → #5d2a8e → #4a2378 → #2d1654 → #08060d (top to bottom).
  */
 function makeSkyGradient(rootEl) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: linear-gradient(180deg,
-      #0a0612 0%,
-      #2d1654 30%,
-      #4a2378 65%,
-      #5d2a8e 90%,
-      #6d3aa8 100%);
+      #6d3aa8 0%,
+      #5d2a8e 25%,
+      #4a2378 55%,
+      #2d1654 80%,
+      #08060d 100%);
   `);
   rootEl.appendChild(layer);
 }
