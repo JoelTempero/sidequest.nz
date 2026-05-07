@@ -298,89 +298,6 @@ function makeMountainRidge(rootEl) {
   }));
 }
 
-/**
- * CLOUD DRIFT — 3 ellipse puffs in rgba(196,181,253,0.35).
- * Bigger ellipses (rx 60-90, ry 12-20). Drifting horizontally, cycling off-screen and back.
- * ONE shared RAF updates all 3 clouds each tick.
- * Position vertically just above the mountain ridge.
- * Reduced motion: clouds frozen at initial position.
- */
-function makeCloudDrift(rootEl, trackedRaf) {
-  const vwBase = window.innerWidth;
-  const cloudData = [
-    { yPct: 74, width: 280, height: 48, speedMult: 1.0,  offset: 0 },
-    { yPct: 78, width: 210, height: 38, speedMult: 0.72, offset: vwBase / 3 },
-    { yPct: 71, width: 360, height: 56, speedMult: 0.55, offset: 2 * vwBase / 3 },
-  ];
-
-  const containers = cloudData.map((cloud, i) => {
-    const container = div(`
-      position: absolute;
-      top: ${cloud.yPct}%;
-      left: 0;
-      width: ${cloud.width}px;
-      height: ${cloud.height}px;
-      will-change: transform;
-      pointer-events: none;
-    `);
-    rootEl.appendChild(container);
-
-    const s = svg(
-      {
-        width: cloud.width,
-        height: cloud.height,
-        viewBox: `0 0 ${cloud.width} ${cloud.height}`,
-      },
-      'display: block; overflow: visible;',
-    );
-    container.appendChild(s);
-
-    const cx = cloud.width * 0.5;
-    const cy = cloud.height * 0.5;
-    const rx = cloud.width * 0.5;
-    const ry = cloud.height * 0.5;
-
-    // Main puff
-    s.appendChild(svgEl('ellipse', {
-      cx,
-      cy,
-      rx,
-      ry,
-      fill: 'rgba(196,181,253,0.35)',
-    }));
-    // Smaller top-right lobe
-    s.appendChild(svgEl('ellipse', {
-      cx: cx + rx * 0.42,
-      cy: cy - ry * 0.25,
-      rx: rx * 0.55,
-      ry: ry * 0.65,
-      fill: 'rgba(196,181,253,0.35)',
-    }));
-    // Smaller bottom-left lobe
-    s.appendChild(svgEl('ellipse', {
-      cx: cx - rx * 0.35,
-      cy: cy + ry * 0.18,
-      rx: rx * 0.45,
-      ry: ry * 0.55,
-      fill: 'rgba(196,181,253,0.35)',
-    }));
-
-    return container;
-  });
-
-  if (!REDUCED_MOTION) {
-    // ONE shared RAF for all 3 clouds
-    trackedRaf(() => {
-      const now = performance.now();
-      const vw = window.innerWidth + 200;
-      cloudData.forEach((cloud, i) => {
-        const x = ((now * 0.02 * cloud.speedMult) + cloud.offset) % vw - 100;
-        containers[i].style.transform = `translate3d(${x}px, 0, 0)`;
-      });
-    });
-  }
-}
-
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -409,7 +326,6 @@ export function mountSky(rootEl) {
   makeStars(rootEl, trackedRaf);
   makeAurora(rootEl);
   makeMountainRidge(rootEl);
-  makeCloudDrift(rootEl, trackedRaf);
 
   return {
     destroy() {
