@@ -68,20 +68,19 @@ function rafOrStatic(fn) {
 
 /**
  * SKY GRADIENT — static vertical gradient, full viewport.
- * Bright violet at top (deep dusk sky) → dark at bottom (matches the
- * homepage's atmospheric top so the seam is invisible when scrolling
- * up out of homepage into sky).
- * #6d3aa8 → #5d2a8e → #4a2378 → #2d1654 → #08060d (top to bottom).
+ * Cosmic darkening upward: bottom matches homepage atmospheric top (continuity
+ * at the seam), then progressively darkens toward the top (deeper into cosmos).
+ * The brightness comes from the aurora and stars, not the background.
+ * #02010a → #04030a → #06040b → #08060d (top to bottom).
  */
 function makeSkyGradient(rootEl) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: linear-gradient(180deg,
-      #6d3aa8 0%,
-      #5d2a8e 25%,
-      #4a2378 55%,
-      #2d1654 80%,
+      #02010a 0%,
+      #04030a 35%,
+      #06040b 70%,
       #08060d 100%);
   `);
   rootEl.appendChild(layer);
@@ -180,7 +179,7 @@ function makeAurora(rootEl) {
   });
   defs.appendChild(grad1);
   grad1.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(196,181,253,0)' }));
-  grad1.appendChild(svgEl('stop', { offset: '45%',  'stop-color': 'rgba(196,181,253,0.28)' }));
+  grad1.appendChild(svgEl('stop', { offset: '45%',  'stop-color': 'rgba(196,181,253,0.42)' }));
   grad1.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(196,181,253,0)' }));
 
   // Second wave gradient: transparent → deeper violet 0.18 → transparent
@@ -191,7 +190,7 @@ function makeAurora(rootEl) {
   });
   defs.appendChild(grad2);
   grad2.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(124,58,237,0)' }));
-  grad2.appendChild(svgEl('stop', { offset: '50%',  'stop-color': 'rgba(124,58,237,0.18)' }));
+  grad2.appendChild(svgEl('stop', { offset: '50%',  'stop-color': 'rgba(124,58,237,0.30)' }));
   grad2.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(124,58,237,0)' }));
 
   // First wavy band — occupies roughly 5%–35% from top in the viewBox
