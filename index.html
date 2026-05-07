@@ -8,13 +8,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/animations.css">
-
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="apple-touch-icon" href="images/favicon.png">
 </head>
@@ -198,38 +196,7 @@
         </div>
     </main>
 
-    <!-- GSAP -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-
-    <!-- Atmosphere & Interactions -->
-    <script src="js/canvas.js"></script>
-    <script src="js/interactions.js"></script>
-
     <!-- Site JS -->
     <script src="js/main.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/animations.js"></script>
-
-    <!-- Init -->
-    <script>
-    (function() {
-        var isDesktop = window.matchMedia('(min-width: 769px)').matches;
-        var canvas = document.getElementById('particle-canvas');
-        var canvasInstance = null;
-        if (isDesktop && canvas) {
-            canvasInstance = window.initParticleCanvas(canvas);
-        }
-        // Store globally so resize handler can re-pass it
-        window._sqCanvasInstance = canvasInstance;
-        // Init horizontal scroll + all scroll-driven effects
-        if (window.initHorizontalScroll) {
-            window.initHorizontalScroll(canvasInstance);
-        }
-        if (isDesktop && window.initInteractions) {
-            window.initInteractions(canvasInstance);
-        }
-    })();
-    </script>
 </body>
 </html>

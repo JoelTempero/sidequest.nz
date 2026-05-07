@@ -3,31 +3,55 @@
    Dark cinematic portfolio theme
    ============================================================ */
 
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap");
+
 /* ── Custom Properties ────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg-deep:     #0a0a0a;
-  --bg-elevated: #1a1a1a;
-  --bg-surface:  #111111;
+  --bg: #08060d;
+  --bg-2: #100819;
+  --bg-3: #1a0f2e;
+
+  /* Legacy aliases (keep for shared page rules that use them) */
+  --bg-deep:     var(--bg);
+  --bg-elevated: var(--bg-3);
+  --bg-surface:  var(--bg-2);
 
   /* Text */
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-muted:     rgba(255, 255, 255, 0.4);
+  --ink:   #f5f0ff;
+  --ink-2: #b8a8d4;
+  --ink-3: #7a6a92;
+  --ink-4: #3d3450;
 
-  /* Accents */
-  --accent-purple:       #6d28d9;
-  --accent-purple-light: #a78bfa;
-  --accent-orange:       #f97316;
+  /* Legacy text aliases */
+  --text-primary:   var(--ink);
+  --text-secondary: var(--ink-2);
+  --text-muted:     var(--ink-3);
+
+  /* Violet accent */
+  --violet:       #7c3aed;
+  --violet-light: #c4b5fd;
+  --violet-glow:  rgba(124, 58, 237, 0.35);
+
+  /* Legacy accent aliases */
+  --accent-purple:       var(--violet);
+  --accent-purple-light: var(--violet-light);
+
+  /* Lines */
+  --line:     rgba(196, 181, 253, 0.10);
+  --line-mid: rgba(196, 181, 253, 0.20);
 
   /* Effects */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --glow-purple:   rgba(109, 40, 217, 0.2);
-  --glow-orange:   rgba(249, 115, 22, 0.15);
+  --border-subtle: var(--line);
+  --glow-purple:   rgba(124, 58, 237, 0.20);
 
   /* Fonts */
-  --font-heading: 'Outfit', system-ui, sans-serif;
-  --font-body:    'Syne', system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono:    "IBM Plex Mono", monospace;
+
+  /* Legacy font aliases */
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-display);
 
   /* Typography scale — clamp(min, preferred, max) */
   --text-xs:   clamp(0.6875rem, 0.65rem + 0.19vw, 0.75rem);   /* 11–12px */
@@ -103,10 +127,10 @@ ol {
 
 /* ── Body ─────────────────────────────────────────────────── */
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: var(--text-base);
-  color: var(--text-primary);
-  background-color: var(--bg-deep);
+  color: var(--ink);
+  background-color: var(--bg);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -171,93 +195,10 @@ p {
 .text-gradient {
   background: linear-gradient(
     135deg,
-    var(--accent-purple-light) 0%,
-    var(--accent-orange) 100%
+    var(--violet-light) 0%,
+    var(--violet) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-/* ── Atmosphere ──────────────────────────────────────────── */
-
-/* Particle canvas */
-#particle-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Cursor glow */
-.cursor-glow {
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.08), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  will-change: transform;
-  transform: translate(-50%, -50%);
-}
-
-/* Gradient blobs (scroll with panels) */
-.gradient-blob {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(120px);
-}
-
-.blob-1 {
-  width: 600px;
-  height: 600px;
-  top: -10%;
-  left: 15%;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.12), transparent 70%);
-}
-
-.blob-2 {
-  width: 500px;
-  height: 500px;
-  bottom: -15%;
-  left: 55%;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.08), transparent 70%);
-}
-
-.blob-3 {
-  width: 700px;
-  height: 700px;
-  top: 20%;
-  right: -5%;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.06), transparent 70%);
-}
-
-/* Typography fragments (giant watermark words) */
-.typo-fragment {
-  position: absolute;
-  font-family: var(--font-heading);
-  font-size: 18vw;
-  font-weight: 900;
-  opacity: 0.06;
-  color: #fff;
-  pointer-events: none;
-  will-change: transform;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.typo-fragment::after {
-  content: attr(data-text);
-}
-
-/* Magnetic hover utility */
-.magnetic-hover {
-  transition: letter-spacing 0.3s var(--ease-out), transform 0.3s var(--ease-out);
-}
-
-.magnetic-hover:hover {
-  letter-spacing: 0.5px;
-  transform: scale(1.03);
 }
