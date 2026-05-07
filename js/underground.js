@@ -78,8 +78,8 @@ function makeCaveDepth(rootEl, { H, trackedRaf, getScrollY }) {
     will-change: transform;
     background: linear-gradient(180deg,
       #06040b 0%,
-      #1a0f2e 45%,
-      #2a1351 100%);
+      #0a0612 50%,
+      #0d0814 100%);
   `);
   rootEl.appendChild(layer);
 
@@ -135,11 +135,11 @@ function makeLanternPoints(rootEl, { H, trackedRaf, getScrollY }) {
 }
 
 /**
- * FAR ROCK STRATA — 8 horizontal banded gradient bars, factor 0.30.
- * Heights 80-200px (deterministic). Gradient #2a1351 → #3a1d6e → #4a2378 per band.
- * Each band has a 1.5px top edge in rgba(196,181,253,0.30).
+ * CRACKS — irregular dark fissures threading through the rock face.
+ * Thin SVG paths in slightly-lighter-than-bg violet, organic curves.
+ * Subtle parallax (factor 0.40).
  */
-function makeFarStrata(rootEl, { H, uid, trackedRaf, getScrollY }) {
+function makeCracks(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -147,41 +147,72 @@ function makeFarStrata(rootEl, { H, uid, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  const bandCount = 8;
-  const bandHeights = [120, 180, 80, 200, 100, 160, 90, 140]; // deterministic, 80-200px
-  const stride = H / bandCount;
+  const s = svg(
+    {
+      width: '100%',
+      height: H,
+      viewBox: `0 0 100 ${H}`,
+      preserveAspectRatio: 'none',
+    },
+    'display: block; position: absolute; top: 0; left: 0;',
+  );
+  layer.appendChild(s);
 
-  for (let i = 0; i < bandCount; i++) {
-    const h = bandHeights[i % bandHeights.length];
-    const top = i * stride + ((i * 83) % (stride * 0.4));
-    const band = div(`
-      position: absolute;
-      left: 0; top: ${top}px;
-      width: 100%; height: ${h}px;
-      background: linear-gradient(180deg, #2a1351 0%, #3a1d6e 50%, #4a2378 100%);
-    `);
-    // 1.5px top edge accent line — 3× more opaque, slightly thicker
-    const edge = div(`
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 1.5px;
-      background: rgba(196,181,253,0.30);
-    `);
-    band.appendChild(edge);
-    layer.appendChild(band);
+  // 14 cracks scattered vertically with deterministic placement.
+  // Each crack is a Bezier curve, mostly vertical with horizontal drift,
+  // sometimes branching with a short secondary path.
+  const crackCount = 14;
+  for (let i = 0; i < crackCount; i++) {
+    const startX = (i * 137) % 100;       // deterministic x%, edge-to-edge
+    const startY = (i * 179) % H;         // deterministic vertical position
+    const length = 60 + (i * 53) % 120;   // 60–180px length
+    const curve  = -20 + (i * 31) % 40;   // -20 to +20 horizontal drift
+    const opacity = 0.18 + ((i * 41) % 100) / 100 * 0.18; // 0.18–0.36
+
+    const endX = startX + curve / 4;       // small horizontal drift in % units
+    const endY = startY + length;
+    const ctrlX1 = startX + curve / 8;
+    const ctrlX2 = endX - curve / 8;
+    const ctrlY1 = startY + length * 0.3;
+    const ctrlY2 = startY + length * 0.7;
+
+    const d = `M${startX} ${startY} C${ctrlX1} ${ctrlY1}, ${ctrlX2} ${ctrlY2}, ${endX} ${endY}`;
+    s.appendChild(svgEl('path', {
+      d,
+      stroke: `rgba(196, 181, 253, ${opacity})`,
+      'stroke-width': 0.4,
+      fill: 'none',
+      'vector-effect': 'non-scaling-stroke',
+    }));
+
+    // Every fourth crack gets a small branching secondary path
+    if (i % 4 === 0) {
+      const branchLength = length * 0.4;
+      const branchX = startX + curve / 6 + (i % 2 ? 6 : -6);
+      const branchY = startY + length * 0.5;
+      const branchD = `M${startX + curve / 8} ${startY + length * 0.4} L${branchX} ${branchY + branchLength * 0.5}`;
+      s.appendChild(svgEl('path', {
+        d: branchD,
+        stroke: `rgba(196, 181, 253, ${opacity * 0.7})`,
+        'stroke-width': 0.3,
+        fill: 'none',
+        'vector-effect': 'non-scaling-stroke',
+      }));
+    }
   }
 
-  const factor = 0.30;
+  const factor = 0.40;
   trackedRaf(() => {
     layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
 /**
- * MID ROCK STRATA — 12 horizontal banded gradient bars, factor 0.50.
- * Heights 60-150px (deterministic). Gradient #3a1d6e → #5d2a8e → #2a1351. Sharper edges.
+ * ROCK NOISE — subtle scattered specs giving the cave wall a textured grain.
+ * Deterministic placement, small circles at varying opacities.
+ * Parallax factor 0.55.
  */
-function makeMidStrata(rootEl, { H, trackedRaf, getScrollY }) {
+function makeRockNoise(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -189,32 +220,33 @@ function makeMidStrata(rootEl, { H, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  const bandCount = 12;
-  const bandHeights = [90, 60, 150, 80, 120, 70, 100, 140, 65, 110, 85, 130]; // deterministic, 60-150px
-  const stride = H / bandCount;
+  const s = svg(
+    {
+      width: '100%',
+      height: H,
+      viewBox: `0 0 100 ${H}`,
+      preserveAspectRatio: 'none',
+    },
+    'display: block; position: absolute; top: 0; left: 0;',
+  );
+  layer.appendChild(s);
 
-  for (let i = 0; i < bandCount; i++) {
-    const h = bandHeights[i % bandHeights.length];
-    const top = i * stride + ((i * 61) % (stride * 0.5));
-    const band = div(`
-      position: absolute;
-      left: 0; top: ${top}px;
-      width: 100%; height: ${h}px;
-      background: linear-gradient(180deg, #3a1d6e 0%, #5d2a8e 50%, #2a1351 100%);
-      opacity: 0.85;
-    `);
-    // Sharper edge — brighter, thicker
-    const edge = div(`
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 2px;
-      background: rgba(196,181,253,0.35);
-    `);
-    band.appendChild(edge);
-    layer.appendChild(band);
+  const specCount = 220;
+  for (let i = 0; i < specCount; i++) {
+    const cx = (i * 137) % 100;
+    const cy = (i * 71) % H;
+    const r = 0.15 + ((i * 53) % 100) / 100 * 0.35;  // 0.15–0.50 radius
+    const opacity = 0.12 + ((i * 41) % 100) / 100 * 0.20; // 0.12–0.32
+
+    s.appendChild(svgEl('circle', {
+      cx,
+      cy,
+      r,
+      fill: `rgba(196, 181, 253, ${opacity})`,
+    }));
   }
 
-  const factor = 0.50;
+  const factor = 0.55;
   trackedRaf(() => {
     layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
@@ -409,8 +441,8 @@ export function mountUnderground(rootEl, opts = {}) {
   // Build layers in back-to-front order
   makeCaveDepth(rootEl, ctx);
   makeLanternPoints(rootEl, ctx);
-  makeFarStrata(rootEl, ctx);
-  makeMidStrata(rootEl, ctx);
+  makeRockNoise(rootEl, ctx);
+  makeCracks(rootEl, ctx);
   makeFossils(rootEl, ctx);
   makeForegroundRock(rootEl, ctx);
   makeDustMotes(rootEl, ctx);
