@@ -66,6 +66,40 @@
   }
 }
 
+/* Quest panel paired-spread layout */
+#zone-homepage .project-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+/* Default (align: 'left'): image right, text left
+   — pull text toward right (gap), image toward left (gap) */
+#zone-homepage .project-grid .text-col {
+  justify-self: end;
+  text-align: left;
+}
+#zone-homepage .project-grid .image-col {
+  justify-self: start;
+}
+
+/* Inverted (align: 'right'): image left, text right
+   — pull text right-aligned toward left (gap), image toward right (gap) */
+#zone-homepage .project-grid.entry-right .text-col {
+  justify-self: start;
+  text-align: right;
+}
+#zone-homepage .project-grid.entry-right .image-col {
+  justify-self: end;
+}
+
+/* Image gets a touch more presence */
+#zone-homepage .project-image {
+  width: min(420px, 38vw);
+}
+
 /* ===== Reduced-motion: global defensive rule ===== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

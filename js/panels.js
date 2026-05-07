@@ -19,6 +19,20 @@
 
 import { subscribe } from './scroll-engine.js';
 
+// ─── Manifest cache helpers ───────────────────────────────────────────────────
+
+let manifestCache = null;
+async function loadManifest() {
+  if (manifestCache) return manifestCache;
+  const res = await fetch('projects/manifest.json');
+  manifestCache = await res.json();
+  return manifestCache;
+}
+async function getProjectBySlug(slug) {
+  const projects = await loadManifest();
+  return projects.find(p => p.slug === slug);
+}
+
 // ─── Reduced-motion detection ─────────────────────────────────────────────────
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -373,6 +387,7 @@ export function mountTopNav(rootEl, { jumpTo, onZoneClick }) {
  */
 function ProjectImage(src, alt) {
   const container = document.createElement('div');
+  container.className = 'project-image';
   container.style.cssText = `
     width: min(420px, 32vw);
     aspect-ratio: 4/5;
@@ -430,7 +445,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // Outer grid container — full height, two columns
   const grid = document.createElement('div');
-  grid.className = 'project-grid';
+  grid.className = align === 'right' ? 'project-grid entry-right' : 'project-grid';
   grid.style.cssText = `
     position: relative;
     height: 100%;
@@ -444,6 +459,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // ── Text column ────────────────────────────────────────────────────────────
   const textCol = document.createElement('div');
+  textCol.className = 'text-col';
   textCol.style.cssText = `
     grid-column: ${imageOnRight ? 1 : 2};
     text-align: ${align};
@@ -532,7 +548,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // ── Image column ───────────────────────────────────────────────────────────
   const imgCol = document.createElement('div');
-  imgCol.className = 'project-image-col';
+  imgCol.className = 'project-image-col image-col';
   imgCol.style.cssText = `
     grid-column: ${imageOnRight ? 2 : 1};
     justify-self: ${imageOnRight ? 'end' : 'start'};
@@ -560,17 +576,18 @@ export function mountProjectPanel(panelEl, opts) {
 /**
  * Quest 01 — Chill Air / TRADES
  * @param {HTMLElement} panelEl
- * @returns {{ destroy: () => void }}
+ * @returns {Promise<{ destroy: () => void }>}
  */
-export function mountQuest01(panelEl) {
+export async function mountQuest01(panelEl) {
+  const project = await getProjectBySlug('chill-air');
   return mountProjectPanel(panelEl, {
     number: 1,
     sector: 'TRADES',
     headline: 'Job sheets, off the kitchen counter.',
-    sub: 'Chill Air · website + client portal · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=1200&q=80',
-    imageAlt: 'Chill Air',
-    ctaHref: 'projects/chill-air/',
+    sub: `${project.title} · website + client portal · 2026`,
+    imageSrc: project.featuredImage,
+    imageAlt: project.title,
+    ctaHref: `projects/${project.slug}/`,
     align: 'left',
   });
 }
@@ -578,17 +595,18 @@ export function mountQuest01(panelEl) {
 /**
  * Quest 02 — Storybook Weddings / WEDDINGS
  * @param {HTMLElement} panelEl
- * @returns {{ destroy: () => void }}
+ * @returns {Promise<{ destroy: () => void }>}
  */
-export function mountQuest02(panelEl) {
+export async function mountQuest02(panelEl) {
+  const project = await getProjectBySlug('storybook-weddings');
   return mountProjectPanel(panelEl, {
     number: 2,
     sector: 'WEDDINGS',
     headline: 'Photos delivered, not chased.',
-    sub: 'Storybook Weddings · website + client portal · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=1200&q=80',
-    imageAlt: 'Storybook Weddings',
-    ctaHref: 'projects/storybook-weddings/',
+    sub: `${project.title} · website + client portal · 2026`,
+    imageSrc: project.featuredImage,
+    imageAlt: project.title,
+    ctaHref: `projects/${project.slug}/`,
     align: 'right',
   });
 }
@@ -596,17 +614,18 @@ export function mountQuest02(panelEl) {
 /**
  * Quest 03 — My Living Hope / COMMERCE
  * @param {HTMLElement} panelEl
- * @returns {{ destroy: () => void }}
+ * @returns {Promise<{ destroy: () => void }>}
  */
-export function mountQuest03(panelEl) {
+export async function mountQuest03(panelEl) {
+  const project = await getProjectBySlug('my-living-hope');
   return mountProjectPanel(panelEl, {
     number: 3,
     sector: 'COMMERCE',
     headline: "Off-the-shelf wouldn't do.",
-    sub: 'My Living Hope · custom Shopify theme · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1200&q=80',
-    imageAlt: 'My Living Hope',
-    ctaHref: 'projects/my-living-hope/',
+    sub: `${project.title} · custom Shopify theme · 2026`,
+    imageSrc: project.featuredImage,
+    imageAlt: project.title,
+    ctaHref: `projects/${project.slug}/`,
     align: 'left',
   });
 }
@@ -614,17 +633,18 @@ export function mountQuest03(panelEl) {
 /**
  * Quest 04 — 24CHCH / ARTS
  * @param {HTMLElement} panelEl
- * @returns {{ destroy: () => void }}
+ * @returns {Promise<{ destroy: () => void }>}
  */
-export function mountQuest04(panelEl) {
+export async function mountQuest04(panelEl) {
+  const project = await getProjectBySlug('24chch');
   return mountProjectPanel(panelEl, {
     number: 4,
     sector: 'ARTS',
     headline: 'One weekend, every short film.',
-    sub: '24CHCH · annual film competition · 2026',
-    imageSrc: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=1200&q=80',
-    imageAlt: '24CHCH',
-    ctaHref: 'projects/24chch/',
+    sub: `${project.title} · annual film competition · 2026`,
+    imageSrc: project.featuredImage,
+    imageAlt: project.title,
+    ctaHref: `projects/${project.slug}/`,
     align: 'right',
   });
 }
