@@ -80,24 +80,27 @@ function exitSign(direction) {
 
 /**
  * Returns the starting sign for the entry animation.
- * Destination body starts offset in the direction of travel, then settles to 0.
+ * Destination body continues the source's pan direction so the journey feels
+ * like one continuous camera movement (no bounce-back).
  *
- * - Arrived from below (going 'up' / 'transit-up' / 'return-up'):
- *     source body went down, so destination starts translated down (positive Y) → animate to 0
- * - Arrived from above (going 'down' / 'transit-down' / 'return-down'):
- *     source body went up, so destination starts translated up (negative Y) → animate to 0
+ * - Going 'down' (descent): source body went up; destination keeps going up,
+ *   starting below rest (positive Y offset) and rising to 0. Visually: content
+ *   appears to rise from below as the camera continues descending past it.
+ * - Going 'up' (ascent): source body went down; destination keeps going down,
+ *   starting above rest (negative Y offset) and dropping to 0. Visually:
+ *   content drops into view as the camera continues rising past it.
  */
 function entrySign(direction) {
   switch (direction) {
-    case 'up':
-    case 'transit-up':
-    case 'return-up':
-      return 1;  // came from below — start translated down
     case 'down':
     case 'transit-down':
     case 'return-down':
+      return 1;  // descending — content rises up into rest
+    case 'up':
+    case 'transit-up':
+    case 'return-up':
     default:
-      return -1; // came from above — start translated up
+      return -1; // ascending — content drops down into rest
   }
 }
 
