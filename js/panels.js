@@ -629,7 +629,7 @@ function bigLink({ label, href, primary = false }) {
     letter-spacing: -0.01em;
     text-decoration: none;
     background: ${primary ? '#7c3aed' : 'transparent'};
-    color: ${primary ? '#f5f0ff' : '#f5f0ff'};
+    color: #f5f0ff;
     border: ${primary ? 'none' : '1px solid rgba(196,181,253,0.20)'};
     ${primary ? '' : 'backdrop-filter: blur(4px);'}
     cursor: pointer;
@@ -710,6 +710,9 @@ export function mountSeeMore(panelEl) {
  *
  * @param {HTMLElement} panelEl
  * @param {{ scrollRef: { current: number }, panelStartX: number }} opts
+ *   `panelStartX` — px offset of this panel's left edge from the start of the scroll track
+ *   (i.e. `panelIndex * window.innerWidth` when panels are 100vw wide). T8 calculates and
+ *   passes this so the parallax RAF can convert absolute scroll position to a panel-local value.
  * @returns {{ destroy: () => void }}
  */
 export function mountLogos(panelEl, { scrollRef, panelStartX }) {
@@ -839,6 +842,7 @@ export function mountLogos(panelEl, { scrollRef, panelStartX }) {
 
     // Outer wrapper — positioned absolutely, reads scrollRef in RAF
     const wrapper = document.createElement('div');
+    wrapper.setAttribute('aria-hidden', 'true');
     wrapper.style.cssText = `
       position: absolute;
       left: ${x}%;
@@ -950,22 +954,8 @@ export function mountContact(panelEl) {
   `;
   backdrop.appendChild(inner);
 
-  // Eyebrow: "KIA ORA" + Tick (tick after label for right-align per JSX)
-  const brow = document.createElement('div');
-  brow.style.cssText = `
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #c4b5fd;
-    display: inline-flex;
-    gap: 14px;
-    align-items: center;
-  `;
-  const kiaOra = document.createElement('span');
-  kiaOra.textContent = 'KIA ORA';
-  brow.appendChild(kiaOra);
-  brow.appendChild(tick());
+  // Eyebrow: "KIA ORA" + Tick — uses eyebrow() atom (same as mountSeeMore / mountLogos)
+  const brow = eyebrow('KIA ORA', { color: '#c4b5fd', withTick: true });
   inner.appendChild(brow);
 
   // H2: "I'm Joel. Say hi."
