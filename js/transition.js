@@ -15,6 +15,25 @@
  *   'return-down'   — sky → homepage (camera pans down, body moves up)
  */
 
+// ─── Tuning constants ─────────────────────────────────────────────────────────
+const PAN_MULT_SINGLE    = 1.5;  // body travels 1.5× viewport height on single-hop
+const PAN_MULT_TRANSIT   = 2.5;  // body travels 2.5× for cross-sub-page (work ↔ sky)
+const OVERLAY_RAMP_START = 0.8;  // overlay opacity begins fading in at this animation progress
+const ENTRY_OFFSET_VH    = 0.4;  // destination body starts 40% viewport offset before settling
+
+// ─── Valid directions ─────────────────────────────────────────────────────────
+const VALID_DIRECTIONS = new Set([
+  'down', 'up',
+  'transit-up', 'transit-down',
+  'return-up', 'return-down',
+]);
+
+function assertDirection(direction) {
+  if (!VALID_DIRECTIONS.has(direction)) {
+    console.error(`transition.js: unknown direction "${direction}"`);
+  }
+}
+
 // ─── In-flight lock ───────────────────────────────────────────────────────────
 let inFlight = false;
 
@@ -34,7 +53,7 @@ function easeOut(t) {
 
 /** Returns the pan multiplier for each direction. */
 function panMultiplier(direction) {
-  return direction === 'transit-up' || direction === 'transit-down' ? 2.5 : 1.5;
+  return direction === 'transit-up' || direction === 'transit-down' ? PAN_MULT_TRANSIT : PAN_MULT_SINGLE;
 }
 
 /**
@@ -105,6 +124,8 @@ export function transitionTo({ destination, direction, duration }) {
     return;
   }
 
+  assertDirection(direction);
+
   // In-flight lock — ignore double-clicks
   if (inFlight) return;
   inFlight = true;
@@ -125,9 +146,9 @@ export function transitionTo({ destination, direction, duration }) {
 
     document.body.style.transform = `translateY(${panY}px)`;
 
-    // Ramp overlay opacity from 0 → 1 over the last 20% (progress 0.8 → 1.0)
+    // Ramp overlay opacity from 0 → 1 over the last 20% (progress OVERLAY_RAMP_START → 1.0)
     if (overlay) {
-      const overlayT = Math.max(0, (raw - 0.8) / 0.2);
+      const overlayT = Math.max(0, (raw - OVERLAY_RAMP_START) / (1 - OVERLAY_RAMP_START));
       overlay.style.opacity = String(overlayT);
     }
 
@@ -162,12 +183,14 @@ export function playEntryAnimation({ direction, duration }) {
     return;
   }
 
+  assertDirection(direction);
+
   const overlay  = getOverlay();
   const sign     = entrySign(direction);
   const vh       = window.innerHeight;
 
   // Body starts at a 40% viewport offset in the direction of travel, settles to 0.
-  const startOffset = sign * vh * 0.4;
+  const startOffset = sign * vh * ENTRY_OFFSET_VH;
 
   document.body.style.willChange = 'transform';
   document.body.style.transform  = `translateY(${startOffset}px)`;
@@ -197,4 +220,19 @@ export function playEntryAnimation({ direction, duration }) {
   }
 
   requestAnimationFrame(tick);
+}
+
+// ─── Safety net ───────────────────────────────────────────────────────────────
+// If no entry animation runs within 2s of page load, force overlay clear.
+// Catches bugs where a destination page forgets to call playEntryAnimation.
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const overlay = getOverlay();
+      if (overlay && parseFloat(overlay.style.opacity) > 0.5) {
+        console.warn('transition.js: entry animation never ran; auto-clearing overlay');
+        overlay.style.opacity = '0';
+      }
+    }, 2000);
+  });
 }
