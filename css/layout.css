@@ -3,31 +3,32 @@
 body.homepage {
   overflow: hidden;
   height: 100%;
+  scrollbar-width: none; /* Firefox */
 }
 
 body.homepage::-webkit-scrollbar { display: none; }
 
-#world {
+body.homepage #world {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-#robot {
+body.homepage #robot {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-#track {
+body.homepage #track {
   display: flex;
   height: 100vh;
   will-change: transform;
 }
 
-.panel {
+body.homepage .panel {
   width: 100vw;
   height: 100vh;
   flex-shrink: 0;

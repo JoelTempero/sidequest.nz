@@ -16,9 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const trackEl = document.getElementById('track');
   const { scrollRef, progressRef, activeIdxRef, jumpTo } = initScrollEngine({ trackEl });
 
+  const PANEL_COUNT = document.querySelectorAll('#track > .panel').length;
+  const LOGOS_IDX = 6; // zero-based position of panel-logos in #track
+
   // World (parallax background)
   const worldRoot = document.getElementById('world');
-  const totalWidth = 8 * window.innerWidth;
+  const totalWidth = PANEL_COUNT * window.innerWidth;
   mountWorld(worldRoot, { scrollRef, totalWidth, mode: 'horizontal' });
 
   // Robot (companion)
@@ -38,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mountSeeMore(document.getElementById('panel-see'));
   mountLogos(document.getElementById('panel-logos'), {
     scrollRef,
-    panelStartX: 6 * window.innerWidth, // logos is panel index 6
+    panelStartX: LOGOS_IDX * window.innerWidth, // logos is panel index 6
   });
   mountContact(document.getElementById('panel-contact'));
 });
