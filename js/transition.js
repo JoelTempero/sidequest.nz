@@ -16,10 +16,9 @@
  */
 
 // ─── Tuning constants ─────────────────────────────────────────────────────────
-const PAN_MULT_SINGLE    = 1.5;  // body travels 1.5× viewport height on single-hop
-const PAN_MULT_TRANSIT   = 2.5;  // body travels 2.5× for cross-sub-page (work ↔ sky)
-const OVERLAY_RAMP_START = 0.8;  // overlay opacity begins fading in at this animation progress
-const ENTRY_OFFSET_VH    = 0.4;  // destination body starts 40% viewport offset before settling
+const PAN_MULT_SINGLE  = 1.5;  // body travels 1.5× viewport height on single-hop
+const PAN_MULT_TRANSIT = 2.5;  // body travels 2.5× for cross-sub-page (work ↔ sky)
+const ENTRY_OFFSET_VH  = 0.4;  // destination body starts 40% viewport offset before settling
 
 // ─── Valid directions ─────────────────────────────────────────────────────────
 const VALID_DIRECTIONS = new Set([
@@ -104,16 +103,15 @@ function entrySign(direction) {
   }
 }
 
-// ─── Overlay helper ───────────────────────────────────────────────────────────
-
-function getOverlay() {
-  return document.getElementById('transition-overlay');
-}
-
 // ─── transitionTo ─────────────────────────────────────────────────────────────
 
 /**
  * Orchestrate the source-page exit animation then navigate to the destination.
+ *
+ * Continuity is maintained by matching body backgrounds across pages
+ * (all pages use `var(--bg)`), so the navigation moment is seamless without
+ * a masking overlay. The destination's themed environment renders on top of
+ * that shared base immediately on load.
  *
  * @param {object} opts
  * @param {string} opts.destination  - URL to navigate to (e.g. 'work.html')
@@ -133,10 +131,9 @@ export function transitionTo({ destination, direction, duration }) {
   if (inFlight) return;
   inFlight = true;
 
-  const overlay   = getOverlay();
-  const sign      = exitSign(direction);
-  const mult      = panMultiplier(direction);
-  const vh        = window.innerHeight;
+  const sign = exitSign(direction);
+  const mult = panMultiplier(direction);
+  const vh   = window.innerHeight;
 
   document.body.style.willChange = 'transform';
 
@@ -149,17 +146,9 @@ export function transitionTo({ destination, direction, duration }) {
 
     document.body.style.transform = `translateY(${panY}px)`;
 
-    // Ramp overlay opacity from 0 → 1 over the last 20% (progress OVERLAY_RAMP_START → 1.0)
-    if (overlay) {
-      const overlayT = Math.max(0, (raw - OVERLAY_RAMP_START) / (1 - OVERLAY_RAMP_START));
-      overlay.style.opacity = String(overlayT);
-    }
-
     if (raw < 1) {
       requestAnimationFrame(tick);
     } else {
-      // Ensure overlay is fully opaque before navigating
-      if (overlay) overlay.style.opacity = '1';
       document.body.style.willChange = '';
       window.location.href = destination;
     }
@@ -174,23 +163,25 @@ export function transitionTo({ destination, direction, duration }) {
  * Orchestrate the destination-page entry animation.
  * Call on DOMContentLoaded on destination pages (work.html, contact.html).
  *
+ * Body content starts offset in the direction of travel and settles to rest.
+ * The themed environment (#environment, position:fixed) renders immediately
+ * and is unaffected by the body translation, so the backdrop is visible from
+ * first paint.
+ *
  * @param {object} opts
  * @param {string} opts.direction  - Same direction string used in the source transitionTo call
  * @param {number} opts.duration   - Entry animation duration in ms (typically 400)
  */
 export function playEntryAnimation({ direction, duration }) {
-  // Reduced-motion gate — instantly clear overlay and return
+  // Reduced-motion gate — skip animation entirely
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const overlay = getOverlay();
-    if (overlay) overlay.style.opacity = '0';
     return;
   }
 
   assertDirection(direction);
 
-  const overlay  = getOverlay();
-  const sign     = entrySign(direction);
-  const vh       = window.innerHeight;
+  const sign = entrySign(direction);
+  const vh   = window.innerHeight;
 
   // Body starts at a 40% viewport offset in the direction of travel, settles to 0.
   const startOffset = sign * vh * ENTRY_OFFSET_VH;
@@ -204,38 +195,16 @@ export function playEntryAnimation({ direction, duration }) {
     const raw = Math.min(1, (now - start) / duration);
     const t   = easeOut(raw);
 
-    // Animate body from startOffset → 0
     const panY = startOffset * (1 - t);
     document.body.style.transform = `translateY(${panY}px)`;
-
-    // Fade overlay from 1 → 0
-    if (overlay) {
-      overlay.style.opacity = String(1 - t);
-    }
 
     if (raw < 1) {
       requestAnimationFrame(tick);
     } else {
       document.body.style.transform  = '';
       document.body.style.willChange = '';
-      if (overlay) overlay.style.opacity = '0';
     }
   }
 
   requestAnimationFrame(tick);
-}
-
-// ─── Safety net ───────────────────────────────────────────────────────────────
-// If no entry animation runs within 2s of page load, force overlay clear.
-// Catches bugs where a destination page forgets to call playEntryAnimation.
-if (typeof window !== 'undefined') {
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const overlay = getOverlay();
-      if (overlay && parseFloat(overlay.style.opacity) > 0.5) {
-        console.warn('transition.js: entry animation never ran; auto-clearing overlay');
-        overlay.style.opacity = '0';
-      }
-    }, 2000);
-  });
 }
