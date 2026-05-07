@@ -3,8 +3,6 @@
    Dark cinematic portfolio theme
    ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap");
-
 /* ── Custom Properties ────────────────────────────────────── */
 :root {
   /* Backgrounds */
@@ -32,6 +30,7 @@
   --violet:       #7c3aed;
   --violet-light: #c4b5fd;
   --violet-glow:  rgba(124, 58, 237, 0.35);
+  --violet-tint:  rgba(124, 58, 237, 0.15);
 
   /* Legacy accent aliases */
   --accent-purple:       var(--violet);
