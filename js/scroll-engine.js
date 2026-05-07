@@ -41,9 +41,26 @@ export function subscribe(callback) {
   };
 }
 
+// ─── Module-level feed function (set by initScrollEngine) ─────────────────────
+/** Feed a vertical wheel delta into the horizontal scroll engine. */
+let _feedHorizontalDelta = () => {};
+
+/**
+ * Feed a vertical wheel/keyboard delta into the horizontal scroll engine.
+ * Call from the orchestrator's wheel handler when the homepage zone is active.
+ * @param {number} dy
+ */
+export function feedHorizontalDelta(dy) {
+  _feedHorizontalDelta(dy);
+}
+
 // ─── Init scroll engine ────────────────────────────────────────────────────────
 /**
  * Wire up horizontal scroll listeners and start the RAF loop.
+ * NOTE: window wheel and keyboard listeners are NOT registered here — the
+ * orchestrator (homepage.js) owns those and calls feedHorizontalDelta(dy)
+ * when appropriate.
+ *
  * @param {{ trackEl: HTMLElement }} options
  * @returns {{
  *   scrollRef:    { current: number },
@@ -67,16 +84,14 @@ export function initScrollEngine({ trackEl }) {
   recalc();
   window.addEventListener('resize', recalc);
 
-  // ── Wheel ────────────────────────────────────────────────────────────────────
-  const onWheel = (e) => {
-    const dy = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  // ── feedHorizontalDelta implementation ───────────────────────────────────────
+  // Registered at module level so it can be called before initScrollEngine returns.
+  _feedHorizontalDelta = (dy) => {
     if (dy === 0) return;
-    e.preventDefault();
     scroll.target = Math.max(0, Math.min(maxScroll, scroll.target + dy));
   };
-  window.addEventListener('wheel', onWheel, { passive: false });
 
-  // ── Touch ────────────────────────────────────────────────────────────────────
+  // ── Touch (kept — only fires in practice on homepage zone) ───────────────────
   let touchX = null, touchY = null, touchStart = 0;
 
   const onTouchStart = (e) => {
@@ -96,22 +111,6 @@ export function initScrollEngine({ trackEl }) {
   window.addEventListener('touchstart', onTouchStart, { passive: true });
   window.addEventListener('touchmove',  onTouchMove,  { passive: true });
   window.addEventListener('touchend',   onTouchEnd);
-
-  // ── Keyboard ─────────────────────────────────────────────────────────────────
-  const onKey = (e) => {
-    if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) {
-      scroll.target = Math.min(maxScroll, scroll.target + window.innerWidth * 0.7);
-    } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) {
-      scroll.target = Math.max(0, scroll.target - window.innerWidth * 0.7);
-    } else if (e.key === 'Home') {
-      scroll.target = 0;
-    } else if (e.key === 'End') {
-      scroll.target = maxScroll;
-    } else {
-      return;
-    }
-  };
-  window.addEventListener('keydown', onKey);
 
   // ── RAF tick ─────────────────────────────────────────────────────────────────
   let rafId;

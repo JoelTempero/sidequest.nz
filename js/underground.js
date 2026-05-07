@@ -71,7 +71,7 @@ function rafOrStatic(fn) {
  * Almost-still. Deepens as user scrolls down.
  * Sized to H (max of 6× viewport height, 6000px).
  */
-function makeCaveDepth(rootEl, { H, trackedRaf }) {
+function makeCaveDepth(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -85,7 +85,7 @@ function makeCaveDepth(rootEl, { H, trackedRaf }) {
 
   const factor = 0.05;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -95,7 +95,7 @@ function makeCaveDepth(rootEl, { H, trackedRaf }) {
  * Opacity 0.55-0.85, deterministic placement using (i*137)%100 for x, (i*71)%100 for y.
  * Scattered over a H-px span, mostly upper portion.
  */
-function makeLanternPoints(rootEl, { H, trackedRaf }) {
+function makeLanternPoints(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -130,7 +130,7 @@ function makeLanternPoints(rootEl, { H, trackedRaf }) {
 
   const factor = 0.15;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -139,7 +139,7 @@ function makeLanternPoints(rootEl, { H, trackedRaf }) {
  * Heights 80-200px (deterministic). Gradient #2a1351 → #3a1d6e → #4a2378 per band.
  * Each band has a 1.5px top edge in rgba(196,181,253,0.30).
  */
-function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
+function makeFarStrata(rootEl, { H, uid, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -173,7 +173,7 @@ function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
 
   const factor = 0.30;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -181,7 +181,7 @@ function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
  * MID ROCK STRATA — 12 horizontal banded gradient bars, factor 0.50.
  * Heights 60-150px (deterministic). Gradient #3a1d6e → #5d2a8e → #2a1351. Sharper edges.
  */
-function makeMidStrata(rootEl, { H, trackedRaf }) {
+function makeMidStrata(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -216,7 +216,7 @@ function makeMidStrata(rootEl, { H, trackedRaf }) {
 
   const factor = 0.50;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -225,7 +225,7 @@ function makeMidStrata(rootEl, { H, trackedRaf }) {
  * Simple decorative shapes (wishbone, leaf vein, shell spiral, etc.).
  * Placed every ~1000px vertically at random horizontal positions.
  */
-function makeFossils(rootEl, { H, trackedRaf }) {
+function makeFossils(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -280,7 +280,7 @@ function makeFossils(rootEl, { H, trackedRaf }) {
 
   const factor = 0.65;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -288,7 +288,7 @@ function makeFossils(rootEl, { H, trackedRaf }) {
  * FOREGROUND ROCK — dark vertical gradient overlay on left and right edges, factor 0.85.
  * Suggests close walls. Each side ~80px wide, full height.
  */
-function makeForegroundRock(rootEl, { H, trackedRaf }) {
+function makeForegroundRock(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -317,7 +317,7 @@ function makeForegroundRock(rootEl, { H, trackedRaf }) {
 
   const factor = 0.85;
   trackedRaf(() => {
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor}px, 0)`;
   });
 }
 
@@ -328,7 +328,7 @@ function makeForegroundRock(rootEl, { H, trackedRaf }) {
  * Drift UPWARD via performance.now() * 0.02 % 200, independent of scroll.
  * Combined: translate3d(0, -scrollY * 0.10 - drift, 0).
  */
-function makeDustMotes(rootEl, { H, trackedRaf }) {
+function makeDustMotes(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: ${H}px;
@@ -362,7 +362,7 @@ function makeDustMotes(rootEl, { H, trackedRaf }) {
   const factor = 0.10;
   trackedRaf(() => {
     const drift = REDUCED_MOTION ? 0 : (performance.now() * 0.02) % 200;
-    layer.style.transform = `translate3d(0, ${-window.scrollY * factor - drift}px, 0)`;
+    layer.style.transform = `translate3d(0, ${-getScrollY() * factor - drift}px, 0)`;
   });
 }
 
@@ -372,14 +372,21 @@ function makeDustMotes(rootEl, { H, trackedRaf }) {
  * Mount the underground parallax environment into rootEl.
  *
  * @param {HTMLElement} rootEl - Container element (e.g. <div id="environment">).
- * @param {object} [opts] - Optional overrides (reserved for future use).
+ * @param {object} [opts]
+ * @param {() => number} [opts.getScrollY] - Function returning the current vertical
+ *   scroll offset within the underground zone. Defaults to () => window.scrollY.
  * @returns {{ destroy: () => void }} Teardown handle — call destroy() to cancel all RAF loops.
  */
 export function mountUnderground(rootEl, opts = {}) {
+  const { getScrollY = () => window.scrollY } = opts;
+
   // Container styling
   rootEl.style.cssText = `
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
@@ -397,7 +404,7 @@ export function mountUnderground(rootEl, opts = {}) {
   const cancels = [];
   const trackedRaf = (fn) => { cancels.push(rafOrStatic(fn)); };
 
-  const ctx = { H, uid, trackedRaf };
+  const ctx = { H, uid, trackedRaf, getScrollY };
 
   // Build layers in back-to-front order
   makeCaveDepth(rootEl, ctx);

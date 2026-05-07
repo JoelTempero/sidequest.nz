@@ -536,7 +536,7 @@ function makeBirds(rootEl, { scrollRef, mode, trackedRaf }) {
 export function mountWorld(rootEl, { scrollRef, totalWidth, mode = 'horizontal' }) {
   // Container styling
   rootEl.style.cssText = `
-    position: fixed;
+    position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;

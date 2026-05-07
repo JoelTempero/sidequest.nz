@@ -124,6 +124,13 @@ ol {
   list-style: none;
 }
 
+/* ── HTML + Body ──────────────────────────────────────────── */
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+}
+
 /* ── Body ─────────────────────────────────────────────────── */
 body {
   font-family: var(--font-display);
@@ -131,7 +138,6 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   line-height: 1.6;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

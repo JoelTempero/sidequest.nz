@@ -95,7 +95,7 @@ const ROBOT_SVG = /* html */`
 export function mountRobot(rootEl) {
   // ── Style the host container ──────────────────────────────────────────────
   rootEl.style.cssText = `
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;

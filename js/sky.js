@@ -390,7 +390,7 @@ function makeCloudDrift(rootEl, trackedRaf) {
 export function mountSky(rootEl) {
   // Container styling
   rootEl.style.cssText = `
-    position: fixed;
+    position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;

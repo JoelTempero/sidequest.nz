@@ -205,10 +205,10 @@ export function mountHero(panelEl) {
  * Build and mount the fixed top nav bar.
  *
  * @param {HTMLElement} rootEl  - Parent to append into (e.g. document.body).
- * @param {{ jumpTo: (idx: number) => void, activeIdxRef: { current: number }, onNavigate?: (panelId: string) => void }} opts
+ * @param {{ jumpTo: (idx: number) => void, onZoneClick?: (zoneId: string) => void }} opts
  * @returns {{ destroy: () => void }}
  */
-export function mountTopNav(rootEl, { jumpTo, activeIdxRef, onNavigate }) {
+export function mountTopNav(rootEl, { jumpTo, onZoneClick }) {
   const nav = document.createElement('nav');
   nav.style.cssText = `
     position: fixed;
@@ -292,35 +292,28 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef, onNavigate }) {
     pointer-events: auto;
   `;
 
-  // Each link: { label, panelId, href, jumpIdx, isActive(idx) }
-  // href is the browser-fallback URL (used when JS navigation is unavailable or on mobile).
-  // panelId is the logical identifier passed to onNavigate for JS-driven transitions.
+  // Each link: { label, href, zoneId }
+  // href is the hash-based fallback URL.
+  // zoneId is the logical zone identifier passed to onZoneClick.
   const NAV_ITEMS = [
     {
-      label:    'Home',
-      panelId:  'panel-hero',
-      href:     'index.html',
-      jumpIdx:  0,
-      isActive: (idx) => idx === 0,
+      label:  'Home',
+      href:   '#',
+      zoneId: 'homepage',
     },
     {
-      label:    'Work',
-      panelId:  'panel-q1',
-      href:     'work.html',
-      jumpIdx:  1,
-      // Active while on any of the four project panels or the index/logos panels
-      isActive: (idx) => idx >= 1 && idx <= 4,
+      label:  'Work',
+      href:   '#work',
+      zoneId: 'underground',
     },
     {
-      label:    'Contact',
-      panelId:  'panel-contact',
-      href:     'contact.html',
-      jumpIdx:  7,
-      isActive: (idx) => idx === 7,
+      label:  'Contact',
+      href:   '#contact',
+      zoneId: 'sky',
     },
   ];
 
-  const linkEls = NAV_ITEMS.map(({ label, panelId, href, jumpIdx, isActive }) => {
+  const linkEls = NAV_ITEMS.map(({ label, href, zoneId }) => {
     const a = document.createElement('a');
     a.textContent   = label;
     a.href          = href;
@@ -330,30 +323,33 @@ export function mountTopNav(rootEl, { jumpTo, activeIdxRef, onNavigate }) {
       text-decoration: none;
     `;
     a.addEventListener('click', (e) => {
-      // If onNavigate is provided (desktop w/ transitions), use it for everything.
-      if (onNavigate) {
-        e.preventDefault();
-        onNavigate(panelId);
-        return;
+      e.preventDefault();
+      if (onZoneClick) {
+        onZoneClick(zoneId);
+      } else if (zoneId === 'homepage') {
+        // Fallback: scroll to top on mobile when no onZoneClick provided
+        jumpTo(0);
       }
-      // Otherwise: in-page anchors → preventDefault + jumpTo (mobile homepage / sub-pages).
-      // Cross-page hrefs → let the browser navigate natively.
-      if (href.startsWith('#')) {
-        e.preventDefault();
-        jumpTo(jumpIdx);
-      }
-      // else: cross-page href — no preventDefault, browser navigates.
     });
     links.appendChild(a);
-    return { el: a, isActive };
+    return { el: a, zoneId };
   });
 
   nav.appendChild(links);
 
-  // ── Subscribe to scroll engine for active state updates ───────────────────
+  // ── Subscribe to scroll engine for active state on homepage zone ─────────
+  // Highlights the 'Home' link while on homepage panels 0-7.
+  // Zone-level active state is owned by the orchestrator (scrollToZone),
+  // so this subscription is kept only for in-panel highlighting on desktop.
   const unsubscribe = subscribe(({ activeIdx }) => {
-    for (const { el, isActive } of linkEls) {
-      el.style.color = isActive(activeIdx) ? '#c4b5fd' : '#b8a8d4';
+    // While in homepage zone: highlight nav based on panel position
+    // Home = panel 0, Work = panels 1-5, Contact = panel 6-7
+    for (const { el, zoneId } of linkEls) {
+      let active = false;
+      if (zoneId === 'homepage') active = activeIdx === 0;
+      else if (zoneId === 'underground') active = activeIdx >= 1 && activeIdx <= 5;
+      else if (zoneId === 'sky') active = activeIdx >= 6;
+      el.style.color = active ? '#c4b5fd' : '#b8a8d4';
     }
   });
 
@@ -723,7 +719,7 @@ export function mountSeeMore(panelEl) {
     display: flex;
     gap: 12px;
   `;
-  ctaRow.appendChild(bigLink({ label: 'Full work index →', href: 'work.html', primary: true }));
+  ctaRow.appendChild(bigLink({ label: 'Full work index →', href: '#work', primary: true }));
   inner.appendChild(ctaRow);
 
   return {

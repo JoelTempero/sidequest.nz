@@ -16,22 +16,27 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="apple-touch-icon" href="images/favicon.png">
 </head>
-<body class="homepage">
-  <div id="transition-overlay"></div>
-  <div id="world"></div>
-  <div id="robot"></div>
+<body>
   <nav id="top-nav"></nav>
-  <main id="track">
-    <section class="panel" data-panel="hero" id="panel-hero" aria-labelledby="panel-hero-h"></section>
-    <section class="panel" data-panel="quest-01" id="panel-q1" aria-labelledby="panel-q1-h"></section>
-    <section class="panel" data-panel="quest-02" id="panel-q2" aria-labelledby="panel-q2-h"></section>
-    <section class="panel" data-panel="quest-03" id="panel-q3" aria-labelledby="panel-q3-h"></section>
-    <section class="panel" data-panel="quest-04" id="panel-q4" aria-labelledby="panel-q4-h"></section>
-    <section class="panel" data-panel="see-more" id="panel-see" aria-labelledby="panel-see-h"></section>
-    <section class="panel" data-panel="logos" id="panel-logos" aria-label="Trusted by"></section>
-    <section class="panel" data-panel="contact" id="panel-contact" aria-labelledby="panel-contact-h"></section>
+  <main id="page">
+    <section id="zone-sky" class="zone" aria-label="Contact"></section>
+    <section id="zone-homepage" class="zone">
+      <div id="world"></div>
+      <div id="robot"></div>
+      <div id="track">
+        <section class="panel" data-panel="hero" id="panel-hero" aria-labelledby="panel-hero-h"></section>
+        <section class="panel" data-panel="quest-01" id="panel-q1" aria-labelledby="panel-q1-h"></section>
+        <section class="panel" data-panel="quest-02" id="panel-q2" aria-labelledby="panel-q2-h"></section>
+        <section class="panel" data-panel="quest-03" id="panel-q3" aria-labelledby="panel-q3-h"></section>
+        <section class="panel" data-panel="quest-04" id="panel-q4" aria-labelledby="panel-q4-h"></section>
+        <section class="panel" data-panel="see-more" id="panel-see" aria-labelledby="panel-see-h"></section>
+        <section class="panel" data-panel="logos" id="panel-logos" aria-label="Trusted by"></section>
+        <section class="panel" data-panel="contact-recap" id="panel-contact" aria-labelledby="panel-contact-h"></section>
+      </div>
+      <footer id="bottom-strip"></footer>
+    </section>
+    <section id="zone-underground" class="zone" aria-label="Work archive"></section>
   </main>
-  <footer id="bottom-strip"></footer>
   <script type="module" src="js/homepage.js"></script>
 </body>
 </html>
