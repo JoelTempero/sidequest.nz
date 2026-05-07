@@ -458,12 +458,13 @@ export function mountProjectPanel(panelEl, opts) {
   panelEl.appendChild(grid);
 
   // ── Text column ────────────────────────────────────────────────────────────
+  // Note: justify-self is owned by CSS (#zone-homepage .project-grid rules)
+  // so the paired-spread layout can push text and image toward the inner gap.
   const textCol = document.createElement('div');
   textCol.className = 'text-col';
   textCol.style.cssText = `
     grid-column: ${imageOnRight ? 1 : 2};
     text-align: ${align};
-    justify-self: ${align === 'right' ? 'end' : 'start'};
     max-width: 560px;
   `;
 
@@ -547,11 +548,12 @@ export function mountProjectPanel(panelEl, opts) {
   textCol.appendChild(cta);
 
   // ── Image column ───────────────────────────────────────────────────────────
+  // Note: justify-self is owned by CSS (paired-spread rules) so image pulls
+  // toward the inner gap together with the text column.
   const imgCol = document.createElement('div');
   imgCol.className = 'project-image-col image-col';
   imgCol.style.cssText = `
     grid-column: ${imageOnRight ? 2 : 1};
-    justify-self: ${imageOnRight ? 'end' : 'start'};
   `;
   imgCol.appendChild(ProjectImage(imageSrc, imageAlt));
 
