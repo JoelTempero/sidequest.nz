@@ -125,6 +125,7 @@ body.underground {
   color: var(--ink);
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body.underground #environment {
