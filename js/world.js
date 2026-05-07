@@ -14,28 +14,6 @@
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Create a DOM element with optional inline style string. */
-function el(tag, cssText, attrs) {
-  const node = document.createElementNS(
-    tag === 'svg' || tag === 'circle' || tag === 'defs' || tag === 'linearGradient' ||
-    tag === 'radialGradient' || tag === 'stop' || tag === 'path' || tag === 'rect' ||
-    tag === 'ellipse' || tag === 'g' || tag === 'polygon' || tag === 'line'
-      ? 'http://www.w3.org/2000/svg'
-      : null,
-    tag,
-  );
-  if (node.namespaceURI && node.namespaceURI !== 'http://www.w3.org/2000/svg') {
-    // shouldn't happen — guard only
-  }
-  if (cssText) node.style.cssText = cssText;
-  if (attrs) {
-    for (const [k, v] of Object.entries(attrs)) {
-      node.setAttribute(k, v);
-    }
-  }
-  return node;
-}
-
 /** Create an HTML div (not SVG). */
 function div(cssText) {
   const d = document.createElement('div');
@@ -79,7 +57,7 @@ function raf(fn) {
  * SKY — vertical gradient, factor 0.02.
  * Almost static — just the dark purple gradient.
  */
-function makeSky(rootEl, { scrollRef, W, mode }) {
+function makeSky(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -95,7 +73,7 @@ function makeSky(rootEl, { scrollRef, W, mode }) {
   rootEl.appendChild(layer);
 
   const factor = 0.02;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -107,7 +85,7 @@ function makeSky(rootEl, { scrollRef, W, mode }) {
  * SUN — soft violet glow disc, factor 0.06.
  * Repeated every 1800px so one is always visible.
  */
-function makeSun(rootEl, { scrollRef, W, mode }) {
+function makeSun(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -133,7 +111,7 @@ function makeSun(rootEl, { scrollRef, W, mode }) {
   }
 
   const factor = 0.06;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -179,7 +157,7 @@ function makeStars(rootEl) {
  * FAR MOUNTAINS — SVG quadratic-bezier mountain path, factor 0.18.
  * baseY 600 in 1080-tall viewBox, gradient #3a1d6e → #1a0f2e.
  */
-function makeFarMountains(rootEl, { scrollRef, W, mode }) {
+function makeFarMountains(rootEl, { scrollRef, W, mode, uid, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -213,18 +191,18 @@ function makeFarMountains(rootEl, { scrollRef, W, mode }) {
 
   const defs = svgEl('defs');
   s.appendChild(defs);
-  const grad = svgEl('linearGradient', { id: 'far-grad', x1: '0', y1: '0', x2: '0', y2: '1' });
+  const grad = svgEl('linearGradient', { id: `far-grad-${uid}`, x1: '0', y1: '0', x2: '0', y2: '1' });
   defs.appendChild(grad);
   const stop0 = svgEl('stop', { offset: '0%',   'stop-color': '#3a1d6e', 'stop-opacity': '0.95' });
   const stop1 = svgEl('stop', { offset: '100%', 'stop-color': '#1a0f2e', 'stop-opacity': '1' });
   grad.appendChild(stop0);
   grad.appendChild(stop1);
 
-  const path = svgEl('path', { d, fill: 'url(#far-grad)' });
+  const path = svgEl('path', { d, fill: `url(#far-grad-${uid})` });
   s.appendChild(path);
 
   const factor = 0.18;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -236,7 +214,7 @@ function makeFarMountains(rootEl, { scrollRef, W, mode }) {
  * CLOUDS — three-ellipse puffs in #c4b5fd, factor 0.30.
  * Deterministic placement in sky band (top 40% of viewBox).
  */
-function makeClouds(rootEl, { scrollRef, W, mode }) {
+function makeClouds(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -285,7 +263,7 @@ function makeClouds(rootEl, { scrollRef, W, mode }) {
   }
 
   const factor = 0.30;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -297,7 +275,7 @@ function makeClouds(rootEl, { scrollRef, W, mode }) {
  * MID HILLS — closer range, factor 0.45.
  * baseY 780, peakWidth 480, gradient #5d2a8e → #2a1351.
  */
-function makeMidHills(rootEl, { scrollRef, W, mode }) {
+function makeMidHills(rootEl, { scrollRef, W, mode, uid, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -331,15 +309,15 @@ function makeMidHills(rootEl, { scrollRef, W, mode }) {
 
   const defs = svgEl('defs');
   s.appendChild(defs);
-  const grad = svgEl('linearGradient', { id: 'mid-grad', x1: '0', y1: '0', x2: '0', y2: '1' });
+  const grad = svgEl('linearGradient', { id: `mid-grad-${uid}`, x1: '0', y1: '0', x2: '0', y2: '1' });
   defs.appendChild(grad);
   grad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#5d2a8e', 'stop-opacity': '0.85' }));
   grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#2a1351', 'stop-opacity': '1' }));
 
-  s.appendChild(svgEl('path', { d, fill: 'url(#mid-grad)' }));
+  s.appendChild(svgEl('path', { d, fill: `url(#mid-grad-${uid})` }));
 
   const factor = 0.45;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -351,7 +329,7 @@ function makeMidHills(rootEl, { scrollRef, W, mode }) {
  * TREES — sparse silhouettes in #0a0612, factor 0.65.
  * 280px stride, every 3rd or 5th slot. Two kinds: tall pine, round canopy.
  */
-function makeTrees(rootEl, { scrollRef, W, mode }) {
+function makeTrees(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -407,7 +385,7 @@ function makeTrees(rootEl, { scrollRef, W, mode }) {
   }
 
   const factor = 0.65;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -419,7 +397,7 @@ function makeTrees(rootEl, { scrollRef, W, mode }) {
  * GROUND — earth band #06040b from y=900 to y=1080, accent line, grass tufts.
  * Factor 0.85.
  */
-function makeGround(rootEl, { scrollRef, W, mode }) {
+function makeGround(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -471,7 +449,7 @@ function makeGround(rootEl, { scrollRef, W, mode }) {
   }
 
   const factor = 0.85;
-  raf(() => {
+  trackedRaf(() => {
     const x = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     layer.style.transform = mode === 'vertical'
       ? `translate3d(0, ${-x * factor}px, 0)`
@@ -484,7 +462,7 @@ function makeGround(rootEl, { scrollRef, W, mode }) {
  * Drift: performance.now() * 0.04 % 2400 so they keep moving even at rest.
  * Combined into a single translate3d: -(scroll * 0.25) + drift.
  */
-function makeBirds(rootEl, { scrollRef, mode }) {
+function makeBirds(rootEl, { scrollRef, mode, trackedRaf }) {
   const wrapper = div(`
     position: absolute; top: 18%; left: 0;
     width: 60px; height: 20px;
@@ -519,7 +497,7 @@ function makeBirds(rootEl, { scrollRef, mode }) {
   }
 
   const factor = 0.25;
-  raf(() => {
+  trackedRaf(() => {
     const scroll = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
     const drift  = (performance.now() * 0.04) % 2400;
     wrapper.style.transform = mode === 'vertical'
@@ -535,6 +513,7 @@ function makeBirds(rootEl, { scrollRef, mode }) {
  *
  * @param {HTMLElement} rootEl - Container element (e.g. <div id="world">).
  * @param {{ scrollRef: { current: number }, totalWidth: number, mode?: 'horizontal'|'vertical' }} opts
+ * @returns {{ destroy: () => void }} Teardown handle — call destroy() to cancel all RAF loops.
  */
 export function mountWorld(rootEl, { scrollRef, totalWidth, mode = 'horizontal' }) {
   // Container styling
@@ -549,7 +528,14 @@ export function mountWorld(rootEl, { scrollRef, totalWidth, mode = 'horizontal' 
   // World layers are wider than the track for parallax breathing room
   const W = Math.max(totalWidth, 12000);
 
-  const ctx = { scrollRef, W, mode };
+  // Unique suffix for gradient IDs — prevents collisions if mountWorld is called twice.
+  const uid = Math.random().toString(36).slice(2, 8);
+
+  // Tracked RAF — collects cancel functions so destroy() can stop all loops.
+  const cancels = [];
+  const trackedRaf = (fn) => { cancels.push(raf(fn)); };
+
+  const ctx = { scrollRef, W, mode, uid, trackedRaf };
 
   // Build layers in back-to-front order
   makeSky(rootEl, ctx);
@@ -560,5 +546,9 @@ export function mountWorld(rootEl, { scrollRef, totalWidth, mode = 'horizontal' 
   makeMidHills(rootEl, ctx);
   makeTrees(rootEl, ctx);
   makeGround(rootEl, ctx);
-  makeBirds(rootEl, { scrollRef, mode }); // width-independent
+  makeBirds(rootEl, { scrollRef, mode, trackedRaf }); // width-independent
+
+  return {
+    destroy() { cancels.forEach(c => c()); cancels.length = 0; },
+  };
 }
