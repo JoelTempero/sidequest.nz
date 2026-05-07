@@ -603,6 +603,446 @@ export function mountQuest04(panelEl) {
   });
 }
 
+// ─── bigLink helper ───────────────────────────────────────────────────────────
+
+/**
+ * bigLink({ label, href, primary }) — filled or ghost CTA anchor.
+ * primary: filled #7c3aed bg, color #f5f0ff, no border.
+ * ghost:   transparent bg, 1px rgba(196,181,253,0.20) border, backdrop-filter blur(4px).
+ * Both: Space Grotesk 18px weight 500, padding 18px 28px, no border-radius.
+ *
+ * @param {{ label: string, href: string, primary?: boolean }} opts
+ * @returns {HTMLAnchorElement}
+ */
+function bigLink({ label, href, primary = false }) {
+  const a = document.createElement('a');
+  a.href = href;
+  a.textContent = label;
+  a.style.cssText = `
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 28px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    background: ${primary ? '#7c3aed' : 'transparent'};
+    color: ${primary ? '#f5f0ff' : '#f5f0ff'};
+    border: ${primary ? 'none' : '1px solid rgba(196,181,253,0.20)'};
+    ${primary ? '' : 'backdrop-filter: blur(4px);'}
+    cursor: pointer;
+  `;
+  return a;
+}
+
+// ─── See More Panel ───────────────────────────────────────────────────────────
+
+/**
+ * Mount the "See More / Index" panel.
+ * ONE CTA only — "Full work index →" (primary). Field notes hidden for launch.
+ * H2: "More quests in the back catalogue." — numbers dropped per spec.
+ *
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountSeeMore(panelEl) {
+  // Outer: full-height flex centred vertically, padding 0 80px
+  const backdrop = document.createElement('div');
+  backdrop.style.cssText = `
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 80px;
+  `;
+  panelEl.appendChild(backdrop);
+
+  // Inner: max-width 820px container
+  const inner = document.createElement('div');
+  inner.style.cssText = 'max-width: 820px;';
+  backdrop.appendChild(inner);
+
+  // Eyebrow: Tick + "THERE'S MORE"
+  const brow = eyebrow("THERE'S MORE", { color: '#c4b5fd', withTick: true });
+  inner.appendChild(brow);
+
+  // H2: "More quests in the back catalogue."
+  const h2 = document.createElement('h2');
+  h2.style.cssText = `
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    font-size: clamp(34px, 3.8vw, 64px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #f5f0ff;
+    margin: 24px 0 0;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  `;
+  h2.textContent = 'More quests in the back catalogue.';
+  inner.appendChild(h2);
+
+  // CTA row — ONE link only (Field notes hidden for launch)
+  const ctaRow = document.createElement('div');
+  ctaRow.style.cssText = `
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+  `;
+  ctaRow.appendChild(bigLink({ label: 'Full work index →', href: 'work.html', primary: true }));
+  inner.appendChild(ctaRow);
+
+  return {
+    destroy() {
+      backdrop.remove();
+    },
+  };
+}
+
+// ─── Logos Panel ──────────────────────────────────────────────────────────────
+
+/**
+ * Mount the "Logos / Trusted by" panel with 10 parallax-bobbing fake logos.
+ * Positions, depths, rotations copied verbatim from panels.jsx LOGO_POSITIONS.
+ *
+ * @param {HTMLElement} panelEl
+ * @param {{ scrollRef: { current: number }, panelStartX: number }} opts
+ * @returns {{ destroy: () => void }}
+ */
+export function mountLogos(panelEl, { scrollRef, panelStartX }) {
+  // Panel container: relative + overflow hidden
+  panelEl.style.overflow = 'hidden';
+  panelEl.style.position = 'relative';
+
+  // Eyebrow — absolute, top 12vh, left 80px
+  const browWrap = document.createElement('div');
+  browWrap.style.cssText = `
+    position: absolute;
+    top: 12vh;
+    left: 80px;
+    z-index: 5;
+  `;
+  const brow = eyebrow("A FEW OF THE PEOPLE I'VE BUILT FOR", { color: '#c4b5fd', withTick: true });
+  browWrap.appendChild(brow);
+  panelEl.appendChild(browWrap);
+
+  // Sub-text — absolute, bottom 14vh, right 80px
+  const subText = document.createElement('div');
+  subText.style.cssText = `
+    position: absolute;
+    bottom: 14vh;
+    right: 80px;
+    z-index: 5;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a6a92;
+  `;
+  subText.textContent = '─ AND TWENTY-SIX OTHERS ACROSS AOTEAROA';
+  panelEl.appendChild(subText);
+
+  // 10 logos — verbatim from panels.jsx
+  const logos = [
+    { name: 'Maungatua',           kind: 'mark', x: 8,  y: 18, depth: 0.85, rot: -3 },
+    { name: 'Coast Pony Club',     kind: 'word', x: 28, y: 64, depth: 0.40, rot:  2 },
+    { name: 'Selwyn Choristers',   kind: 'word', x: 52, y: 22, depth: 0.70, rot: -1 },
+    { name: 'Kōwhai Lab',          kind: 'mark', x: 73, y: 58, depth: 0.95, rot:  4 },
+    { name: 'Tūī & Co.',           kind: 'word', x: 18, y: 78, depth: 0.25, rot:  0 },
+    { name: 'Halberg Foundation',  kind: 'word', x: 88, y: 30, depth: 0.55, rot: -2 },
+    { name: 'Ōtautahi Build',      kind: 'mark', x: 40, y: 44, depth: 0.30, rot:  1 },
+    { name: 'Riverbend Press',     kind: 'word', x: 62, y: 76, depth: 0.60, rot: -4 },
+    { name: 'Southern Cross',      kind: 'word', x: 82, y: 80, depth: 0.50, rot:  3 },
+    { name: 'Whēkau Studio',       kind: 'mark', x: 12, y: 42, depth: 0.75, rot: -2 },
+  ];
+
+  // SVG mark shapes — five variants cycled by index (verbatim from FakeLogo in panels.jsx)
+  function makeMark(idx) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('width', '22');
+    svg.setAttribute('height', '22');
+    svg.setAttribute('viewBox', '0 0 24 24');
+
+    const shapeIdx = idx % 5;
+    let el;
+    if (shapeIdx === 0) {
+      // square with diagonal
+      const g = document.createElementNS(ns, 'g');
+      const rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', '2'); rect.setAttribute('y', '2');
+      rect.setAttribute('width', '20'); rect.setAttribute('height', '20');
+      rect.setAttribute('stroke', 'currentColor'); rect.setAttribute('stroke-width', '1.5');
+      rect.setAttribute('fill', 'none');
+      g.appendChild(rect);
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', '2'); line.setAttribute('y1', '22');
+      line.setAttribute('x2', '22'); line.setAttribute('y2', '2');
+      line.setAttribute('stroke', 'currentColor'); line.setAttribute('stroke-width', '1.5');
+      g.appendChild(line);
+      el = g;
+    } else if (shapeIdx === 1) {
+      // circle + dot
+      const g = document.createElementNS(ns, 'g');
+      const circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('cx', '12'); circle.setAttribute('cy', '12'); circle.setAttribute('r', '10');
+      circle.setAttribute('stroke', 'currentColor'); circle.setAttribute('stroke-width', '1.5');
+      circle.setAttribute('fill', 'none');
+      g.appendChild(circle);
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('cx', '12'); dot.setAttribute('cy', '12'); dot.setAttribute('r', '3');
+      dot.setAttribute('fill', 'currentColor');
+      g.appendChild(dot);
+      el = g;
+    } else if (shapeIdx === 2) {
+      // triangle
+      const g = document.createElementNS(ns, 'g');
+      const poly = document.createElementNS(ns, 'polygon');
+      poly.setAttribute('points', '12,3 22,21 2,21');
+      poly.setAttribute('stroke', 'currentColor'); poly.setAttribute('stroke-width', '1.5');
+      poly.setAttribute('fill', 'none');
+      g.appendChild(poly);
+      el = g;
+    } else if (shapeIdx === 3) {
+      // stacked bars
+      const g = document.createElementNS(ns, 'g');
+      [[3,4,18,3],[3,11,12,3],[3,18,18,3]].forEach(([x, y, w, h]) => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', x); rect.setAttribute('y', y);
+        rect.setAttribute('width', w); rect.setAttribute('height', h);
+        rect.setAttribute('fill', 'currentColor');
+        g.appendChild(rect);
+      });
+      el = g;
+    } else {
+      // arrow
+      const g = document.createElementNS(ns, 'g');
+      const path = document.createElementNS(ns, 'path');
+      path.setAttribute('d', 'M3 12 L18 12 M14 6 L20 12 L14 18');
+      path.setAttribute('stroke', 'currentColor'); path.setAttribute('stroke-width', '1.8');
+      path.setAttribute('fill', 'none'); path.setAttribute('stroke-linecap', 'square');
+      g.appendChild(path);
+      el = g;
+    }
+    svg.appendChild(el);
+    return svg;
+  }
+
+  const rafs = [];
+  const logoEls = [];
+
+  logos.forEach((logo, i) => {
+    const { name, kind, x, y, depth, rot } = logo;
+
+    // Outer wrapper — positioned absolutely, reads scrollRef in RAF
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      position: absolute;
+      left: ${x}%;
+      top: ${y}%;
+      will-change: transform;
+    `;
+
+    // Inner — scale + opacity + blur from depth
+    const scale   = 0.7 + depth * 0.6;
+    const opacity = 0.35 + depth * 0.55;
+    const blur    = depth < 0.5 ? (0.5 - depth) * 2 : 0;
+    const inner = document.createElement('div');
+    inner.style.cssText = `
+      transform: scale(${scale});
+      opacity: ${opacity};
+      ${blur > 0 ? `filter: blur(${blur}px);` : ''}
+    `;
+
+    // FakeLogo: mark SVG + wordmark text
+    const logoEl = document.createElement('div');
+    logoEl.style.cssText = `
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #b8a8d4;
+      opacity: 0.85;
+    `;
+
+    logoEl.appendChild(makeMark(i));
+
+    const fontFamily = (i % 2 === 0) ? '"Space Grotesk", sans-serif' : '"IBM Plex Mono", monospace';
+    const fontStyle  = (i % 3 === 0) ? 'italic' : 'normal';
+    const fontWeight = (i % 2 === 0) ? 600 : 500;
+    const letterSpacing = (kind === 'mark') ? '0.02em' : '-0.01em';
+
+    const wordmark = document.createElement('span');
+    wordmark.textContent = name;
+    wordmark.style.cssText = `
+      font-family: ${fontFamily};
+      font-style: ${fontStyle};
+      font-weight: ${fontWeight};
+      font-size: 15px;
+      letter-spacing: ${letterSpacing};
+      white-space: nowrap;
+    `;
+    logoEl.appendChild(wordmark);
+
+    inner.appendChild(logoEl);
+    wrapper.appendChild(inner);
+    panelEl.appendChild(wrapper);
+    logoEls.push(wrapper);
+
+    // Per-logo RAF: bob + parallax pan (verbatim from ParallaxLogo useEffect)
+    const bobPhase = i * 0.7;
+    let raf;
+    const tickFn = () => {
+      const t = performance.now() * 0.0008;
+      const bobY = Math.sin(t + bobPhase) * (4 + (1 - depth) * 6);
+      const bobX = Math.cos(t * 0.7 + bobPhase) * (3 + (1 - depth) * 5);
+      const localX = (scrollRef.current || 0) - (panelStartX || 0);
+      const parX = -localX * (depth * 0.35);
+      wrapper.style.transform = `translate3d(${parX + bobX}px, ${bobY}px, 0) rotate(${rot}deg)`;
+      raf = requestAnimationFrame(tickFn);
+    };
+    raf = requestAnimationFrame(tickFn);
+    rafs.push(() => cancelAnimationFrame(raf));
+  });
+
+  return {
+    destroy() {
+      rafs.forEach(cancel => cancel());
+      browWrap.remove();
+      subText.remove();
+      logoEls.forEach(el => el.remove());
+    },
+  };
+}
+
+// ─── Contact Panel ────────────────────────────────────────────────────────────
+
+/**
+ * Mount the Contact panel.
+ * Right-aligned, max-width 820px.
+ * H2 "I'm Joel. Say hi." — "Joel." italic violet, "Say hi." muted.
+ * Two real anchor links: mailto + tel.
+ *
+ * @param {HTMLElement} panelEl
+ * @returns {{ destroy: () => void }}
+ */
+export function mountContact(panelEl) {
+  // Outer: full-height flex centred vertically, right-aligned, padding 0 80px
+  const backdrop = document.createElement('div');
+  backdrop.style.cssText = `
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 80px;
+  `;
+  panelEl.appendChild(backdrop);
+
+  // Inner: max-width 820px container, text right
+  const inner = document.createElement('div');
+  inner.style.cssText = `
+    max-width: 820px;
+    text-align: right;
+  `;
+  backdrop.appendChild(inner);
+
+  // Eyebrow: "KIA ORA" + Tick (tick after label for right-align per JSX)
+  const brow = document.createElement('div');
+  brow.style.cssText = `
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    display: inline-flex;
+    gap: 14px;
+    align-items: center;
+  `;
+  const kiaOra = document.createElement('span');
+  kiaOra.textContent = 'KIA ORA';
+  brow.appendChild(kiaOra);
+  brow.appendChild(tick());
+  inner.appendChild(brow);
+
+  // H2: "I'm Joel. Say hi."
+  // "Joel." — italic violet #c4b5fd
+  // "Say hi." — muted #7a6a92
+  const h2 = document.createElement('h2');
+  h2.style.cssText = `
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    font-size: clamp(38px, 4vw, 70px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #f5f0ff;
+    margin: 24px 0 0;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  `;
+  h2.appendChild(document.createTextNode("I'm "));
+  const joelSpan = document.createElement('span');
+  joelSpan.textContent = 'Joel.';
+  joelSpan.style.cssText = `
+    color: #c4b5fd;
+    font-style: italic;
+    font-weight: 400;
+  `;
+  h2.appendChild(joelSpan);
+  h2.appendChild(document.createTextNode(' '));
+  const sayHiSpan = document.createElement('span');
+  sayHiSpan.textContent = 'Say hi.';
+  sayHiSpan.style.color = '#7a6a92';
+  h2.appendChild(sayHiSpan);
+  inner.appendChild(h2);
+
+  // Contact links — stacked, right-aligned
+  const linksWrap = document.createElement('div');
+  linksWrap.style.cssText = `
+    margin-top: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #f5f0ff;
+  `;
+
+  const emailLink = document.createElement('a');
+  emailLink.href = 'mailto:joel@tempero.nz';
+  emailLink.textContent = 'joel@tempero.nz';
+  emailLink.style.cssText = `
+    color: #f5f0ff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196,181,253,0.20);
+    padding-bottom: 4px;
+  `;
+  linksWrap.appendChild(emailLink);
+
+  const phoneLink = document.createElement('a');
+  phoneLink.href = 'tel:+642040239009';
+  phoneLink.textContent = '+64 204 023 9009';
+  phoneLink.style.cssText = `
+    color: #b8a8d4;
+    text-decoration: none;
+    font-size: 22px;
+  `;
+  linksWrap.appendChild(phoneLink);
+
+  inner.appendChild(linksWrap);
+
+  return {
+    destroy() {
+      backdrop.remove();
+    },
+  };
+}
+
 // ─── Bottom Strip ─────────────────────────────────────────────────────────────
 
 /**
