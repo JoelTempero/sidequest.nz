@@ -14,7 +14,7 @@
  *   - Mobile fallback: no wheel hijack, native scroll, scrollIntoView nav
  */
 
-import { initScrollEngine, feedHorizontalDelta } from './scroll-engine.js';
+import { initScrollEngine, feedHorizontalDelta, feedTouchStart, feedTouchMove, feedTouchEnd } from './scroll-engine.js';
 import { mountWorld } from './world.js';
 import { mountRobot } from './robot.js';
 import { mountSky } from './sky.js';
@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── In-flight lock (suppress wheel during animated scroll) ───────────────────
   let inFlight = false;
+  let inFlightTimeoutId = null;
 
   // ── scrollToZone ─────────────────────────────────────────────────────────────
   let cancelActiveScroll = null;
@@ -251,19 +252,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetY = { sky: skyY, homepage: homepageY, underground: undergroundY }[zoneId];
     if (targetY === undefined) return;
 
-    // Update URL hash (pushState so back/forward works)
+    // Update URL hash (pushState so back/forward works).
+    // Use window.location.pathname so subpath deployments don't get reset to root.
     const newHash = HASH_FOR[zoneId];
     const currentHash = window.location.hash;
     if (newHash !== currentHash) {
-      history.pushState(null, '', '/' + newHash);
+      history.pushState(null, '', window.location.pathname + newHash);
     }
 
     if (animated && !isMobile && !prefersReducedMotion) {
+      // Cancel any pending inFlight timeout from a prior animation
+      if (inFlightTimeoutId) {
+        clearTimeout(inFlightTimeoutId);
+        inFlightTimeoutId = null;
+      }
       inFlight = true;
       if (cancelActiveScroll) cancelActiveScroll();
       cancelActiveScroll = animateScroll(pageEl, pageEl.scrollTop, targetY, 800);
-      // Clear in-flight flag after animation completes
-      setTimeout(() => { inFlight = false; cancelActiveScroll = null; }, 820);
+      // Clear in-flight flag after animation completes (duration 800ms + 20ms buffer)
+      inFlightTimeoutId = setTimeout(() => {
+        inFlight = false;
+        cancelActiveScroll = null;
+        inFlightTimeoutId = null;
+      }, 820);
     } else {
       pageEl.scrollTop = targetY;
       inFlight = false;
@@ -349,6 +360,25 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (e.key === 'End') {
         feedHorizontalDelta(Infinity);
       }
+    });
+
+    // ── Touch handler (desktop — zone-gated, registered on pageEl not window) ─
+    // Only routes to horizontal pan when the homepage zone is active.
+    // Sky and underground receive native browser scroll unimpeded.
+    pageEl.addEventListener('touchstart', (e) => {
+      const inHomepage = Math.abs(pageEl.scrollTop - homepageY) < 50;
+      if (!inHomepage) return;
+      feedTouchStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    pageEl.addEventListener('touchmove', (e) => {
+      const inHomepage = Math.abs(pageEl.scrollTop - homepageY) < 50;
+      if (!inHomepage) return;
+      feedTouchMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    pageEl.addEventListener('touchend', () => {
+      feedTouchEnd();
     });
 
   } else {

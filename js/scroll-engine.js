@@ -41,7 +41,7 @@ export function subscribe(callback) {
   };
 }
 
-// ─── Module-level feed function (set by initScrollEngine) ─────────────────────
+// ─── Module-level feed functions (set by initScrollEngine) ────────────────────
 /** Feed a vertical wheel delta into the horizontal scroll engine. */
 let _feedHorizontalDelta = () => {};
 
@@ -53,6 +53,29 @@ let _feedHorizontalDelta = () => {};
 export function feedHorizontalDelta(dy) {
   _feedHorizontalDelta(dy);
 }
+
+// Touch state shared between feedTouchStart / feedTouchMove / feedTouchEnd
+let _touchX = null, _touchY = null, _touchStart = 0;
+let _feedTouchStartFn  = (x, y) => {};
+let _feedTouchMoveFn   = (x, y) => {};
+let _feedTouchEndFn    = ()      => {};
+
+/**
+ * Begin a touch gesture. Call from homepage.js touchstart handler.
+ * @param {number} x  clientX
+ * @param {number} y  clientY
+ */
+export function feedTouchStart(x, y) { _feedTouchStartFn(x, y); }
+
+/**
+ * Continue a touch gesture. Call from homepage.js touchmove handler.
+ * @param {number} x  clientX
+ * @param {number} y  clientY
+ */
+export function feedTouchMove(x, y) { _feedTouchMoveFn(x, y); }
+
+/** End a touch gesture. Call from homepage.js touchend handler. */
+export function feedTouchEnd() { _feedTouchEndFn(); }
 
 // ─── Init scroll engine ────────────────────────────────────────────────────────
 /**
@@ -91,26 +114,29 @@ export function initScrollEngine({ trackEl }) {
     scroll.target = Math.max(0, Math.min(maxScroll, scroll.target + dy));
   };
 
-  // ── Touch (kept — only fires in practice on homepage zone) ───────────────────
-  let touchX = null, touchY = null, touchStart = 0;
+  // ── feedTouch* implementations ────────────────────────────────────────────────
+  let touchStartX = null, touchStartY = null, touchBase = 0;
 
-  const onTouchStart = (e) => {
-    touchX = e.touches[0].clientX;
-    touchY = e.touches[0].clientY;
-    touchStart = scroll.target;
+  _feedTouchStartFn = (x, y) => {
+    touchStartX = x;
+    touchStartY = y;
+    touchBase   = scroll.target;
   };
-  const onTouchMove = (e) => {
-    if (touchY === null) return;
-    const dy = touchY - e.touches[0].clientY;
-    const dx = touchX - e.touches[0].clientX;
+
+  _feedTouchMoveFn = (x, y) => {
+    if (touchStartY === null) return;
+    const dy   = touchStartY - y;
+    const dx   = touchStartX - x;
     const move = Math.abs(dy) > Math.abs(dx) ? dy : dx;
-    scroll.target = Math.max(0, Math.min(maxScroll, touchStart + move * 2));
+    scroll.target = Math.max(0, Math.min(maxScroll, touchBase + move * 2));
   };
-  const onTouchEnd = () => { touchX = null; touchY = null; };
 
-  window.addEventListener('touchstart', onTouchStart, { passive: true });
-  window.addEventListener('touchmove',  onTouchMove,  { passive: true });
-  window.addEventListener('touchend',   onTouchEnd);
+  _feedTouchEndFn = () => { touchStartX = null; touchStartY = null; };
+
+  // Touch listeners removed — orchestrator (homepage.js) registers touch on
+  // pageEl and calls feedTouchStart / feedTouchMove / feedTouchEnd only when
+  // the homepage zone is active. This prevents horizontal pan from firing when
+  // the user touches the underground or sky zones.
 
   // ── RAF tick ─────────────────────────────────────────────────────────────────
   let rafId;

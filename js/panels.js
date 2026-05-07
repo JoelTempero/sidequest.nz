@@ -1078,7 +1078,7 @@ export function mountContact(panelEl) {
 export function mountBottomStrip(rootEl, { progressRef, activeIdxRef }) {
   const strip = document.createElement('div');
   strip.style.cssText = `
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
