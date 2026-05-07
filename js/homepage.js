@@ -12,7 +12,8 @@ import {
 } from './panels.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const isDesktop = window.matchMedia('(min-width: 901px)').matches;
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const isDesktop = !isMobile;
 
   const PANEL_COUNT = document.querySelectorAll('#track > .panel').length;
   const LOGOS_IDX = 6; // zero-based position of panel-logos in #track

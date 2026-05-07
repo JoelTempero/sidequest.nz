@@ -66,7 +66,6 @@ body.homepage .panel {
   }
 
   /* Project panels: single-column stacked on mobile */
-  /* Project panels: single-column stacked on mobile */
   /* !important needed to beat inline styles set by mountProjectPanel */
   body.homepage .project-grid {
     grid-template-columns: 1fr !important;
