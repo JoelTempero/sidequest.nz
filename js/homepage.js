@@ -249,8 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
   let cancelActiveScroll = null;
 
   function scrollToZone(zoneId, { animated = true } = {}) {
-    const targetY = { sky: skyY, homepage: homepageY, underground: undergroundY }[zoneId];
-    if (targetY === undefined) return;
+    // On desktop, zone Y positions are fixed multiples of innerHeight (scroll camera model).
+    // On mobile, zones are natural-height document sections — resolve from element offsetTop.
+    let targetY;
+    if (isMobile) {
+      const zoneEl = document.getElementById(`zone-${zoneId}`);
+      if (!zoneEl) return;
+      targetY = zoneEl.offsetTop;
+    } else {
+      targetY = { sky: skyY, homepage: homepageY, underground: undergroundY }[zoneId];
+      if (targetY === undefined) return;
+    }
 
     // Update URL hash (pushState so back/forward works).
     // Use window.location.pathname so subpath deployments don't get reset to root.
@@ -275,6 +284,13 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelActiveScroll = null;
         inFlightTimeoutId = null;
       }, 820);
+    } else if (isMobile) {
+      // On mobile, #page has overflow-y: visible so pageEl.scrollTop is a no-op.
+      // Drive the document scroll via window.scrollTo. Use smooth for animated nav,
+      // instant for initial load and reduced-motion.
+      const behavior = (animated && !prefersReducedMotion) ? 'smooth' : 'instant';
+      window.scrollTo({ top: targetY, behavior });
+      inFlight = false;
     } else {
       pageEl.scrollTop = targetY;
       inFlight = false;
@@ -394,10 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
     mountTopNav(document.getElementById('top-nav'), {
       jumpTo: (idx) => panels[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
       onZoneClick: (zoneId) => {
-        const targetEl = document.getElementById(`zone-${zoneId}`);
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-        }
+        // Use scrollToZone so the URL hash updates and the correct scroll method is used.
+        // scrollToZone on mobile uses window.scrollTo for initial/instant jumps,
+        // and zone zone Y is computed from the actual zone element's offsetTop.
+        scrollToZone(zoneId, { animated: !prefersReducedMotion });
       },
     });
 
