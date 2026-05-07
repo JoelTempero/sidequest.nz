@@ -3,7 +3,7 @@
 ## Overview
 - **Project**: sidequest.nz marketing website
 - **Type**: Static portfolio site (horizontal scroll)
-- **Status**: Homepage rebuilt against new design handoff (violet aesthetic, parallax landscape, companion robot). Functional, smoke-tested. Awaiting Joel's review on `feat/homepage-rethink` branch.
+- **Status**: Homepage rebuilt + Z-axis navigation extension shipped on `feat/homepage-rethink`. Click `Work` → camera pans down into an underground archaeological archive; click `Contact` → camera pans up into a dusk-stars sky panel. All cross-page transitions tested working desktop + mobile. Awaiting Joel's final review and merge.
 - **URL**: sidequest.nz
 
 ## Playbooks In Use
@@ -22,12 +22,21 @@ Brain location: `D:/Sidequest Digital/Dev Projects/Brain/`
 - Static hosting (no build step, no framework, no GSAP)
 
 ## Site Structure
-- `index.html` — homepage with horizontal scroll (desktop), vertical stack (mobile ≤900px). 8 panels: hero, 4 quests (Chill Air, Storybook, My Living Hope, 24CHCH), see-more, logos, contact. Companion robot drifts above the parallax landscape.
-- `work.html` — all projects, filterable grid
-- `contact.html` — contact form + bio card + legal links (terms/privacy)
+- `index.html` — homepage with horizontal scroll (desktop), vertical stack (mobile ≤900px). 8 panels: hero, 4 quests (Chill Air, Storybook, My Living Hope, 24CHCH), see-more, logos, contact. Companion robot drifts above the parallax landscape (homepage only).
+- `work.html` — underground archaeological archive (vertical-scroll project list with rock-strata + lantern parallax backdrop). All 5 projects.
+- `contact.html` — dusk-stars sky panel (single static view with bio + form). Lifted above the surface metaphorically.
 - `projects/<slug>/` — unique detail page per project
 - `pages/terms.html`, `pages/privacy.html` — legal pages
 - No about page (removed), no footers (removed site-wide)
+
+## Z-Axis Navigation
+- Click `Work` from homepage → ~800ms camera pan down → underground.
+- Click `Contact` from homepage → ~800ms pan up → sky.
+- Click `Home` from sub-page → ~800ms reverse pan → homepage hero.
+- Cross-sub-page transit (Work ↔ Contact) → ~1600ms continuous pan through the surface.
+- Mobile (≤900px): no camera pan, native `<a href>` navigation, themed backdrops still render.
+- Reduced motion: instant page nav, no animations, themed backdrops static.
+- Page navigation is masked by a violet overlay handoff at ~80% animation progress to prevent FOUC.
 
 ## Project Content System
 - Projects stored in `projects/<slug>/` with `meta.json` + `index.html` + `assets/`
@@ -39,14 +48,19 @@ Brain location: `D:/Sidequest Digital/Dev Projects/Brain/`
 
 ## Key Files
 - `css/style.css` — reset, violet+ink tokens, Google Fonts import, base typography
-- `css/layout.css` — homepage layout block (body.homepage scoped) + work/contact/project page layouts. Mobile media query at ≤900px.
-- `css/components.css` — nav glass, buttons (square corners), focus-visible styles
+- `css/layout.css` — three scoped layout blocks (`body.homepage`, `body.underground`, `body.sky`) + legacy work/contact/project page rules. Mobile media queries at ≤900px per zone.
+- `css/components.css` — nav glass, buttons (square corners), focus-visible styles, `#transition-overlay` styles
 - `js/scroll-engine.js` — horizontal pan from vertical wheel/touch/keyboard. Single RAF, lerp, snap. Reduced-motion-aware.
-- `js/world.js` — 8-layer parallax landscape (sky, sun, stars, mountains, clouds, hills, trees, ground, birds). Per-layer RAF. Supports horizontal/vertical mode.
-- `js/robot.js` — autonomous companion robot. Wander state machine, cursor-tracking eyes, blink, jet plume, pulsing status light.
-- `js/panels.js` — all 8 homepage panels (hero, 4 quests, see-more, logos, contact) + fixed chrome (top nav, bottom strip). Shared atoms: `eyebrow`, `tick`, `bigLink`.
-- `js/homepage.js` — entry point. Bootstraps everything on DOMContentLoaded. Branches isDesktop vs mobile.
-- `js/main.js` — nav toggle, work-page manifest loader. Used by work.html and others.
+- `js/world.js` — 8-layer parallax landscape (homepage only).
+- `js/robot.js` — autonomous companion robot (homepage only).
+- `js/underground.js` — 7-layer archaeological backdrop for work.html (rock strata, warm-amber + violet lantern points, fossil silhouettes, dust motes). Vertical parallax via window.scrollY.
+- `js/sky.js` — 5-layer dusk-stars backdrop for contact.html (sky gradient, twinkling stars, aurora ribbon, mountain ridge, drifting clouds).
+- `js/transition.js` — camera-pan orchestrator for cross-page nav. `transitionTo`, `playEntryAnimation`. Overlay handoff at ~80% animation progress.
+- `js/panels.js` — all 8 homepage panels + fixed chrome (top nav, bottom strip). Shared atoms: `eyebrow`, `tick`, `bigLink`. `mountTopNav` accepts optional `onNavigate` for cross-page transitions.
+- `js/homepage.js` — entry point for index.html. Branches isDesktop vs mobile.
+- `js/work-page.js` — entry point for work.html. Mounts underground env, top nav, project list from manifest, plays entry animation.
+- `js/contact-page.js` — entry point for contact.html. Mounts sky env, top nav, form (Web3Forms), plays entry animation.
+- `js/main.js` — nav toggle, work-page manifest loader. Used by older pages.
 
 ## Design Language
 - Dark theme (#08060d base — near-black with violet bias)
@@ -84,15 +98,16 @@ Brain location: `D:/Sidequest Digital/Dev Projects/Brain/`
 - Deploy: Push to git (static host auto-deploys)
 
 ## Next Steps
-1. **Joel reviews `feat/homepage-rethink` in real browser** — verify desktop scroll/parallax/robot in Chrome + Firefox + Safari. Test mobile (≤900px). Toggle reduced-motion at OS level. Run Lighthouse and compare to current homepage.
-2. **Replace placeholder content when Joel has it:**
+1. **Joel reviews `feat/homepage-rethink` end-to-end** — homepage + Z-axis transitions to work/contact, both desktop + mobile, in Chrome + Firefox + Safari. Toggle OS-level reduced-motion. Run Lighthouse on each of the three pages and compare to baselines.
+2. **Visual contrast tuning** — the underground and sky environments may benefit from further calibration in the live browser (recent fix lifted contrast but Joel may want more punch on rock strata, lantern glow, aurora visibility).
+3. **Replace placeholder content when Joel has it:**
    - Real project photography for the four Quest panels (currently Unsplash placeholders)
    - Real client logos (currently 10 fake placeholders in panel 06)
-3. **Restore Technicolour Thoughts** to the homepage marquee when ready (decide: 5th Quest panel, or rotate one out).
-4. **Field notes section** — Panel 05 hides the secondary CTA. When/if a field-notes page exists, restore the second `BigLink` button (handoff has the styling locked).
-5. Design review of project detail pages (visual QA — separate from this rebuild).
-6. Build CMS tab in Sidequest Center to manage project content (not started).
-7. Merge `feat/homepage-rethink` to main + deploy live.
+4. **Restore Technicolour Thoughts** to the homepage marquee when ready (decide: 5th Quest panel, or rotate one out).
+5. **Field notes section** — Panel 05 hides the secondary CTA. When/if a field-notes page exists, restore the second `BigLink` button (handoff has the styling locked).
+6. Design review of project detail pages (visual QA — separate from this rebuild).
+7. Build CMS tab in Sidequest Center to manage project content (not started).
+8. Merge `feat/homepage-rethink` to main + deploy live.
 
 ## Key Decisions
 - **Horizontal scroll** (desktop) with vertical fallback (mobile ≤900px) — single RAF + lerp engine
@@ -122,7 +137,8 @@ Five real projects:
 - **24CHCH** (websites) — annual short film competition event site
 
 ## Session Log
-- **2026-05-07**: Homepage rethink. Joel brought a Claude-design-tool handoff (`ref/design_handoff_homepage/`) — locked-in violet-aesthetic horizontal-scroll concept with parallax landscape and companion robot. Brainstormed scope (vanilla JS, homepage + global token swap, 4 of 5 projects featured, drop Technicolour for now). Wrote spec + 12-task plan. Executed all 12 tasks via subagent-driven development with spec + code reviews per task. Wiped GSAP + creative-overhaul code; built `scroll-engine.js`, `world.js`, `robot.js`, `panels.js`, `homepage.js`. Mobile fallback (≤900px) stacks vertically. Reduced-motion + a11y polish (focus-visible, aria-labelledby IDs, frozen RAF under reduced-motion). Cross-page token cleanup caught 5 broken `--accent-orange` references on project pages. Browser smoke test passed — all 8 panels render, scroll works, mobile stacks correctly, no console errors. On `feat/homepage-rethink` branch awaiting Joel's review and merge.
+- **2026-05-07 (session 2)**: Z-axis navigation extension. Brainstormed: clicking Work physically pans the camera down past the ground line into an underground archive; clicking Contact pans up into a dusk-stars sky panel. Wrote spec + 9-task plan. Executed via subagent-driven development. Built `transition.js` (camera-pan orchestrator + violet-overlay handoff at ~80% animation progress to mask the page navigation), `underground.js` (7-layer archaeological backdrop — rock strata, warm-amber + violet lantern points, fossil silhouettes, dust motes), `sky.js` (5-layer dusk-stars backdrop — sky gradient, twinkling stars, aurora ribbon, mountain ridge silhouette, drifting clouds), `work-page.js`, `contact-page.js`. Rewrote work.html and contact.html with `body.underground` / `body.sky` scoped CSS blocks. Wired homepage top nav (`onNavigate` callback in `mountTopNav`). Mobile (≤900px) skips the camera pan and uses native `<a href>` nav. Reduced-motion gates throughout. Visual contrast pass after first QA showed environments were too subtle — lifted strata brighter, lanterns warmer + larger, stars bigger, aurora ~2.3× more opaque. Final QA caught a mobile sub-page nav bug (preventDefault firing before isMobile check) — fixed by only passing onNavigate on desktop. Branch ready for Joel's end-to-end review.
+- **2026-05-07**: Homepage rethink. Joel brought a Claude-design-tool handoff (`ref/design_handoff_homepage/`) — locked-in violet-aesthetic horizontal-scroll concept with parallax landscape and companion robot. Brainstormed scope (vanilla JS, homepage + global token swap, 4 of 5 projects featured, drop Technicolour for now). Wrote spec + 12-task plan. Executed all 12 tasks via subagent-driven development with spec + code reviews per task. Wiped GSAP + creative-overhaul code; built `scroll-engine.js`, `world.js`, `robot.js`, `panels.js`, `homepage.js`. Mobile fallback (≤900px) stacks vertically. Reduced-motion + a11y polish (focus-visible, aria-labelledby IDs, frozen RAF under reduced-motion). Cross-page token cleanup caught 5 broken `--accent-orange` references on project pages. Browser smoke test passed — all 8 panels render, scroll works, mobile stacks correctly, no console errors. Bug fix: html element needed overflow:hidden so the browser didn't intercept wheel input via native horizontal scroll on the html box.
 - **2026-05-06 (session 3)**: Visual QA of homepage. Found broken: hero text garbled (double text scramble), project panels showing images but no text (CSS hid parent containers while GSAP animated children), CTA scramble resolving to glyphs. Fixed: removed CSS opacity:0 states, moved to gsap.set() targeting exact elements, fixed textScramble to store original text and cancel overlaps, removed redundant data-scramble handler, added 5s safety fallback. Result still not landing visually — Joel wants to rethink the creative direction rather than keep patching.
 - **2026-05-06 (session 2)**: Brainstormed homepage creative overhaul via visual companion (Cinematic + Interactive hybrid, intensity 4-5). Wrote design spec + implementation plan. Executed all 7 tasks via subagent-driven development with spec + code quality reviews. Built: canvas particle system, parallax layers, gradient blobs, typography fragments, text scramble, cursor glow, image tilt, magnetic buttons, per-panel entrance choreography (unique layouts for each project), discover panel with scattered thumbnails, CTA with peak energy. Fixed bugs: canvas cursor trapping, getBoundingClientRect thrashing, GSAP/direct-style transform conflicts. Found and fixed `gsap.from()` vs CSS opacity:0 conflict (converted all to `fromTo()`). Visual QA not yet completed — needs real browser testing next session.
 - **2026-05-06**: Font swap Inter→Syne, removed about page + footers site-wide, added bio card to contact page, rewrote homepage with all 5 project panels + unified background, fixed invisible content bug (CSS opacity states), fixed work page card visibility. Homepage is functional but needs creative overhaul — brainstorm planned for next session using visual companion + Creativity playbook at intensity 4-5.
