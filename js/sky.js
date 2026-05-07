@@ -68,17 +68,18 @@ function rafOrStatic(fn) {
 
 /**
  * SKY GRADIENT — static vertical gradient, full viewport.
- * #08060d → #1a0f2e → #2d1654 → #4a2378 (top to bottom).
+ * #0a0612 → #2d1654 → #4a2378 → #5d2a8e → #6d3aa8 (top to bottom — bolder dusk).
  */
 function makeSkyGradient(rootEl) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: linear-gradient(180deg,
-      #08060d 0%,
-      #1a0f2e 33%,
-      #2d1654 66%,
-      #4a2378 100%);
+      #0a0612 0%,
+      #2d1654 30%,
+      #4a2378 65%,
+      #5d2a8e 90%,
+      #6d3aa8 100%);
   `);
   rootEl.appendChild(layer);
 }
@@ -87,7 +88,8 @@ function makeSkyGradient(rootEl) {
  * STARS — 60 small #c4b5fd circles in top 70% of viewport.
  * Each star has a unique phase seed (i * 0.83).
  * ONE shared RAF updates all 60 star opacities each tick.
- * Reduced motion: stars render at average opacity (0.55), no twinkle.
+ * Radius 1.8 (2.6 every 4th). Brighter average opacity: 0.65 + 0.35 * sin().
+ * Reduced motion: stars render at average opacity (0.65), no twinkle.
  */
 function makeStars(rootEl, trackedRaf) {
   const wrapper = div(`
@@ -109,10 +111,10 @@ function makeStars(rootEl, trackedRaf) {
   for (let i = 0; i < 60; i++) {
     const cx = (i * 137) % 100;  // deterministic x% in 0-100
     const cy = (i * 71) % 70;    // deterministic y% in top 70%
-    const r = i % 4 === 0 ? 1.4 : 1.0;
+    const r = i % 4 === 0 ? 2.6 : 1.8;
     const phase = i * 0.83;
 
-    const staticOpacity = REDUCED_MOTION ? 0.5 : 0.5 + 0.4 * Math.sin(phase);
+    const staticOpacity = REDUCED_MOTION ? 0.65 : 0.65 + 0.35 * Math.sin(phase);
 
     const c = svgEl('circle', {
       cx: `${cx}%`,
@@ -131,7 +133,7 @@ function makeStars(rootEl, trackedRaf) {
     trackedRaf(() => {
       const t = performance.now() * 0.001;
       for (let i = 0; i < circles.length; i++) {
-        const opacity = 0.5 + 0.4 * Math.sin(t + phases[i]);
+        const opacity = 0.65 + 0.35 * Math.sin(t + phases[i]);
         circles[i].setAttribute('opacity', opacity);
       }
     });
@@ -139,9 +141,9 @@ function makeStars(rootEl, trackedRaf) {
 }
 
 /**
- * AURORA RIBBON — static subtle violet curtain in upper third.
- * SVG path with linearGradient: rgba(196,181,253,0.0) → 0.12 → 0.0.
- * Wavy band shape, low opacity.
+ * AURORA RIBBON — two layered violet curtains in upper third.
+ * First wave: peak rgba(196,181,253,0.28). Second softer wave: peak rgba(124,58,237,0.18).
+ * Wavy band shapes, layered for depth.
  */
 function makeAurora(rootEl) {
   const uid = Math.random().toString(36).slice(2, 8);
@@ -167,20 +169,30 @@ function makeAurora(rootEl) {
   const defs = svgEl('defs');
   s.appendChild(defs);
 
-  // Vertical gradient: transparent → violet → transparent
-  const grad = svgEl('linearGradient', {
-    id: `aurora-grad-${uid}`,
+  // First wave gradient: transparent → violet 0.28 → transparent
+  const grad1 = svgEl('linearGradient', {
+    id: `aurora-grad1-${uid}`,
     x1: '0', y1: '0',
     x2: '0', y2: '1',
   });
-  defs.appendChild(grad);
-  grad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(196,181,253,0)' }));
-  grad.appendChild(svgEl('stop', { offset: '45%',  'stop-color': 'rgba(196,181,253,0.12)' }));
-  grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(196,181,253,0)' }));
+  defs.appendChild(grad1);
+  grad1.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(196,181,253,0)' }));
+  grad1.appendChild(svgEl('stop', { offset: '45%',  'stop-color': 'rgba(196,181,253,0.28)' }));
+  grad1.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(196,181,253,0)' }));
 
-  // Wavy band path — occupies roughly 5%–35% from top in the viewBox
-  // Upper edge: wavy line; lower edge: wavy line offset downward
-  const auroraPath = [
+  // Second wave gradient: transparent → deeper violet 0.18 → transparent
+  const grad2 = svgEl('linearGradient', {
+    id: `aurora-grad2-${uid}`,
+    x1: '0', y1: '0',
+    x2: '0', y2: '1',
+  });
+  defs.appendChild(grad2);
+  grad2.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(124,58,237,0)' }));
+  grad2.appendChild(svgEl('stop', { offset: '50%',  'stop-color': 'rgba(124,58,237,0.18)' }));
+  grad2.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(124,58,237,0)' }));
+
+  // First wavy band — occupies roughly 5%–35% from top in the viewBox
+  const auroraPath1 = [
     'M-50,30',
     'Q200,5   400,45',
     'Q600,85  800,50',
@@ -193,14 +205,33 @@ function makeAurora(rootEl) {
   ].join(' ');
 
   s.appendChild(svgEl('path', {
-    d: auroraPath,
-    fill: `url(#aurora-grad-${uid})`,
+    d: auroraPath1,
+    fill: `url(#aurora-grad1-${uid})`,
+  }));
+
+  // Second softer wave — slightly lower, offset shape
+  const auroraPath2 = [
+    'M-50,80',
+    'Q200,60  400,90',
+    'Q600,120 800,95',
+    'Q900,80  1050,100',
+    'L1050,160',
+    'Q900,145  800,155',
+    'Q600,175  400,150',
+    'Q200,130  -50,145',
+    'Z',
+  ].join(' ');
+
+  s.appendChild(svgEl('path', {
+    d: auroraPath2,
+    fill: `url(#aurora-grad2-${uid})`,
   }));
 }
 
 /**
  * MOUNTAIN RIDGE SILHOUETTE — static SVG path at bottom 20% of viewport.
- * Peak heights cycling through deterministic array, filled #06040b.
+ * Peak heights cycling through deterministic array, filled #1a0f2e (deep violet).
+ * Top edge stroke rgba(196,181,253,0.35) 1.5px for visible ridge-line glow.
  */
 function makeMountainRidge(rootEl) {
   const wrapper = div(`
@@ -228,6 +259,15 @@ function makeMountainRidge(rootEl) {
   }
   d += ` L${viewW + peakWidth},${viewH + 50} L-${peakWidth},${viewH + 50} Z`;
 
+  // Build just the ridge outline path (no fill area) for the glow stroke
+  let ridgeOutline = `M-${peakWidth},${baseY}`;
+  for (let i = 0; i < total; i++) {
+    const h  = peakHeights[i % peakHeights.length];
+    const x1 = i * peakWidth + peakWidth * 0.5;
+    const x2 = (i + 1) * peakWidth;
+    ridgeOutline += ` Q${x1},${baseY - h} ${x2},${baseY}`;
+  }
+
   const s = svg(
     {
       width: '100%',
@@ -239,15 +279,26 @@ function makeMountainRidge(rootEl) {
   );
   wrapper.appendChild(s);
 
+  // Filled mountain body — deep violet, not near-black
   s.appendChild(svgEl('path', {
     d,
-    fill: '#06040b',
+    fill: '#1a0f2e',
+  }));
+
+  // Ridge-line glow stroke — visible against the brighter sky above
+  s.appendChild(svgEl('path', {
+    d: ridgeOutline,
+    fill: 'none',
+    stroke: 'rgba(196,181,253,0.35)',
+    'stroke-width': '1.5',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
   }));
 }
 
 /**
- * CLOUD DRIFT — 3 ellipse puffs in rgba(196,181,253,0.20).
- * Drifting horizontally, cycling off-screen and back.
+ * CLOUD DRIFT — 3 ellipse puffs in rgba(196,181,253,0.35).
+ * Bigger ellipses (rx 60-90, ry 12-20). Drifting horizontally, cycling off-screen and back.
  * ONE shared RAF updates all 3 clouds each tick.
  * Position vertically just above the mountain ridge.
  * Reduced motion: clouds frozen at initial position.
@@ -255,9 +306,9 @@ function makeMountainRidge(rootEl) {
 function makeCloudDrift(rootEl, trackedRaf) {
   const vwBase = window.innerWidth;
   const cloudData = [
-    { yPct: 74, width: 220, height: 38, speedMult: 1.0,  offset: 0 },
-    { yPct: 78, width: 160, height: 28, speedMult: 0.72, offset: vwBase / 3 },
-    { yPct: 71, width: 290, height: 48, speedMult: 0.55, offset: 2 * vwBase / 3 },
+    { yPct: 74, width: 280, height: 48, speedMult: 1.0,  offset: 0 },
+    { yPct: 78, width: 210, height: 38, speedMult: 0.72, offset: vwBase / 3 },
+    { yPct: 71, width: 360, height: 56, speedMult: 0.55, offset: 2 * vwBase / 3 },
   ];
 
   const containers = cloudData.map((cloud, i) => {
@@ -293,7 +344,7 @@ function makeCloudDrift(rootEl, trackedRaf) {
       cy,
       rx,
       ry,
-      fill: 'rgba(196,181,253,0.20)',
+      fill: 'rgba(196,181,253,0.35)',
     }));
     // Smaller top-right lobe
     s.appendChild(svgEl('ellipse', {
@@ -301,7 +352,7 @@ function makeCloudDrift(rootEl, trackedRaf) {
       cy: cy - ry * 0.25,
       rx: rx * 0.55,
       ry: ry * 0.65,
-      fill: 'rgba(196,181,253,0.20)',
+      fill: 'rgba(196,181,253,0.35)',
     }));
     // Smaller bottom-left lobe
     s.appendChild(svgEl('ellipse', {
@@ -309,7 +360,7 @@ function makeCloudDrift(rootEl, trackedRaf) {
       cy: cy + ry * 0.18,
       rx: rx * 0.45,
       ry: ry * 0.55,
-      fill: 'rgba(196,181,253,0.20)',
+      fill: 'rgba(196,181,253,0.35)',
     }));
 
     return container;

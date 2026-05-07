@@ -90,8 +90,9 @@ function makeCaveDepth(rootEl, { H, trackedRaf }) {
 }
 
 /**
- * DISTANT LANTERN POINTS — 30 small #c4b5fd circles, factor 0.15.
- * Opacity 0.3-0.5, deterministic placement using (i*137)%100 for x, (i*71)%100 for y.
+ * DISTANT LANTERN POINTS — 30 small circles, factor 0.15.
+ * Half warm amber (#fbb86b), half violet (#c4b5fd). Radius 2.5 (every 4th = 4).
+ * Opacity 0.55-0.85, deterministic placement using (i*137)%100 for x, (i*71)%100 for y.
  * Scattered over a H-px span, mostly upper portion.
  */
 function makeLanternPoints(rootEl, { H, trackedRaf }) {
@@ -113,12 +114,15 @@ function makeLanternPoints(rootEl, { H, trackedRaf }) {
     // Bias toward upper portion: only use top 60% of the height
     const cyPct = (i * 71) % 60;
     const cy = cyPct / 100 * H;
-    const opacity = 0.3 + ((i * 53) % 100) / 100 * 0.2; // 0.3-0.5
+    const opacity = 0.55 + ((i * 53) % 100) / 100 * 0.3; // 0.55-0.85
+    const r = i % 4 === 0 ? 4 : 2.5;
+    // Alternate warm amber and violet for cave-light mix
+    const fill = i % 2 === 0 ? '#fbb86b' : '#c4b5fd';
     const c = svgEl('circle', {
       cx: `${cx}%`,
       cy,
-      r: 1.5,
-      fill: '#c4b5fd',
+      r,
+      fill,
       opacity,
     });
     s.appendChild(c);
@@ -132,8 +136,8 @@ function makeLanternPoints(rootEl, { H, trackedRaf }) {
 
 /**
  * FAR ROCK STRATA — 8 horizontal banded gradient bars, factor 0.30.
- * Heights 80-200px (deterministic). Gradient #1a0f2e → #2a1351 → #3a1d6e per band.
- * Each band has a 1px top edge in rgba(196,181,253,0.10).
+ * Heights 80-200px (deterministic). Gradient #2a1351 → #3a1d6e → #4a2378 per band.
+ * Each band has a 1.5px top edge in rgba(196,181,253,0.30).
  */
 function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
   const layer = div(`
@@ -154,14 +158,14 @@ function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
       position: absolute;
       left: 0; top: ${top}px;
       width: 100%; height: ${h}px;
-      background: linear-gradient(180deg, #1a0f2e 0%, #2a1351 50%, #3a1d6e 100%);
+      background: linear-gradient(180deg, #2a1351 0%, #3a1d6e 50%, #4a2378 100%);
     `);
-    // 1px top edge accent line
+    // 1.5px top edge accent line — 3× more opaque, slightly thicker
     const edge = div(`
       position: absolute;
       top: 0; left: 0;
-      width: 100%; height: 1px;
-      background: rgba(196,181,253,0.10);
+      width: 100%; height: 1.5px;
+      background: rgba(196,181,253,0.30);
     `);
     band.appendChild(edge);
     layer.appendChild(band);
@@ -175,7 +179,7 @@ function makeFarStrata(rootEl, { H, uid, trackedRaf }) {
 
 /**
  * MID ROCK STRATA — 12 horizontal banded gradient bars, factor 0.50.
- * Heights 60-150px (deterministic). Gradient #3a1d6e → #2a1351. Slightly sharper edges.
+ * Heights 60-150px (deterministic). Gradient #3a1d6e → #5d2a8e → #2a1351. Sharper edges.
  */
 function makeMidStrata(rootEl, { H, trackedRaf }) {
   const layer = div(`
@@ -196,15 +200,15 @@ function makeMidStrata(rootEl, { H, trackedRaf }) {
       position: absolute;
       left: 0; top: ${top}px;
       width: 100%; height: ${h}px;
-      background: linear-gradient(180deg, #3a1d6e 0%, #2a1351 100%);
-      opacity: 0.75;
+      background: linear-gradient(180deg, #3a1d6e 0%, #5d2a8e 50%, #2a1351 100%);
+      opacity: 0.85;
     `);
-    // Slightly sharper edge
+    // Sharper edge — brighter, thicker
     const edge = div(`
       position: absolute;
       top: 0; left: 0;
-      width: 100%; height: 1px;
-      background: rgba(196,181,253,0.15);
+      width: 100%; height: 2px;
+      background: rgba(196,181,253,0.35);
     `);
     band.appendChild(edge);
     layer.appendChild(band);
@@ -266,8 +270,8 @@ function makeFossils(rootEl, { H, trackedRaf }) {
 
     s.appendChild(svgEl('path', {
       d: fossilPaths[i % fossilPaths.length],
-      fill: '#0a0612',
-      stroke: 'rgba(196,181,253,0.25)',
+      fill: '#1a0f2e',
+      stroke: 'rgba(196,181,253,0.55)',
       'stroke-width': '1.5',
       'stroke-linecap': 'round',
       'stroke-linejoin': 'round',
@@ -318,7 +322,9 @@ function makeForegroundRock(rootEl, { H, trackedRaf }) {
 }
 
 /**
- * DUST MOTES — 20 small rgba(196,181,253,0.15) circles, factor 0.10 + drift.
+ * DUST MOTES — 20 small circles, factor 0.10 + drift.
+ * Mix of violet rgba(196,181,253,0.4) and warm rgba(251,184,107,0.3) for variety.
+ * Radius 1.5, opacity 0.25-0.5.
  * Drift UPWARD via performance.now() * 0.02 % 200, independent of scroll.
  * Combined: translate3d(0, -scrollY * 0.10 - drift, 0).
  */
@@ -340,11 +346,15 @@ function makeDustMotes(rootEl, { H, trackedRaf }) {
     const cx = (i * 137) % 100;
     const cyPct = (i * 71) % 100;
     const cy = cyPct / 100 * H;
+    const opacity = 0.25 + ((i * 53) % 100) / 100 * 0.25; // 0.25-0.50
+    // Alternate violet and warm amber dust
+    const fill = i % 3 === 0 ? 'rgba(251,184,107,0.3)' : 'rgba(196,181,253,0.4)';
     const c = svgEl('circle', {
       cx: `${cx}%`,
       cy,
-      r: 1,
-      fill: 'rgba(196,181,253,0.15)',
+      r: 1.5,
+      fill,
+      opacity,
     });
     s.appendChild(c);
   }
