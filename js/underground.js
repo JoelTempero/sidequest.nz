@@ -10,8 +10,6 @@
  *   Returns { destroy } — call destroy() to cancel all RAF loops.
  */
 
-import { COLORS } from './scroll-engine.js';
-
 // ─── Reduced-motion detection ─────────────────────────────────────────────────
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
