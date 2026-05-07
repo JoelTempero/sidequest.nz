@@ -1,3 +1,40 @@
+/* ── Homepage layout ────────────────────── */
+
+body.homepage {
+  overflow: hidden;
+  height: 100%;
+}
+
+body.homepage::-webkit-scrollbar { display: none; }
+
+#world {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#robot {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#track {
+  display: flex;
+  height: 100vh;
+  will-change: transform;
+}
+
+.panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
 /* ===== Pages (shared) ===== */
 .page-content {
     padding-top: var(--nav-height);
