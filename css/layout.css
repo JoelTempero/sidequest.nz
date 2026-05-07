@@ -89,6 +89,16 @@ body.homepage .panel {
   }
 }
 
+/* ===== Reduced-motion: global defensive rule ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ===== Pages (shared) ===== */
 .page-content {
     padding-top: var(--nav-height);

@@ -11,6 +11,9 @@
  * Layered at z-index 0 — behind panels (z-index 1) but above the world.
  */
 
+// ─── Reduced-motion detection ─────────────────────────────────────────────────
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Register a RAF loop. Returns a cancel function. */
@@ -178,6 +181,20 @@ export function mountRobot(rootEl) {
     mouseY = e.clientY;
   };
   window.addEventListener('mousemove', onMove);
+
+  // ── Reduced-motion: render once at initial position, skip all animation ───
+  if (REDUCED_MOTION) {
+    wrap.style.transform = `translate3d(${posX - 36}px, ${posY - 36}px, 0)`;
+    // Disable SVG <animate> pulsing status light
+    const animateEl = body.querySelector('#rbt-status animate');
+    if (animateEl) animateEl.setAttribute('dur', '0s');
+    return {
+      destroy() {
+        window.removeEventListener('mousemove', onMove);
+        rootEl.innerHTML = '';
+      },
+    };
+  }
 
   // ── RAF tick ──────────────────────────────────────────────────────────────
   const cancelLoop = trackedRaf(() => {

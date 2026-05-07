@@ -12,6 +12,9 @@
  *   – mode        : 'horizontal' (default) | 'vertical'
  */
 
+// ─── Reduced-motion detection ─────────────────────────────────────────────────
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Create an HTML div (not SVG). */
@@ -49,6 +52,19 @@ function raf(fn) {
   const tick = () => { fn(); id = requestAnimationFrame(tick); };
   id = requestAnimationFrame(tick);
   return () => cancelAnimationFrame(id);
+}
+
+/**
+ * Like raf(), but skips RAF entirely when REDUCED_MOTION is true.
+ * Instead, calls fn() once so the layer renders at its initial (zero-scroll) position.
+ * Returns a no-op cancel function.
+ */
+function rafOrStatic(fn) {
+  if (REDUCED_MOTION) {
+    fn(); // render once at rest position
+    return () => {};
+  }
+  return raf(fn);
 }
 
 // ─── Layer builders ───────────────────────────────────────────────────────────
@@ -499,7 +515,9 @@ function makeBirds(rootEl, { scrollRef, mode, trackedRaf }) {
   const factor = 0.25;
   trackedRaf(() => {
     const scroll = mode === 'vertical' ? window.scrollY : (scrollRef.current || 0);
-    const drift  = (performance.now() * 0.04) % 2400;
+    // Under reduced motion, REDUCED_MOTION is true so this RAF never fires again
+    // after the initial static render — drift is 0 so birds are frozen.
+    const drift = REDUCED_MOTION ? 0 : (performance.now() * 0.04) % 2400;
     wrapper.style.transform = mode === 'vertical'
       ? `translate3d(${drift}px, ${-scroll * factor}px, 0)`
       : `translate3d(${-(scroll * factor) + drift}px, 0, 0)`;
@@ -532,8 +550,9 @@ export function mountWorld(rootEl, { scrollRef, totalWidth, mode = 'horizontal' 
   const uid = Math.random().toString(36).slice(2, 8);
 
   // Tracked RAF — collects cancel functions so destroy() can stop all loops.
+  // Under reduced motion, rafOrStatic calls fn() once and skips the loop.
   const cancels = [];
-  const trackedRaf = (fn) => { cancels.push(raf(fn)); };
+  const trackedRaf = (fn) => { cancels.push(rafOrStatic(fn)); };
 
   const ctx = { scrollRef, W, mode, uid, trackedRaf };
 

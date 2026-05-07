@@ -19,6 +19,9 @@
 
 import { subscribe } from './scroll-engine.js';
 
+// ─── Reduced-motion detection ─────────────────────────────────────────────────
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ─── Panel labels — used by the bottom counter ────────────────────────────────
 
 const PANEL_LABELS = [
@@ -131,6 +134,7 @@ export function mountHero(panelEl) {
   // H1 copy: "Be Known." / "Stand Out."
   // "Known." — italic weight 400 #c4b5fd; "Out." — color #b8a8d4
   const h1 = document.createElement('h1');
+  h1.id = 'panel-hero-h';
   h1.style.cssText = `
     font-family: "Space Grotesk", sans-serif;
     font-weight: 500;
@@ -456,6 +460,7 @@ export function mountProjectPanel(panelEl, opts) {
 
   // H2 headline
   const h2 = document.createElement('h2');
+  h2.id = `panel-q${number}-h`;
   h2.textContent = headline;
   h2.style.cssText = `
     font-family: "Space Grotesk", sans-serif;
@@ -674,6 +679,7 @@ export function mountSeeMore(panelEl) {
 
   // H2: "More quests in the back catalogue."
   const h2 = document.createElement('h2');
+  h2.id = 'panel-see-h';
   h2.style.cssText = `
     font-family: "Space Grotesk", sans-serif;
     font-weight: 500;
@@ -898,19 +904,24 @@ export function mountLogos(panelEl, { scrollRef, panelStartX }) {
     logoEls.push(wrapper);
 
     // Per-logo RAF: bob + parallax pan (verbatim from ParallaxLogo useEffect)
-    const bobPhase = i * 0.7;
-    let raf;
-    const tickFn = () => {
-      const t = performance.now() * 0.0008;
-      const bobY = Math.sin(t + bobPhase) * (4 + (1 - depth) * 6);
-      const bobX = Math.cos(t * 0.7 + bobPhase) * (3 + (1 - depth) * 5);
-      const localX = (scrollRef.current || 0) - (panelStartX || 0);
-      const parX = -localX * (depth * 0.35);
-      wrapper.style.transform = `translate3d(${parX + bobX}px, ${bobY}px, 0) rotate(${rot}deg)`;
+    // Under reduced motion: render at base position (no bob, no parallax), skip RAF.
+    if (REDUCED_MOTION) {
+      wrapper.style.transform = `translate3d(0px, 0px, 0) rotate(${rot}deg)`;
+    } else {
+      const bobPhase = i * 0.7;
+      let raf;
+      const tickFn = () => {
+        const t = performance.now() * 0.0008;
+        const bobY = Math.sin(t + bobPhase) * (4 + (1 - depth) * 6);
+        const bobX = Math.cos(t * 0.7 + bobPhase) * (3 + (1 - depth) * 5);
+        const localX = (scrollRef.current || 0) - (panelStartX || 0);
+        const parX = -localX * (depth * 0.35);
+        wrapper.style.transform = `translate3d(${parX + bobX}px, ${bobY}px, 0) rotate(${rot}deg)`;
+        raf = requestAnimationFrame(tickFn);
+      };
       raf = requestAnimationFrame(tickFn);
-    };
-    raf = requestAnimationFrame(tickFn);
-    rafs.push(() => cancelAnimationFrame(raf));
+      rafs.push(() => cancelAnimationFrame(raf));
+    }
   });
 
   return {
@@ -964,6 +975,7 @@ export function mountContact(panelEl) {
   // "Joel." — italic violet #c4b5fd
   // "Say hi." — muted #7a6a92
   const h2 = document.createElement('h2');
+  h2.id = 'panel-contact-h';
   h2.style.cssText = `
     font-family: "Space Grotesk", sans-serif;
     font-weight: 500;

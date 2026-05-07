@@ -3,6 +3,17 @@
    Navigation & Footer
    ============================================================ */
 
+/* ── Focus-visible: keyboard-only focus ring ──────────────── */
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* ── Navigation ───────────────────────────────────────────── */
 .nav {
   position: fixed;

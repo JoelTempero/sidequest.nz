@@ -4,6 +4,9 @@
  * Single RAF loop lerps scroll position and writes transform on the track element.
  */
 
+// ─── Reduced-motion detection ─────────────────────────────────────────────────
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ─── Colour palette ────────────────────────────────────────────────────────────
 export const COLORS = {
   bg:        '#08060d',
@@ -113,9 +116,14 @@ export function initScrollEngine({ trackEl }) {
   // ── RAF tick ─────────────────────────────────────────────────────────────────
   let rafId;
   const tick = () => {
-    scroll.current += (scroll.target - scroll.current) * 0.08;
-    if (Math.abs(scroll.target - scroll.current) < 0.5) {
+    // Under reduced motion: snap directly to target — no smooth lerp glide.
+    if (REDUCED_MOTION) {
       scroll.current = scroll.target;
+    } else {
+      scroll.current += (scroll.target - scroll.current) * 0.08;
+      if (Math.abs(scroll.target - scroll.current) < 0.5) {
+        scroll.current = scroll.target;
+      }
     }
 
     trackEl.style.transform = `translate3d(${-scroll.current}px, 0, 0)`;
