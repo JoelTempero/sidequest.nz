@@ -189,7 +189,7 @@ function makeFarMountains(rootEl, { scrollRef, W, mode, trackedRaf }) {
   rootEl.appendChild(layer);
 
   const img = document.createElement('img');
-  img.src = 'images/world/far-mountains.svg';
+  img.src = 'images/world/far-mountains.png';
   img.alt = '';
   img.style.cssText = `
     position: absolute;
