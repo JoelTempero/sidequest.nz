@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="400" viewBox="0 0 1000 400">
+  <defs>
+    <linearGradient id="aurora-grad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(196,181,253,0)"/>
+      <stop offset="45%" stop-color="rgba(196,181,253,0.42)"/>
+      <stop offset="100%" stop-color="rgba(196,181,253,0)"/>
+    </linearGradient>
+    <linearGradient id="aurora-grad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(124,58,237,0)"/>
+      <stop offset="50%" stop-color="rgba(124,58,237,0.30)"/>
+      <stop offset="100%" stop-color="rgba(124,58,237,0)"/>
+    </linearGradient>
+  </defs>
+  <path d="M-50,30 Q200,5 400,45 Q600,85 800,50 Q900,35 1050,55 L1050,120 Q900,105 800,120 Q600,140 400,110 Q200,80 -50,100 Z" fill="url(#aurora-grad1)"/>
+  <path d="M-50,80 Q200,60 400,90 Q600,120 800,95 Q900,80 1050,100 L1050,160 Q900,145 800,155 Q600,175 400,150 Q200,130 -50,145 Z" fill="url(#aurora-grad2)"/>
+</svg>

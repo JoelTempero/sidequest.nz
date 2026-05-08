@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="216" viewBox="0 0 2400 1080" preserveAspectRatio="none">
+  <g>
+    <rect x="-2" y="880" width="4" height="20" fill="#0a0612"/>
+    <ellipse cx="0" cy="850" rx="24" ry="30" fill="#0a0612"/>
+  </g>
+  <g>
+    <rect x="865" y="880" width="4" height="20" fill="#0a0612"/>
+    <polygon points="867,793 836.55,880 897.45,880" fill="#0a0612"/>
+  </g>
+  <g>
+    <rect x="1443" y="880" width="4" height="20" fill="#0a0612"/>
+    <polygon points="1445,795 1415.25,880 1474.75,880" fill="#0a0612"/>
+  </g>
+  <g>
+    <rect x="1732" y="880" width="4" height="20" fill="#0a0612"/>
+    <polygon points="1734,766 1694.1,880 1773.9,880" fill="#0a0612"/>
+  </g>
+  <g>
+    <rect x="2519" y="880" width="4" height="20" fill="#0a0612"/>
+    <polygon points="2521,799 2492.65,880 2549.35,880" fill="#0a0612"/>
+  </g>
+  <g>
+    <rect x="2808" y="880" width="4" height="20" fill="#0a0612"/>
+    <polygon points="2810,770 2771.5,880 2848.5,880" fill="#0a0612"/>
+  </g>
+  
+</svg>

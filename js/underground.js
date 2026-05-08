@@ -90,10 +90,7 @@ function makeCaveDepth(rootEl, { H, trackedRaf, getScrollY }) {
 }
 
 /**
- * DISTANT LANTERN POINTS — 30 small circles, factor 0.15.
- * Half warm amber (#fbb86b), half violet (#c4b5fd). Radius 2.5 (every 4th = 4).
- * Opacity 0.55-0.85, deterministic placement using (i*137)%100 for x, (i*71)%100 for y.
- * Scattered over a H-px span, mostly upper portion.
+ * DISTANT LANTERN POINTS — PNG of 30 lantern circles, factor 0.15.
  */
 function makeLanternPoints(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
@@ -103,30 +100,21 @@ function makeLanternPoints(rootEl, { H, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  const s = svg(
-    { width: '100%', height: H, preserveAspectRatio: 'none' },
-    'display: block; position: absolute; top: 0; left: 0;',
-  );
-  layer.appendChild(s);
-
-  for (let i = 0; i < 30; i++) {
-    const cx = (i * 137) % 100;
-    // Bias toward upper portion: only use top 60% of the height
-    const cyPct = (i * 71) % 60;
-    const cy = cyPct / 100 * H;
-    const opacity = 0.55 + ((i * 53) % 100) / 100 * 0.3; // 0.55-0.85
-    const r = i % 4 === 0 ? 4 : 2.5;
-    // Alternate warm amber and violet for cave-light mix
-    const fill = i % 2 === 0 ? '#fbb86b' : '#c4b5fd';
-    const c = svgEl('circle', {
-      cx: `${cx}%`,
-      cy,
-      r,
-      fill,
-      opacity,
-    });
-    s.appendChild(c);
-  }
+  const img = document.createElement('img');
+  img.src = 'images/underground/lantern-points.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  layer.appendChild(img);
 
   const factor = 0.15;
   trackedRaf(() => {
@@ -135,8 +123,7 @@ function makeLanternPoints(rootEl, { H, trackedRaf, getScrollY }) {
 }
 
 /**
- * CRACKS — irregular dark fissures threading through the rock face.
- * Thin SVG paths in slightly-lighter-than-bg violet, organic curves.
+ * CRACKS — PNG of organic Bezier fissures in rock face.
  * Subtle parallax (factor 0.40).
  */
 function makeCracks(rootEl, { H, trackedRaf, getScrollY }) {
@@ -147,59 +134,21 @@ function makeCracks(rootEl, { H, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  const s = svg(
-    {
-      width: '100%',
-      height: H,
-      viewBox: `0 0 100 ${H}`,
-      preserveAspectRatio: 'none',
-    },
-    'display: block; position: absolute; top: 0; left: 0;',
-  );
-  layer.appendChild(s);
-
-  // 14 cracks scattered vertically with deterministic placement.
-  // Each crack is a Bezier curve, mostly vertical with horizontal drift,
-  // sometimes branching with a short secondary path.
-  const crackCount = 14;
-  for (let i = 0; i < crackCount; i++) {
-    const startX = (i * 137) % 100;       // deterministic x%, edge-to-edge
-    const startY = (i * 179) % H;         // deterministic vertical position
-    const length = 60 + (i * 53) % 120;   // 60–180px length
-    const curve  = -20 + (i * 31) % 40;   // -20 to +20 horizontal drift
-    const opacity = 0.18 + ((i * 41) % 100) / 100 * 0.18; // 0.18–0.36
-
-    const endX = startX + curve / 4;       // small horizontal drift in % units
-    const endY = startY + length;
-    const ctrlX1 = startX + curve / 8;
-    const ctrlX2 = endX - curve / 8;
-    const ctrlY1 = startY + length * 0.3;
-    const ctrlY2 = startY + length * 0.7;
-
-    const d = `M${startX} ${startY} C${ctrlX1} ${ctrlY1}, ${ctrlX2} ${ctrlY2}, ${endX} ${endY}`;
-    s.appendChild(svgEl('path', {
-      d,
-      stroke: `rgba(196, 181, 253, ${opacity})`,
-      'stroke-width': 0.4,
-      fill: 'none',
-      'vector-effect': 'non-scaling-stroke',
-    }));
-
-    // Every fourth crack gets a small branching secondary path
-    if (i % 4 === 0) {
-      const branchLength = length * 0.4;
-      const branchX = startX + curve / 6 + (i % 2 ? 6 : -6);
-      const branchY = startY + length * 0.5;
-      const branchD = `M${startX + curve / 8} ${startY + length * 0.4} L${branchX} ${branchY + branchLength * 0.5}`;
-      s.appendChild(svgEl('path', {
-        d: branchD,
-        stroke: `rgba(196, 181, 253, ${opacity * 0.7})`,
-        'stroke-width': 0.3,
-        fill: 'none',
-        'vector-effect': 'non-scaling-stroke',
-      }));
-    }
-  }
+  const img = document.createElement('img');
+  img.src = 'images/underground/cracks.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  layer.appendChild(img);
 
   const factor = 0.40;
   trackedRaf(() => {
@@ -208,8 +157,7 @@ function makeCracks(rootEl, { H, trackedRaf, getScrollY }) {
 }
 
 /**
- * ROCK NOISE — subtle scattered specs giving the cave wall a textured grain.
- * Deterministic placement, small circles at varying opacities.
+ * ROCK NOISE — PNG of subtle scattered grain specs on cave wall.
  * Parallax factor 0.55.
  */
 function makeRockNoise(rootEl, { H, trackedRaf, getScrollY }) {
@@ -220,31 +168,21 @@ function makeRockNoise(rootEl, { H, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  const s = svg(
-    {
-      width: '100%',
-      height: H,
-      viewBox: `0 0 100 ${H}`,
-      preserveAspectRatio: 'none',
-    },
-    'display: block; position: absolute; top: 0; left: 0;',
-  );
-  layer.appendChild(s);
-
-  const specCount = 220;
-  for (let i = 0; i < specCount; i++) {
-    const cx = (i * 137) % 100;
-    const cy = (i * 71) % H;
-    const r = 0.15 + ((i * 53) % 100) / 100 * 0.35;  // 0.15–0.50 radius
-    const opacity = 0.12 + ((i * 41) % 100) / 100 * 0.20; // 0.12–0.32
-
-    s.appendChild(svgEl('circle', {
-      cx,
-      cy,
-      r,
-      fill: `rgba(196, 181, 253, ${opacity})`,
-    }));
-  }
+  const img = document.createElement('img');
+  img.src = 'images/underground/rock-noise.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  layer.appendChild(img);
 
   const factor = 0.55;
   trackedRaf(() => {
@@ -253,9 +191,7 @@ function makeRockNoise(rootEl, { H, trackedRaf, getScrollY }) {
 }
 
 /**
- * FOSSIL SILHOUETTES — 6 sparse #0a0612 SVG paths, factor 0.65.
- * Simple decorative shapes (wishbone, leaf vein, shell spiral, etc.).
- * Placed every ~1000px vertically at random horizontal positions.
+ * FOSSIL SILHOUETTES — PNG of 6 decorative fossil shapes, factor 0.65.
  */
 function makeFossils(rootEl, { H, trackedRaf, getScrollY }) {
   const layer = div(`
@@ -265,50 +201,21 @@ function makeFossils(rootEl, { H, trackedRaf, getScrollY }) {
   `);
   rootEl.appendChild(layer);
 
-  // Simple bone-like SVG path shapes — decorative silhouettes
-  const fossilPaths = [
-    // Wishbone / forked bone
-    'M0,40 Q-15,-20 -5,-45 M0,40 Q15,-20 5,-45 M-5,-45 Q0,-60 5,-45',
-    // Leaf vein
-    'M0,50 L0,-50 M0,20 L-20,0 M0,20 L20,0 M0,0 L-15,-15 M0,0 L15,-15 M0,-20 L-10,-35 M0,-20 L10,-35',
-    // Shell spiral (approximated with arcs)
-    'M0,0 Q10,-10 15,0 Q20,15 10,25 Q-5,35 -20,20 Q-35,0 -25,-20 Q-10,-40 15,-35 Q40,-25 40,5',
-    // Simple curved bone
-    'M-30,10 Q-10,-20 10,10 M-30,10 L-38,18 M-30,10 L-22,18 M10,10 L18,18 M10,10 L2,18',
-    // Fern frond
-    'M0,50 L0,-50 M0,30 Q-25,15 -30,0 M0,10 Q-20,-5 -22,-18 M0,-10 Q-15,-22 -16,-34 M0,30 Q25,15 30,0 M0,10 Q20,-5 22,-18 M0,-10 Q15,-22 16,-34',
-    // Abstract shell curve
-    'M5,0 Q20,5 20,20 Q20,40 0,40 Q-25,40 -25,15 Q-25,-15 5,0',
-  ];
-
-  for (let i = 0; i < 6; i++) {
-    const xPct = 15 + ((i * 137) % 70); // 15%-85% horizontal
-    const yPos = 200 + i * 1000 + ((i * 89) % 400);
-
-    const wrapper = div(`
-      position: absolute;
-      left: ${xPct}%;
-      top: ${yPos}px;
-      opacity: 0.35;
-      transform: rotate(${((i * 47) % 30) - 15}deg) scale(${1.2 + (i * 23) % 10 / 10});
-    `);
-    layer.appendChild(wrapper);
-
-    const s = svg(
-      { width: 80, height: 80, viewBox: '-40 -60 80 120' },
-      'display: block; overflow: visible;',
-    );
-    wrapper.appendChild(s);
-
-    s.appendChild(svgEl('path', {
-      d: fossilPaths[i % fossilPaths.length],
-      fill: '#1a0f2e',
-      stroke: 'rgba(196,181,253,0.55)',
-      'stroke-width': '1.5',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-    }));
-  }
+  const img = document.createElement('img');
+  img.src = 'images/underground/fossils.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  layer.appendChild(img);
 
   const factor = 0.65;
   trackedRaf(() => {

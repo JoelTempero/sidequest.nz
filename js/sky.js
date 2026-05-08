@@ -87,13 +87,11 @@ function makeSkyGradient(rootEl) {
 }
 
 /**
- * STARS — 60 small #c4b5fd circles in top 70% of viewport.
- * Each star has a unique phase seed (i * 0.83).
- * ONE shared RAF updates all 60 star opacities each tick.
- * Radius 1.8 (2.6 every 4th). Brighter average opacity: 0.65 + 0.35 * sin().
- * Reduced motion: stars render at average opacity (0.65), no twinkle.
+ * STARS — PNG of 60 static stars in top 70% of viewport.
+ * Twinkle dropped in favour of static PNG. For future twinkle, animate
+ * the whole image opacity with a CSS keyframe. For now, static is fine.
  */
-function makeStars(rootEl, trackedRaf) {
+function makeStars(rootEl) {
   const wrapper = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: 70%;
@@ -101,55 +99,28 @@ function makeStars(rootEl, trackedRaf) {
   `);
   rootEl.appendChild(wrapper);
 
-  const s = svg(
-    { width: '100%', height: '100%', preserveAspectRatio: 'none' },
-    'display: block; position: absolute; top: 0; left: 0;',
-  );
-  wrapper.appendChild(s);
-
-  const circles = [];
-  const phases = [];
-
-  for (let i = 0; i < 60; i++) {
-    const cx = (i * 137) % 100;  // deterministic x% in 0-100
-    const cy = (i * 71) % 70;    // deterministic y% in top 70%
-    const r = i % 4 === 0 ? 2.6 : 1.8;
-    const phase = i * 0.83;
-
-    const staticOpacity = REDUCED_MOTION ? 0.65 : 0.65 + 0.35 * Math.sin(phase);
-
-    const c = svgEl('circle', {
-      cx: `${cx}%`,
-      cy: `${cy}%`,
-      r,
-      fill: '#c4b5fd',
-      opacity: staticOpacity,
-    });
-    s.appendChild(c);
-    circles.push(c);
-    phases.push(phase);
-  }
-
-  if (!REDUCED_MOTION) {
-    // ONE shared RAF for all 60 stars
-    trackedRaf(() => {
-      const t = performance.now() * 0.001;
-      for (let i = 0; i < circles.length; i++) {
-        const opacity = 0.65 + 0.35 * Math.sin(t + phases[i]);
-        circles[i].setAttribute('opacity', opacity);
-      }
-    });
-  }
+  const img = document.createElement('img');
+  img.src = 'images/sky/stars.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  wrapper.appendChild(img);
+  // Static — no RAF needed.
 }
 
 /**
- * AURORA RIBBON — two layered violet curtains in upper third.
- * First wave: peak rgba(196,181,253,0.28). Second softer wave: peak rgba(124,58,237,0.18).
- * Wavy band shapes, layered for depth.
+ * AURORA RIBBON — PNG of two layered violet curtains in upper third.
  */
 function makeAurora(rootEl) {
-  const uid = Math.random().toString(36).slice(2, 8);
-
   const wrapper = div(`
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
@@ -157,94 +128,37 @@ function makeAurora(rootEl) {
   `);
   rootEl.appendChild(wrapper);
 
-  const s = svg(
-    {
-      width: '100%',
-      height: '100%',
-      viewBox: '0 0 1000 400',
-      preserveAspectRatio: 'none',
-    },
-    'display: block; position: absolute; top: 0; left: 0;',
-  );
-  wrapper.appendChild(s);
-
-  const defs = svgEl('defs');
-  s.appendChild(defs);
-
-  // First wave gradient: transparent → violet 0.28 → transparent
-  const grad1 = svgEl('linearGradient', {
-    id: `aurora-grad1-${uid}`,
-    x1: '0', y1: '0',
-    x2: '0', y2: '1',
-  });
-  defs.appendChild(grad1);
-  grad1.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(196,181,253,0)' }));
-  grad1.appendChild(svgEl('stop', { offset: '45%',  'stop-color': 'rgba(196,181,253,0.42)' }));
-  grad1.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(196,181,253,0)' }));
-
-  // Second wave gradient: transparent → deeper violet 0.18 → transparent
-  const grad2 = svgEl('linearGradient', {
-    id: `aurora-grad2-${uid}`,
-    x1: '0', y1: '0',
-    x2: '0', y2: '1',
-  });
-  defs.appendChild(grad2);
-  grad2.appendChild(svgEl('stop', { offset: '0%',   'stop-color': 'rgba(124,58,237,0)' }));
-  grad2.appendChild(svgEl('stop', { offset: '50%',  'stop-color': 'rgba(124,58,237,0.30)' }));
-  grad2.appendChild(svgEl('stop', { offset: '100%', 'stop-color': 'rgba(124,58,237,0)' }));
-
-  // First wavy band — occupies roughly 5%–35% from top in the viewBox
-  const auroraPath1 = [
-    'M-50,30',
-    'Q200,5   400,45',
-    'Q600,85  800,50',
-    'Q900,35  1050,55',
-    'L1050,120',
-    'Q900,105  800,120',
-    'Q600,140  400,110',
-    'Q200,80   -50,100',
-    'Z',
-  ].join(' ');
-
-  s.appendChild(svgEl('path', {
-    d: auroraPath1,
-    fill: `url(#aurora-grad1-${uid})`,
-  }));
-
-  // Second softer wave — slightly lower, offset shape
-  const auroraPath2 = [
-    'M-50,80',
-    'Q200,60  400,90',
-    'Q600,120 800,95',
-    'Q900,80  1050,100',
-    'L1050,160',
-    'Q900,145  800,155',
-    'Q600,175  400,150',
-    'Q200,130  -50,145',
-    'Z',
-  ].join(' ');
-
-  s.appendChild(svgEl('path', {
-    d: auroraPath2,
-    fill: `url(#aurora-grad2-${uid})`,
-  }));
+  const img = document.createElement('img');
+  img.src = 'images/sky/aurora.png';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  wrapper.appendChild(img);
 }
 
 /**
- * CLOUD DRIFT — 3 ellipse puffs in rgba(196,181,253,0.35).
- * ONE shared RAF updates all 3 clouds each tick.
- * Position vertically in the lower portion of the panel.
+ * CLOUD DRIFT — 3 PNG cloud images drifting horizontally.
+ * Each cloud is its own <img> element with independent speed.
  * Reduced motion: clouds frozen at initial position.
  */
 function makeCloudDrift(rootEl, trackedRaf) {
   const vwBase = window.innerWidth;
   const cloudData = [
-    { yPct: 74, width: 280, height: 48, speedMult: 1.0,  offset: 0 },
-    { yPct: 78, width: 210, height: 38, speedMult: 0.72, offset: vwBase / 3 },
-    { yPct: 71, width: 360, height: 56, speedMult: 0.55, offset: 2 * vwBase / 3 },
+    { yPct: 74, width: 280, height: 48, speedMult: 1.0,  offset: 0,           src: 'images/sky/cloud-0.png' },
+    { yPct: 78, width: 210, height: 38, speedMult: 0.72, offset: vwBase / 3,  src: 'images/sky/cloud-1.png' },
+    { yPct: 71, width: 360, height: 56, speedMult: 0.55, offset: 2 * vwBase / 3, src: 'images/sky/cloud-2.png' },
   ];
 
-  const containers = cloudData.map((cloud, i) => {
+  const containers = cloudData.map((cloud) => {
     const container = div(`
       position: absolute;
       top: ${cloud.yPct}%;
@@ -256,32 +170,20 @@ function makeCloudDrift(rootEl, trackedRaf) {
     `);
     rootEl.appendChild(container);
 
-    const s = svg(
-      {
-        width: cloud.width,
-        height: cloud.height,
-        viewBox: `0 0 ${cloud.width} ${cloud.height}`,
-      },
-      'display: block; overflow: visible;',
-    );
-    container.appendChild(s);
-
-    const cx = cloud.width * 0.5;
-    const cy = cloud.height * 0.5;
-    const rx = cloud.width * 0.5;
-    const ry = cloud.height * 0.5;
-
-    s.appendChild(svgEl('ellipse', { cx, cy, rx, ry, fill: 'rgba(196,181,253,0.35)' }));
-    s.appendChild(svgEl('ellipse', {
-      cx: cx + rx * 0.42, cy: cy - ry * 0.25,
-      rx: rx * 0.55, ry: ry * 0.65,
-      fill: 'rgba(196,181,253,0.35)',
-    }));
-    s.appendChild(svgEl('ellipse', {
-      cx: cx - rx * 0.35, cy: cy + ry * 0.18,
-      rx: rx * 0.45, ry: ry * 0.55,
-      fill: 'rgba(196,181,253,0.35)',
-    }));
+    const img = document.createElement('img');
+    img.src = cloud.src;
+    img.alt = '';
+    img.style.cssText = `
+      display: block;
+      width: ${cloud.width}px;
+      height: ${cloud.height}px;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      pointer-events: none;
+      user-select: none;
+    `;
+    container.appendChild(img);
 
     return container;
   });
@@ -323,7 +225,7 @@ export function mountSky(rootEl) {
 
   // Build layers in back-to-front order
   makeSkyGradient(rootEl);
-  makeStars(rootEl, trackedRaf);
+  makeStars(rootEl);      // static PNG — no RAF needed
   makeAurora(rootEl);
   makeCloudDrift(rootEl, trackedRaf);
 
