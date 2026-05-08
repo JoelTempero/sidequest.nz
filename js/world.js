@@ -170,10 +170,17 @@ function makeStars(rootEl) {
 }
 
 /**
- * FAR MOUNTAINS — SVG quadratic-bezier mountain path, factor 0.18.
- * baseY 600 in 1080-tall viewBox, gradient #3a1d6e → #1a0f2e.
+ * FAR MOUNTAINS — image-based layer, factor 0.18.
+ *
+ * The mountain shape lives in `images/world/far-mountains.svg` (or .png
+ * when pixel art is dropped in). The image stretches to fill the parallax
+ * track via `object-fit: fill`. `image-rendering: pixelated` keeps pixel
+ * edges crisp once a raster image replaces the SVG.
+ *
+ * To swap in your own art: replace the file at images/world/far-mountains.*
+ * (keep the filename, or update the src below).
  */
-function makeFarMountains(rootEl, { scrollRef, W, mode, uid, trackedRaf }) {
+function makeFarMountains(rootEl, { scrollRef, W, mode, trackedRaf }) {
   const layer = div(`
     position: absolute; top: 0; left: 0;
     width: ${W}px; height: 100%;
@@ -181,41 +188,21 @@ function makeFarMountains(rootEl, { scrollRef, W, mode, uid, trackedRaf }) {
   `);
   rootEl.appendChild(layer);
 
-  const baseY      = 600;
-  const peakWidth  = 700;
-  const peakHeights = [110, 140, 80, 160, 120, 95, 135, 175, 100, 125, 150, 90, 145, 115];
-  const total      = Math.ceil(W / peakWidth) + 2;
-
-  let d = `M0,${baseY + 200}`;
-  for (let i = 0; i < total; i++) {
-    const h  = peakHeights[i % peakHeights.length];
-    const x1 = i * peakWidth + peakWidth * 0.5;
-    const x2 = (i + 1) * peakWidth;
-    d += ` Q${x1},${baseY - h} ${x2},${baseY}`;
-  }
-  d += ` L${W + peakWidth * 2},1080 L0,1080 Z`;
-
-  const s = svg(
-    {
-      width: W,
-      viewBox: `0 0 ${W} 1080`,
-      preserveAspectRatio: 'none',
-    },
-    'position: absolute; bottom: 0; left: 0; height: 100%;',
-  );
-  layer.appendChild(s);
-
-  const defs = svgEl('defs');
-  s.appendChild(defs);
-  const grad = svgEl('linearGradient', { id: `far-grad-${uid}`, x1: '0', y1: '0', x2: '0', y2: '1' });
-  defs.appendChild(grad);
-  const stop0 = svgEl('stop', { offset: '0%',   'stop-color': '#3a1d6e', 'stop-opacity': '0.95' });
-  const stop1 = svgEl('stop', { offset: '100%', 'stop-color': '#1a0f2e', 'stop-opacity': '1' });
-  grad.appendChild(stop0);
-  grad.appendChild(stop1);
-
-  const path = svgEl('path', { d, fill: `url(#far-grad-${uid})` });
-  s.appendChild(path);
+  const img = document.createElement('img');
+  img.src = 'images/world/far-mountains.svg';
+  img.alt = '';
+  img.style.cssText = `
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+  `;
+  layer.appendChild(img);
 
   const factor = 0.18;
   trackedRaf(() => {

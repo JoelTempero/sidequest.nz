@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Far mountains layer for the homepage parallax world.
+  Replace this file with your own pixel art (or any) mountain layer.
+  - Same filename keeps the JS happy without code changes.
+  - For pixel art: save your PNG as images/world/far-mountains.png AND
+    update the src path in js/world.js to .png. The image-rendering:pixelated
+    CSS is already wired so pixel edges will stay crisp.
+  - This SVG's "natural" canvas is 12000 x 1080. The layer in the page
+    stretches it to fill the parallax track, so any aspect ratio works
+    but keeping a wide-and-short shape (~10:1 to 14:1) reads best.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 12000 1080"
+     preserveAspectRatio="none"
+     width="12000" height="1080">
+  <defs>
+    <linearGradient id="far-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a1d6e" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#1a0f2e" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#far-grad)"
+        d="M0 800
+           Q350 490 700 600
+           Q1050 460 1400 600
+           Q1750 520 2100 600
+           Q2450 440 2800 600
+           Q3150 480 3500 600
+           Q3850 505 4200 600
+           Q4550 465 4900 600
+           Q5250 425 5600 600
+           Q5950 500 6300 600
+           Q6650 475 7000 600
+           Q7350 450 7700 600
+           Q8050 510 8400 600
+           Q8750 455 9100 600
+           Q9450 485 9800 600
+           Q10150 490 10500 600
+           Q10850 460 11200 600
+           Q11550 520 11900 600
+           L12000 1080
+           L0 1080
+           Z"/>
+</svg>
