@@ -24,65 +24,99 @@ function trackedRaf(fn) {
   return () => cancelAnimationFrame(id);
 }
 
+// ─── Palettes ─────────────────────────────────────────────────────────────────
+
+/** Default violet palette — ported exactly from robot.jsx. */
+const VIOLET = {
+  primary:  '#7c3aed',  // strokes, nozzle stroke, mouth, fins/antenna stroke
+  light:    '#c4b5fd',  // antenna tip, eyes, status light
+  bodyFill: '#1a0f2e',  // body + fins fill
+  nozzle:   '#3d3450',  // nozzle fill
+  screen:   '#06040b',  // face panel
+  jet:      'rgba(196,181,253,0.85)',
+  jetMid:   '#f5f0ff',
+  jetCore:  '#fff',
+};
+
+/** Blue palette — same value relationships, shifted to a cool blue hue. */
+const BLUE = {
+  primary:  '#2563eb',
+  light:    '#93c5fd',
+  bodyFill: '#0f1e3a',
+  nozzle:   '#34405d',
+  screen:   '#040810',
+  jet:      'rgba(147,197,253,0.85)',
+  jetMid:   '#eff6ff',
+  jetCore:  '#fff',
+};
+
 // ─── SVG markup ───────────────────────────────────────────────────────────────
 
 /**
- * Build the full robot SVG as an innerHTML string.
+ * Build the full robot SVG as an innerHTML string for a given palette.
  * Using innerHTML for the static SVG structure is cleaner than
  * createElementNS() for every node — only the animated parts need live refs
  * (obtained via querySelector after mount).
  *
- * Geometry and colours ported exactly from robot.jsx.
+ * Geometry ported exactly from robot.jsx; colours come from the palette.
  */
-const ROBOT_SVG = /* html */`
-<svg viewBox="0 0 72 72" width="72" height="72" overflow="visible" aria-hidden="true">
+const buildRobotSvg = (p, mood = 'happy') => /* html */`
+<svg viewBox="0 0 72 72" width="100%" height="100%" overflow="visible" aria-hidden="true">
 
   <!-- JET PLUME — anchored at the nozzle (36, 54) in SVG space -->
   <!-- transformOrigin set inline because Safari needs it on the element -->
   <g id="rbt-jet" style="transform-origin: 36px 54px;">
-    <ellipse cx="36" cy="68" rx="6" ry="14" fill="rgba(196,181,253,0.85)"/>
-    <ellipse cx="36" cy="66" rx="3.5" ry="9" fill="#f5f0ff"/>
-    <ellipse cx="36" cy="64" rx="1.6" ry="5" fill="#fff"/>
+    <ellipse cx="36" cy="68" rx="6" ry="14" fill="${p.jet}"/>
+    <ellipse cx="36" cy="66" rx="3.5" ry="9" fill="${p.jetMid}"/>
+    <ellipse cx="36" cy="64" rx="1.6" ry="5" fill="${p.jetCore}"/>
   </g>
 
   <!-- JET NOZZLE — small trapezoid attached to body bottom -->
-  <path d="M30 52 L42 52 L40 56 L32 56 Z" fill="#3d3450" stroke="#7c3aed" stroke-width="1"/>
+  <path d="M30 52 L42 52 L40 56 L32 56 Z" fill="${p.nozzle}" stroke="${p.primary}" stroke-width="1"/>
 
   <!-- BODY — rounded square -->
   <rect x="14" y="14" width="44" height="40" rx="9" ry="9"
-        fill="#1a0f2e" stroke="#7c3aed" stroke-width="1.5"/>
+        fill="${p.bodyFill}" stroke="${p.primary}" stroke-width="1.5"/>
 
   <!-- TOP ANTENNA -->
-  <line x1="36" y1="14" x2="36" y2="6" stroke="#7c3aed" stroke-width="1.5"/>
-  <circle cx="36" cy="5" r="2.2" fill="#c4b5fd"/>
+  <line x1="36" y1="14" x2="36" y2="6" stroke="${p.primary}" stroke-width="1.5"/>
+  <circle cx="36" cy="5" r="2.2" fill="${p.light}"/>
 
   <!-- SCREEN / FACE PANEL -->
-  <rect x="20" y="22" width="32" height="22" rx="4" ry="4" fill="#06040b"/>
+  <rect x="20" y="22" width="32" height="22" rx="4" ry="4" fill="${p.screen}"/>
 
   <!-- EYES -->
   <!-- Left eye: transform-origin at the eye centre (28, 33) -->
   <g id="rbt-eye-l" style="transform-origin: 28px 33px; transform-box: fill-box;">
-    <circle cx="28" cy="33" r="3.2" fill="#c4b5fd"/>
+    <circle cx="28" cy="33" r="3.2" fill="${p.light}"/>
   </g>
   <!-- Right eye: transform-origin at the eye centre (44, 33) -->
   <g id="rbt-eye-r" style="transform-origin: 44px 33px; transform-box: fill-box;">
-    <circle cx="44" cy="33" r="3.2" fill="#c4b5fd"/>
+    <circle cx="44" cy="33" r="3.2" fill="${p.light}"/>
   </g>
 
-  <!-- MOUTH — tiny smile -->
-  <path d="M30 39 Q36 42 42 39" stroke="#7c3aed" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  ${mood === 'sad' ? `
+  <!-- WORRIED EYEBROWS — inner ends raised -->
+  <line x1="24" y1="29" x2="32" y2="26.5" stroke="${p.primary}" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="48" y1="29" x2="40" y2="26.5" stroke="${p.primary}" stroke-width="1.2" stroke-linecap="round"/>` : ''}
+
+  <!-- MOUTH — smile (happy) or frown (sad) -->
+  <path d="${mood === 'sad' ? 'M30 41 Q36 37 42 41' : 'M30 39 Q36 42 42 39'}"
+        stroke="${p.primary}" stroke-width="1.2" fill="none" stroke-linecap="round"/>
 
   <!-- SIDE FINS -->
-  <path d="M14 30 L8 28 L8 36 L14 38 Z" fill="#1a0f2e" stroke="#7c3aed" stroke-width="1.2"/>
-  <path d="M58 30 L64 28 L64 36 L58 38 Z" fill="#1a0f2e" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M14 30 L8 28 L8 36 L14 38 Z" fill="${p.bodyFill}" stroke="${p.primary}" stroke-width="1.2"/>
+  <path d="M58 30 L64 28 L64 36 L58 38 Z" fill="${p.bodyFill}" stroke="${p.primary}" stroke-width="1.2"/>
 
   <!-- TINY STATUS LIGHT — pulsing via CSS animation -->
-  <circle id="rbt-status" cx="50" cy="48" r="1.4" fill="#c4b5fd">
+  <circle id="rbt-status" cx="50" cy="48" r="1.4" fill="${p.light}">
     <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
   </circle>
 
 </svg>
 `;
+
+export const ROBOT_PALETTES = { violet: VIOLET, blue: BLUE };
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
@@ -92,7 +126,10 @@ const ROBOT_SVG = /* html */`
  * @param {HTMLElement} rootEl - Container element (e.g. <div id="robot">).
  * @returns {{ destroy: () => void }} Teardown handle.
  */
-export function mountRobot(rootEl) {
+export function mountRobot(rootEl, { scale = 1, palette = VIOLET, mood = 'happy' } = {}) {
+  const SIZE = 72 * scale;
+  const HALF = SIZE / 2;
+
   // ── Style the host container ──────────────────────────────────────────────
   rootEl.style.cssText = `
     position: absolute;
@@ -102,15 +139,15 @@ export function mountRobot(rootEl) {
   `;
 
   // ── Outer wrapper: positioned via translate3d each frame ──────────────────
-  // Matches robot.jsx's wrapRef div (position: fixed, top: 0, left: 0, 72×72)
+  // Matches robot.jsx's wrapRef div (position: fixed, top: 0, left: 0)
   const wrap = document.createElement('div');
   wrap.setAttribute('aria-hidden', 'true');
   wrap.style.cssText = `
     position: absolute;
     top: 0;
     left: 0;
-    width: 72px;
-    height: 72px;
+    width: ${SIZE}px;
+    height: ${SIZE}px;
     pointer-events: none;
     will-change: transform;
   `;
@@ -125,7 +162,7 @@ export function mountRobot(rootEl) {
     transform-origin: 50% 50%;
     will-change: transform;
   `;
-  body.innerHTML = ROBOT_SVG;
+  body.innerHTML = buildRobotSvg(palette, mood);
   wrap.appendChild(body);
 
   // ── Grab refs to animated elements ───────────────────────────────────────
@@ -184,7 +221,7 @@ export function mountRobot(rootEl) {
 
   // ── Reduced-motion: render once at initial position, skip all animation ───
   if (REDUCED_MOTION) {
-    wrap.style.transform = `translate3d(${posX - 36}px, ${posY - 36}px, 0)`;
+    wrap.style.transform = `translate3d(${posX - HALF}px, ${posY - HALF}px, 0)`;
     // Disable SVG <animate> pulsing status light
     const animateEl = body.querySelector('#rbt-status animate');
     if (animateEl) animateEl.setAttribute('dur', '0s');
@@ -255,8 +292,8 @@ export function mountRobot(rootEl) {
 
     // ── Write transforms ──────────────────────────────────────────────────
     // Outer wrapper: translate so the robot is centred at (posX, posY)
-    // We subtract 36 (half of 72) so posX/posY is the robot's centre, not its top-left.
-    wrap.style.transform = `translate3d(${posX - 36}px, ${posY - 36}px, 0)`;
+    // We subtract HALF so posX/posY is the robot's centre, not its top-left.
+    wrap.style.transform = `translate3d(${posX - HALF}px, ${posY - HALF}px, 0)`;
 
     // Body div: tilt rotation
     body.style.transform = `rotate(${tilt}deg)`;

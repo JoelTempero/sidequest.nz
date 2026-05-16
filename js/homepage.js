@@ -16,7 +16,7 @@
 
 import { initScrollEngine, feedHorizontalDelta, feedTouchStart, feedTouchMove, feedTouchEnd } from './scroll-engine.js';
 import { mountWorld } from './world.js';
-import { mountRobot } from './robot.js';
+import { mountRobot, ROBOT_PALETTES } from './robot.js';
 import { mountSky } from './sky.js';
 import { mountUnderground } from './underground.js';
 import {
@@ -309,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mountWorld(document.getElementById('world'), { scrollRef, totalWidth, mode: 'horizontal' });
     mountRobot(document.getElementById('robot'));
+    mountRobot(document.getElementById('robot-2'), { scale: 2, palette: ROBOT_PALETTES.blue, mood: 'sad' });
 
     mountTopNav(document.getElementById('top-nav'), {
       jumpTo,

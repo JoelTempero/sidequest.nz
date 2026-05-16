@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>sidequest.nz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #08060d; color: #f5f0ff; overflow: hidden; height: 100%; }
+  body { font-family: "Space Grotesk", sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  ::selection { background: #7c3aed; color: #fff; }
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="scroll-engine.jsx"></script>
+<script type="text/babel" src="world.jsx"></script>
+<script type="text/babel" src="panels.jsx"></script>
+<script type="text/babel" src="robot.jsx"></script>
+
+<script type="text/babel">
+const PANEL_LABELS = ['HOME', 'QUEST 01', 'QUEST 02', 'QUEST 03', 'QUEST 04', 'INDEX', 'CONTACT'];
+
+function App() {
+  const { trackRef, progress, activeIdx, currentRef, jumpTo } = useHorizontalScroll();
+  const [totalWidth, setTotalWidth] = React.useState(0);
+  const [starts, setStarts] = React.useState([0,0,0,0,0,0,0,0]);
+  React.useEffect(() => {
+    const measure = () => {
+      const track = trackRef.current;
+      if (!track) return;
+      setTotalWidth(track.scrollWidth);
+      const ps = track.querySelectorAll('[data-panel]');
+      let acc = 0; const arr = [];
+      ps.forEach(p => { arr.push(acc); acc += p.offsetWidth; });
+      setStarts(arr);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [trackRef]);
+
+  return (
+    <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* static parallax world — sits behind everything */}
+      <World currentRef={currentRef} totalWidth={totalWidth}/>
+
+      {/* horizontal track */}
+      <div ref={trackRef} style={{
+        display: 'flex', height: '100vh',
+        width: 'max-content',
+        willChange: 'transform',
+        position: 'relative', zIndex: 1,
+      }}>
+        <HeroPanel/>
+        <Project01/>
+        <Project02/>
+        <Project03/>
+        <Project04/>
+        <SeeMorePanel/>
+        <LogosPanel currentRef={currentRef} panelStart={starts[6]}/>
+        <ContactPanel/>
+      </div>
+
+      {/* Companion robot — flies around following the cursor */}
+      <CompanionRobot/>
+
+      {/* fixed top nav */}
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0,
+        padding: '24px 40px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        zIndex: 50, pointerEvents: 'none',
+        background: 'linear-gradient(180deg, rgba(8,6,13,0.85) 0%, rgba(8,6,13,0.0) 100%)',
+        backdropFilter: 'blur(2px)',
+      }}>
+        <div style={{
+          fontFamily: '"Space Grotesk", sans-serif', fontSize: 16, fontWeight: 600,
+          letterSpacing: '-0.01em', color: '#f5f0ff',
+          display: 'flex', alignItems: 'center', gap: 10,
+          pointerEvents: 'auto',
+        }}>
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <rect x="0.5" y="0.5" width="17" height="17" fill="none" stroke="#7c3aed" strokeWidth="1.5"/>
+            <path d="M4 9 L7.5 12.5 L14 6" fill="none" stroke="#c4b5fd" strokeWidth="1.5" strokeLinecap="square"/>
+          </svg>
+          sidequest<span style={{ color: '#7c3aed' }}>.nz</span>
+        </div>
+
+        <div style={{
+          display: 'flex', gap: 32,
+          fontFamily: '"IBM Plex Mono", monospace',
+          fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+          color: '#b8a8d4', pointerEvents: 'auto',
+        }}>
+          <a onClick={() => jumpTo(0)} style={{ cursor: 'pointer', color: activeIdx === 0 ? '#c4b5fd' : '#b8a8d4' }}>Home</a>
+          <a onClick={() => jumpTo(1)} style={{ cursor: 'pointer', color: (activeIdx >= 1 && activeIdx <= 5) ? '#c4b5fd' : '#b8a8d4' }}>Work</a>
+          <a onClick={() => jumpTo(6)} style={{ cursor: 'pointer', color: activeIdx === 6 ? '#c4b5fd' : '#b8a8d4' }}>Contact</a>
+        </div>
+      </nav>
+
+      {/* fixed bottom chrome — counter + progress */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0,
+        padding: '20px 40px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+        zIndex: 50, pointerEvents: 'none',
+        fontFamily: '"IBM Plex Mono", monospace',
+        fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+        color: '#7a6a92',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ color: '#c4b5fd' }}>{String(activeIdx + 1).padStart(2, '0')}</span>
+          <span>/</span>
+          <span>{String(PANEL_LABELS.length).padStart(2, '0')}</span>
+          <span style={{ marginLeft: 14, color: '#b8a8d4' }}>{PANEL_LABELS[activeIdx]}</span>
+        </div>
+
+        <div style={{ flex: 1, margin: '0 40px', maxWidth: 600, position: 'relative', alignSelf: 'center' }}>
+          <div style={{ height: 1, background: 'rgba(196,181,253,0.15)' }}/>
+          <div style={{
+            position: 'absolute', top: 0, left: 0, height: 1,
+            width: `${progress * 100}%`, background: '#c4b5fd',
+            transition: 'width 0.05s linear',
+          }}/>
+        </div>
+
+        <div style={{ display: 'flex', gap: 18 }}>
+          <span>SCROLL</span>
+          <span>↓ → ←</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
