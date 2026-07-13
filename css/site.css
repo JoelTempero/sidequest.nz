@@ -135,7 +135,6 @@ body::before {
 /* The micro voice: nav link, eyebrow, trigger, field labels, direct line. */
 .micro,
 .site-nav__link,
-.contact-direct,
 .field label,
 #contact-trigger,
 .legal-eyebrow,
@@ -636,21 +635,6 @@ html.no-js #contact-trigger { display: none; }
 #contact-trigger:hover::after { transform: translateX(4px); }
 #contact-trigger[aria-expanded="true"]::after { transform: rotate(-90deg); }
 
-.contact-direct { color: var(--ink-2); }
-
-.contact-direct a {
-  color: var(--ink-1);
-  text-decoration: none;
-  border-bottom: 1px solid var(--violet-deep);
-  padding-bottom: 1px;
-  transition: color var(--dur-xs) var(--ease), border-color var(--dur-xs) var(--ease);
-}
-
-.contact-direct a:hover {
-  color: var(--violet-lite);
-  border-bottom-color: var(--violet-lite);
-}
-
 /* ---------- 7. About ---------- */
 
 .about-main,
@@ -817,12 +801,17 @@ html.no-js #contact-trigger { display: none; }
 /* ---------- 9. Mobile — one short, deliberate scroll ---------- */
 
 @media (max-width: 900px) {
-  /* WCAG 2.5.8 — touch targets need 44px. These are visually small mono
-     links, so grow the hit area rather than the type. */
+  /* WCAG 2.5.8 — touch targets need 44px. These are visually small links, so
+     grow the hit area rather than the type.
+     NOTE: these must stay in sync with the real class names. This rule used to
+     target a stale `.contact-direct a` that no element uses any more, which
+     silently left every contact link on mobile under 44px. */
   .site-nav__brand,
   .site-nav__link,
   #contact-trigger,
-  .contact-direct a {
+  #contact-close,
+  .panel-direct a,
+  .panel-legal a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -925,7 +914,6 @@ html.no-js #contact-trigger { display: none; }
     gap: 1rem;
   }
 
-  .contact-direct { line-height: 1.9; }
 }
 
 @media (max-width: 480px) {
