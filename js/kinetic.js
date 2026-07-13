@@ -33,17 +33,24 @@ export function mountKinetic(headlineEl) {
 
     const letters = [];
 
+    /* Name the <h1> itself, not the lines. A bare <span> maps to ARIA role
+       `generic`, where naming is PROHIBITED, so Chrome and Safari drop an
+       aria-label placed there. The heading role permits naming, so that is
+       the only place the name actually survives. */
+    headlineEl.setAttribute(
+      'aria-label',
+      Array.from(lines, (l) => l.textContent.trim()).join(' ')
+    );
+
     lines.forEach((line) => {
       const text = line.textContent;
-      // Preserve the accessible name on the line itself; hide the
-      // per-letter breakdown from assistive tech.
-      line.setAttribute('aria-label', text);
+      // The heading now carries the name; hide the per-letter breakdown.
+      line.setAttribute('aria-hidden', 'true');
       line.textContent = '';
 
       for (const ch of text) {
         const span = document.createElement('span');
         span.textContent = ch === ' ' ? ' ' : ch;
-        span.setAttribute('aria-hidden', 'true');
         line.appendChild(span);
         letters.push({ el: span, x: 0, y: 0, tx: 0, ty: 0, ts: 1, s: 1 });
       }
@@ -111,6 +118,7 @@ export function mountKinetic(headlineEl) {
     function teardown() {
       stop();
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onResize);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerleave', onPointerGone);
       window.removeEventListener('blur', onPointerGone);
@@ -148,6 +156,7 @@ export function mountKinetic(headlineEl) {
     }
 
     window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('scroll', onResize, { passive: true });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerleave', onPointerGone, { passive: true });
     window.addEventListener('blur', onPointerGone, { passive: true });

@@ -73,9 +73,26 @@
 
       <div class="contact-bar">
         <button type="button" id="contact-trigger" aria-expanded="true" aria-controls="contact-panel">Get in touch</button>
-        <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a></p>
+        <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a> &middot; <a href="pages/privacy.html">Privacy</a> &middot; <a href="pages/terms.html">Terms</a></p>
       </div>
-      <script>document.getElementById('contact-panel').hidden=true;document.getElementById('contact-trigger').setAttribute('aria-expanded','false');</script>
+      <script>
+        /* Collapse the panel before first paint, and wire a bare toggle so the
+           form is still reachable if js/contact.js never loads. contact.js
+           guards against double-mount and layers its own listener on top. */
+        (function () {
+          var p = document.getElementById('contact-panel');
+          var t = document.getElementById('contact-trigger');
+          p.hidden = true;
+          t.setAttribute('aria-expanded', 'false');
+          /* onclick (not addEventListener) so contact.js can null it out and
+             take over cleanly, rather than both handlers firing and the
+             toggles cancelling each other. */
+          t.onclick = function () {
+            p.hidden = !p.hidden;
+            t.setAttribute('aria-expanded', String(!p.hidden));
+          };
+        })();
+      </script>
     </section>
   </main>
 

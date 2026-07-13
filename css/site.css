@@ -633,6 +633,17 @@ html.no-js #contact-trigger { display: none; }
 /* ---------- 9. Mobile — one short, deliberate scroll ---------- */
 
 @media (max-width: 900px) {
+  /* WCAG 2.5.8 — touch targets need 44px. These are visually small mono
+     links, so grow the hit area rather than the type. */
+  .site-nav__brand,
+  .site-nav__link,
+  #contact-trigger,
+  .contact-direct a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   body { min-height: 100svh; }
 
   .hero {

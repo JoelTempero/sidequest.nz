@@ -25,6 +25,11 @@ export function mountContact(trigger, panel, form) {
 
     setOpen(!panel.hidden);
 
+    /* index.html wires a bare onclick fallback in case this module never
+       loads. Now that it has, take it over — otherwise both handlers fire and
+       the toggles cancel out. */
+    trigger.onclick = null;
+
     trigger.addEventListener('click', () => {
       const open = panel.hidden;
       setOpen(open);
@@ -55,6 +60,12 @@ export function mountContact(trigger, panel, form) {
       e.preventDefault();
 
       const btn = form.querySelector('button[type=submit]');
+      /* Disabling the focused button blurs focus to <body>. Park it on the
+         status line instead, so a keyboard user stays where the news is. */
+      if (status) {
+        status.setAttribute('tabindex', '-1');
+        status.focus();
+      }
       if (btn) btn.disabled = true;
       say('Sending...', null);
 
@@ -67,12 +78,12 @@ export function mountContact(trigger, panel, form) {
 
         if (!res.ok) throw new Error(String(res.status));
 
-        /* Replace the form with a confirmation, in place. */
-        const done = document.createElement('p');
-        done.className = 'form-status form-status--ok';
-        done.setAttribute('role', 'status');
-        done.textContent = 'Got it. We will come back to you shortly.';
-        form.replaceWith(done);
+        /* Keep the form (and its live region) mounted and just hide the
+           fields. Replacing the form would destroy .form-status, and a
+           freshly-inserted live region does not reliably announce. */
+        form.querySelectorAll('.field').forEach((el) => { el.hidden = true; });
+        if (btn) btn.hidden = true;
+        say('Got it. We will come back to you shortly.', 'ok');
       } catch (err) {
         /* Keep every keystroke the visitor typed. The email and phone in the
            bar below are still right there as the escape hatch. */
