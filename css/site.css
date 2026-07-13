@@ -1,0 +1,642 @@
+/* ============================================================
+   Sidequest Digital — site.css
+   One stylesheet. Tokens, base type, nav, hero, contact, about, legal.
+
+   Fonts are linked from the HTML <head> (not @import — keeps the
+   critical path flat). Every page must carry:
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap">
+   ============================================================ */
+
+/* ---------- 1. Reset ---------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body,
+h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol { margin: 0; }
+
+ul, ol { padding: 0; list-style: none; }
+
+img, svg, canvas { display: block; max-width: 100%; }
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+
+button { cursor: pointer; }
+
+a { color: inherit; }
+
+/* ---------- 2. Tokens ---------- */
+
+:root {
+  /* surface */
+  --base:        #08060d;   /* near-black, violet bias */
+  --surface:     #0e0b16;   /* raised panels */
+  --hairline:    #211b30;   /* structural rules */
+
+  /* violet */
+  --violet:      #7c3aed;   /* primary — fills, glow, borders. NOT for text on base */
+  --violet-lite: #c4b5fd;   /* accent text, links, focus ring */
+  --violet-deep: #2a1a4d;   /* pressed / tinted borders */
+
+  /* ink scale (4 steps) */
+  --ink-0: #f5f3f8;  /* headings, primary text        ~18:1 */
+  --ink-1: #c3bdd0;  /* body copy                     ~10:1 */
+  --ink-2: #928aa3;  /* muted / micro copy            ~5.3:1 — AA */
+  --ink-3: #5a5369;  /* NON-TEXT ONLY: rules, disabled, placeholders */
+
+  /* type */
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* micro label: the site's recurring voice */
+  --micro-size: 0.75rem;
+  --micro-track: 0.14em;
+
+  /* rhythm */
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --step:   clamp(1rem, 2.2vh, 1.75rem);
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- 3. Base type + page frame ---------- */
+
+html { height: 100%; }
+
+body {
+  min-height: 100vh;          /* fallback */
+  min-height: 100svh;         /* no phantom scroll under mobile chrome */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 var(--gutter);
+  background: var(--base);
+  color: var(--ink-1);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Ambient violet bloom, low and off-centre. Sits under the canvas. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(58vw 52vh at 22% 68%, rgba(124, 58, 237, 0.16), transparent 68%),
+    radial-gradient(42vw 40vh at 88% 8%, rgba(124, 58, 237, 0.07), transparent 70%);
+}
+
+/* Particle field canvas — behind everything, inert. */
+#field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+::selection { background: var(--violet); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--violet-lite);
+  outline-offset: 3px;
+}
+
+/* The micro voice: nav link, eyebrow, trigger, field labels, direct line. */
+.micro,
+.site-nav__link,
+.contact-direct,
+.field label,
+#contact-trigger,
+.legal-eyebrow,
+.about-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--micro-size);
+  letter-spacing: var(--micro-track);
+  text-transform: uppercase;
+}
+
+/* ---------- 4. Site nav ---------- */
+
+.site-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1.1rem, 3vh, 1.9rem) 0;
+}
+
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink-0);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.site-nav__brand img {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.5s var(--ease);
+}
+
+.site-nav__brand:hover img { transform: rotate(-12deg) scale(1.08); }
+
+.site-nav__link {
+  position: relative;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 0.35rem 0;
+  transition: color 0.25s var(--ease);
+}
+
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--violet-lite);
+  transition: right 0.35s var(--ease);
+}
+
+.site-nav__link:hover,
+.site-nav__link[aria-current="page"] { color: var(--ink-0); }
+
+.site-nav__link:hover::after,
+.site-nav__link[aria-current="page"]::after { right: 0; }
+
+/* ---------- 5. Hero ---------- */
+
+.hero {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--step);
+  position: relative;
+  padding: var(--step) 0 calc(var(--step) * 1.5);
+  padding-left: clamp(0.9rem, 2.4vw, 2rem);
+}
+
+/* Signature: a violet path that draws itself up the left edge of the
+   statement — the branching-arrow mark from the logo, flattened. */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--violet-lite), var(--violet) 45%, transparent);
+  transform-origin: top;
+  animation: draw-path 1.1s var(--ease) 0.15s both;
+}
+
+@keyframes draw-path {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+#hero-lines {
+  color: var(--ink-0);
+  font-weight: 700;
+  /* fluid on both axes so three lines never outgrow one screen */
+  font-size: clamp(2.6rem, min(10.5vw, 13.5svh), 8.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  transition: font-size 0.34s var(--ease);
+}
+
+/* Each line steps forward — the copy is about getting ahead, so the
+   structure moves ahead too. */
+.hero-line {
+  display: block;
+  animation: line-in 0.7s var(--ease) both;
+}
+.hero-line:nth-child(1) { margin-left: 0;      animation-delay: 0.10s; }
+.hero-line:nth-child(2) { margin-left: 0.9ch;  animation-delay: 0.20s; }
+.hero-line:nth-child(3) { margin-left: 1.8ch;  animation-delay: 0.30s; color: var(--violet-lite); }
+
+@keyframes line-in {
+  from { opacity: 0; transform: translate3d(-0.35em, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Per-letter spans injected by kinetic.js. Transform-only, GPU-safe. */
+.hero-line span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero-tagline {
+  max-width: 48ch;
+  margin-left: 0.15ch;
+  color: var(--ink-2);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.3rem);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-wrap: pretty;
+  animation: line-in 0.7s var(--ease) 0.45s both;
+}
+
+.hero-tagline strong {
+  color: var(--ink-0);
+  font-weight: 500;
+}
+
+/* ---------- 6. Contact strip ---------- */
+
+.contact-strip {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--hairline);
+  padding-bottom: max(0.9rem, env(safe-area-inset-bottom));
+}
+
+/* Panel is a sibling ABOVE the bar in DOM order, so it opens upward. */
+#contact-panel {
+  overflow: hidden;
+  padding: 1.6rem 0 0.4rem;
+  animation: panel-rise 0.34s var(--ease) both;
+}
+
+#contact-panel[hidden] { display: none; }
+
+/* Open the form and the statement yields space, so the page still fits one
+   screen. Layout stays in flow — nothing is pinned, nothing is clipped. */
+@media (min-width: 901px) {
+  body:has(#contact-panel:not([hidden])) #hero-lines {
+    font-size: clamp(2.2rem, min(7vw, 9.5svh), 5.75rem);
+  }
+  body:has(#contact-panel:not([hidden])) .hero {
+    gap: calc(var(--step) * 0.6);
+  }
+}
+
+@keyframes panel-rise {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+#contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+  max-width: 62rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field--wide { grid-column: 1 / -1; }
+
+.field label { color: var(--ink-2); }
+
+.field input,
+.field textarea {
+  padding: 0.7rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--ink-0);
+  font-size: 0.95rem;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.field input::placeholder,
+.field textarea::placeholder { color: var(--ink-2); }
+
+.field input:hover,
+.field textarea:hover { border-color: var(--violet-deep); }
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  border-color: var(--violet-lite);
+  outline-offset: 0;
+}
+
+.field textarea { resize: vertical; min-height: 5.5rem; }
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Buttons — square, no radius anywhere on this site. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  border: 1px solid var(--violet);
+  background: var(--violet);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: var(--micro-size);
+  letter-spacing: var(--micro-track);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.btn:hover { background: #8b4cf5; transform: translateY(-1px); }
+.btn:active { transform: none; background: var(--violet-deep); }
+.btn[disabled] { opacity: 0.55; cursor: default; transform: none; }
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--hairline);
+  color: var(--ink-1);
+}
+.btn--ghost:hover { background: transparent; border-color: var(--violet-lite); color: var(--ink-0); }
+
+/* aria-live target for submit success / failure. */
+.form-status {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.form-status--ok    { color: var(--violet-lite); }
+.form-status--error { color: #ff9d9d; }
+
+/* Always-visible line: trigger left, direct details right. */
+.contact-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
+  padding: 1rem 0 0.3rem;
+}
+
+#contact-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.3rem 0;
+  color: var(--ink-0);
+  transition: color 0.2s var(--ease);
+}
+
+#contact-trigger::after {
+  content: "→";
+  display: inline-block;
+  color: var(--violet-lite);
+  transition: transform 0.25s var(--ease);
+}
+
+#contact-trigger:hover::after { transform: translateX(4px); }
+#contact-trigger[aria-expanded="true"]::after { transform: rotate(-90deg); }
+
+.contact-direct { color: var(--ink-2); }
+
+.contact-direct a {
+  color: var(--ink-1);
+  text-decoration: none;
+  border-bottom: 1px solid var(--violet-deep);
+  padding-bottom: 1px;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.contact-direct a:hover {
+  color: var(--violet-lite);
+  border-bottom-color: var(--violet-lite);
+}
+
+/* ---------- 7. About ---------- */
+
+.about-main,
+.legal-main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 46rem;
+  padding: clamp(2rem, 8vh, 5rem) 0 clamp(3rem, 10vh, 6rem);
+}
+
+.about-eyebrow,
+.legal-eyebrow {
+  display: block;
+  margin-bottom: 1.4rem;
+  color: var(--violet-lite);
+}
+
+.about-title {
+  color: var(--ink-0);
+  font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.about-lede {
+  margin-top: 1.4rem;
+  color: var(--ink-1);
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  line-height: 1.55;
+  max-width: 38ch;
+}
+
+.about-disciplines {
+  margin-top: clamp(2.2rem, 6vh, 3.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-1);
+}
+
+/* Hairline separators between disciplines — no bullets, no icons. */
+.about-disciplines li { display: inline-flex; align-items: center; gap: 0.9rem; }
+.about-disciplines li + li::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--ink-3);
+}
+
+.about-rule {
+  height: 1px;
+  margin: clamp(2.4rem, 7vh, 4rem) 0;
+  border: 0;
+  background: linear-gradient(to right, var(--violet-deep), var(--hairline) 55%, transparent);
+}
+
+.about-team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem 4rem;
+}
+
+.about-person { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.about-person__name {
+  color: var(--ink-0);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.about-person__island {
+  font-family: var(--mono);
+  font-size: var(--micro-size);
+  letter-spacing: var(--micro-track);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* ---------- 8. Legal ---------- */
+
+.legal-title {
+  color: var(--ink-0);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.legal-meta {
+  margin-top: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+
+.legal-section { margin-top: clamp(2rem, 5vh, 3rem); }
+
+.legal-section h2 {
+  color: var(--ink-0);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.legal-section p + p,
+.legal-section ul { margin-top: 0.9rem; }
+
+.legal-section li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin-bottom: 0.45rem;
+}
+
+.legal-section li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 6px;
+  height: 1px;
+  background: var(--violet);
+}
+
+.legal-section a,
+.about-lede a {
+  color: var(--violet-lite);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.site-foot {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: var(--micro-size);
+  letter-spacing: var(--micro-track);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.site-foot a { text-decoration: none; }
+.site-foot a:hover { color: var(--violet-lite); }
+
+/* ---------- 9. Mobile — one short, deliberate scroll ---------- */
+
+@media (max-width: 900px) {
+  body { min-height: 100svh; }
+
+  .hero {
+    /* statement owns the first viewport; contact follows below the fold */
+    min-height: 72svh;
+    padding-top: calc(var(--step) * 1.5);
+  }
+
+  #hero-lines {
+    font-size: clamp(2.5rem, 13vw, 4.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  .hero-tagline { max-width: 30ch; }
+
+  #contact-form { grid-template-columns: 1fr; }
+
+  .contact-bar { align-items: flex-start; flex-direction: column; gap: 0.75rem; }
+
+  .contact-direct { line-height: 1.9; }
+}
+
+@media (max-width: 480px) {
+  .hero-line:nth-child(2) { margin-left: 0.5ch; }
+  .hero-line:nth-child(3) { margin-left: 1ch; }
+}
+
+/* ---------- 10. Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .site-nav__brand:hover img,
+  #contact-trigger:hover::after,
+  .btn:hover { transform: none; }
+
+  .hero::before { animation: none; }
+}
