@@ -833,8 +833,15 @@ html.no-js #contact-trigger { display: none; }
     text-wrap: nowrap;
   }
 
-  /* Desktop only — there is no room for it beside the statement on a phone. */
-  .you-are-here { display: none; }
+  /* No room beside the statement on a phone, so it drops to the open space
+     below the tagline, bottom right. */
+  .you-are-here {
+    right: 1.4rem;
+    top: auto;
+    bottom: 6%;
+    transform: scale(0.9);
+    transform-origin: bottom right;
+  }
 
   #contact-form { grid-template-columns: 1fr; }
 
@@ -865,6 +872,37 @@ html.no-js #contact-trigger { display: none; }
   #contact-close {
     position: static;
     margin: -0.3rem 0 0.2rem -0.75rem;
+  }
+
+  /* Disciplines: a tidy two-column list. The inline dash-separated row is a
+     desktop idea; wrapped onto a phone it just reads as noise. */
+  .panel-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem 1rem;
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.3rem;
+  }
+  .panel-row li { gap: 0; }
+  .panel-row li + li::before { content: none; }
+
+  /* Reorder: people, then direct, then the form, then legal.
+     display:contents dissolves the aside so its children become grid items of
+     .panel-body and can be ordered around the form. */
+  .panel-aside { display: contents; }
+
+  .panel-people   { order: 1; }
+  .panel-direct   { order: 2; }
+  #contact-form   { order: 3; max-width: none; }
+  .panel-legal    { order: 4; margin-top: 0.4rem; }
+
+  .panel-body { gap: 1.6rem; }
+
+  /* Joel and Harrison sit side by side. */
+  .panel-people {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
   .contact-direct { line-height: 1.9; }
