@@ -576,6 +576,15 @@ html.no-js #contact-trigger { display: none; }
   border-bottom: 1px solid var(--hairline);
 }
 
+.legal-section h3 {
+  color: var(--ink-1);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
 .legal-section p + p,
 .legal-section ul { margin-top: 0.9rem; }
 
