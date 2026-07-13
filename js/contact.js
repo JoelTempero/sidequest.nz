@@ -15,12 +15,18 @@ export function mountContact(trigger, panel, form) {
     panel.dataset.contactMounted = 'true';
 
     const status = form.querySelector('.form-status');
+    const strip = panel.closest('.contact-strip');
+    const closeBtn = document.getElementById('contact-close');
 
     /* The inline script in index.html already collapsed the panel before first
        paint. Mirror that state here rather than assuming it. */
     const setOpen = (open) => {
       panel.hidden = !open;
       trigger.setAttribute('aria-expanded', String(open));
+      /* The trigger is hidden while open, so the panel sits flush at the foot
+         of the page with no bar beneath it. #contact-close and Escape are the
+         only ways back out — see #contact-close in site.css. */
+      if (strip) strip.classList.toggle('is-open', open);
     };
 
     setOpen(!panel.hidden);
@@ -29,23 +35,28 @@ export function mountContact(trigger, panel, form) {
        loads. Now that it has, take it over — otherwise both handlers fire and
        the toggles cancel out. */
     trigger.onclick = null;
+    if (closeBtn) closeBtn.onclick = null;
+
+    const open = () => {
+      setOpen(true);
+      const first = form.querySelector('input:not([type=hidden]), textarea');
+      if (first) first.focus();
+    };
+
+    const close = () => {
+      setOpen(false);
+      trigger.focus();
+    };
 
     trigger.addEventListener('click', () => {
-      const open = panel.hidden;
-      setOpen(open);
-      if (open) {
-        const first = form.querySelector('input:not([type=hidden]), textarea');
-        if (first) first.focus();
-      } else {
-        trigger.focus();
-      }
+      if (panel.hidden) open();
+      else close();
     });
 
+    if (closeBtn) closeBtn.addEventListener('click', close);
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !panel.hidden) {
-        setOpen(false);
-        trigger.focus();
-      }
+      if (e.key === 'Escape' && !panel.hidden) close();
     });
 
     const say = (msg, kind) => {

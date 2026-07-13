@@ -43,62 +43,64 @@
 
     <section class="contact-strip" aria-label="Contact">
       <div id="contact-panel">
-        <div class="panel-info">
-          <div class="panel-block">
-            <h2 class="panel-label">What we do</h2>
-            <ul class="panel-list">
-              <li>App development</li>
-              <li>Web development</li>
-              <li>Systems management</li>
-              <li>Team consultation</li>
-              <li>Advertising</li>
-              <li>Campaigns</li>
-            </ul>
-          </div>
+        <button type="button" id="contact-close" aria-label="Close">&times;</button>
 
-          <div class="panel-block">
-            <h2 class="panel-label">Who we are</h2>
-            <ul class="panel-list panel-list--people">
+        <ul class="panel-row">
+          <li>App development</li>
+          <li>Web development</li>
+          <li>Systems management</li>
+          <li>Team consultation</li>
+          <li>Advertising</li>
+          <li>Campaigns</li>
+        </ul>
+
+        <div class="panel-body">
+          <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
+            <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
+            <input type="hidden" name="botcheck" value="">
+
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="2" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn">Send message</button>
+              <p class="form-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <aside class="panel-aside">
+            <ul class="panel-people">
               <li><span>Joel Tempero</span> South Island</li>
               <li><span>Harrison Stirling</span> North Island</li>
             </ul>
-          </div>
 
-          <p class="panel-legal">
-            <a href="pages/privacy.html">Privacy</a> &middot; <a href="pages/terms.html">Terms</a>
-          </p>
+            <p class="panel-direct">Or hit us up direct<br>
+              <a href="mailto:joel@tempero.nz">joel@tempero.nz</a><br>
+              <a href="tel:+642040239009">0204 023 9009</a>
+            </p>
+
+            <p class="panel-legal">
+              <a href="pages/privacy.html">Privacy</a> &middot; <a href="pages/terms.html">Terms</a>
+            </p>
+          </aside>
         </div>
-
-        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
-          <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
-          <input type="hidden" name="botcheck" value="">
-
-          <div class="field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" autocomplete="name" required>
-          </div>
-
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" autocomplete="email" required>
-          </div>
-
-          <div class="field field--wide">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn">Send message</button>
-            <p class="form-status" role="status" aria-live="polite"></p>
-          </div>
-        </form>
       </div>
 
       <div class="contact-bar">
         <button type="button" id="contact-trigger" aria-expanded="true" aria-controls="contact-panel">Get in touch</button>
-        <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a></p>
       </div>
       <script>
         /* Collapse the panel before first paint, and wire a bare toggle so the
@@ -107,15 +109,23 @@
         (function () {
           var p = document.getElementById('contact-panel');
           var t = document.getElementById('contact-trigger');
+          var c = document.getElementById('contact-close');
+          var s = p.closest('.contact-strip');
           p.hidden = true;
           t.setAttribute('aria-expanded', 'false');
+          function set(open) {
+            p.hidden = !open;
+            t.setAttribute('aria-expanded', String(open));
+            if (s) s.classList.toggle('is-open', open);
+          }
           /* onclick (not addEventListener) so contact.js can null it out and
              take over cleanly, rather than both handlers firing and the
              toggles cancelling each other. */
-          t.onclick = function () {
-            p.hidden = !p.hidden;
-            t.setAttribute('aria-expanded', String(!p.hidden));
-          };
+          t.onclick = function () { set(p.hidden); };
+          /* The open panel covers the bar, so the trigger cannot close it.
+             Without this, a failed contact.js would trap the user in an open
+             panel with no way out. */
+          if (c) c.onclick = function () { set(false); };
         })();
       </script>
     </section>
