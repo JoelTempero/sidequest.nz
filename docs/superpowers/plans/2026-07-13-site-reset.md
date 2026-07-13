@@ -20,6 +20,8 @@
 - Every effect degrades to nothing under `prefers-reduced-motion: reduce` and on touch.
 - No em dashes in body copy (house rule — use periods, colons, or commas).
 - Host is GitHub Pages: no server-side redirects. Retired paths become meta-refresh stubs.
+- **`churches/` is off limits.** It is a separately-deployed compiled app live at `sidequest.nz/churches/`, unrelated to the marketing site. Do not delete it, move it, edit it, or link to it. It must survive the reset byte-for-byte.
+- `CNAME` and `images/{favicon,logo-icon}.png` must also survive.
 - Windows/PS 5.1: write files with the Write tool, never `Get-Content -Raw` + `Set-Content` round-trips (corrupts UTF-8).
 
 ---
