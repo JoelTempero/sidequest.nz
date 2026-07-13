@@ -20,8 +20,10 @@ const RESIZE_DEBOUNCE_MS = 160;
 export function mountParticles(canvasEl) {
   try {
     if (!canvasEl || typeof canvasEl.getContext !== 'function') return;
+    if (canvasEl.dataset.particlesMounted === 'true') return;
     const ctx = canvasEl.getContext('2d');
     if (!ctx) return;
+    canvasEl.dataset.particlesMounted = 'true';
 
     const tokens = getComputedStyle(document.documentElement);
     const colorViolet = (tokens.getPropertyValue('--violet-lite') || '#c4b5fd').trim() || '#c4b5fd';
@@ -58,11 +60,21 @@ export function mountParticles(canvasEl) {
       };
     }
 
-    function seed() {
+    function reflowList(list, targetCount, color) {
+      for (const p of list) {
+        if (p.x > width) p.x = width;
+        if (p.y > height) p.y = height;
+      }
+      if (list.length > targetCount) list.length = targetCount;
+      else while (list.length < targetCount) list.push(makeParticle(color));
+      return list;
+    }
+
+    function reflow() {
       const total = countFor(width, height);
       const violetCount = Math.round(total * 0.55);
-      violets = new Array(violetCount).fill(null).map(() => makeParticle(colorViolet));
-      whites = new Array(total - violetCount).fill(null).map(() => makeParticle(colorWhite));
+      violets = reflowList(violets, violetCount, colorViolet);
+      whites = reflowList(whites, total - violetCount, colorWhite);
     }
 
     function resize() {
@@ -74,7 +86,7 @@ export function mountParticles(canvasEl) {
       canvasEl.style.width = width + 'px';
       canvasEl.style.height = height + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      seed();
+      reflow();
     }
 
     function drawGroup(list) {
@@ -120,9 +132,14 @@ export function mountParticles(canvasEl) {
     }
 
     function tick() {
-      for (const p of violets) updateParticle(p);
-      for (const p of whites) updateParticle(p);
-      drawFrame();
+      try {
+        for (const p of violets) updateParticle(p);
+        for (const p of whites) updateParticle(p);
+        drawFrame();
+      } catch (err) {
+        teardown();
+        return;
+      }
       rafId = requestAnimationFrame(tick);
     }
 
@@ -135,6 +152,16 @@ export function mountParticles(canvasEl) {
       if (rafId === null) return;
       cancelAnimationFrame(rafId);
       rafId = null;
+    }
+
+    function teardown() {
+      stop();
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerleave', onPointerGone);
+      window.removeEventListener('blur', onPointerGone);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     }
 
     function onResize() {
