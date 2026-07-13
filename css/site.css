@@ -294,12 +294,12 @@ main {
 /* ---------- "You are here" — decorative marker, desktop only ---------- */
 .you-are-here {
   position: absolute;
-  right: clamp(3rem, 11vw, 11rem);
+  right: clamp(6rem, 20vw, 21rem);
   top: 34%;
   display: grid;
   grid-template-areas:
-    ".     star"
-    "label arrow";
+    "star  ."
+    "arrow label";
   align-items: end;
   gap: 0 0.15rem;
   pointer-events: none;
