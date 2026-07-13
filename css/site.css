@@ -292,11 +292,25 @@ main {
 }
 
 /* ---------- "You are here" — decorative marker, desktop only ---------- */
+/* Shrink-to-fit around the headline. This is the anchor the marker hangs off. */
+.hero-head {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+
 .you-are-here {
   position: absolute;
-  right: clamp(6rem, 20vw, 21rem);
-  top: 34%;
+  /* Anchored to the RIGHT EDGE OF THE HEADLINE, not the viewport. It now
+     travels with the type at every width instead of drifting away as the
+     window grows, and it can never collide with the statement. */
+  left: calc(100% + clamp(1.25rem, 3vw, 3.5rem));
+  top: 32%;
   display: grid;
+  /* max-content, or shrink-to-fit inside the narrow .hero-head crushes the
+     star/arrow column to 0px and only the label survives. */
+  width: max-content;
+  grid-template-columns: max-content max-content;
   grid-template-areas:
     "star  ."
     "arrow label";
@@ -311,8 +325,10 @@ main {
   /* Sits directly over the arrowhead, which points straight up at it. */
   justify-self: center;
   margin-bottom: 0.15rem;
-  fill: var(--violet-lite);
-  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--violet-lite) 70%, transparent));
+  fill: #fff;
+  filter:
+    drop-shadow(0 0 5px color-mix(in srgb, var(--violet-lite) 95%, transparent))
+    drop-shadow(0 0 16px color-mix(in srgb, var(--violet) 75%, transparent));
   animation: yah-twinkle 3.4s var(--ease) infinite;
 }
 
@@ -834,8 +850,12 @@ html.no-js #contact-trigger { display: none; }
   }
 
   /* No room beside the statement on a phone, so it drops to the open space
-     below the tagline, bottom right. */
+     below the tagline, bottom right. Release the headline anchor so the
+     containing block falls back to .hero. */
+  .hero-head { position: static; width: auto; }
+
   .you-are-here {
+    left: auto;
     right: 1.4rem;
     top: auto;
     bottom: 6%;

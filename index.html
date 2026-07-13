@@ -33,16 +33,18 @@
 
   <main>
     <div class="hero">
-      <h1 id="hero-lines">
-        <span class="hero-line">BE KNOWN.</span>
-        <span class="hero-line">STAND OUT.</span>
-        <span class="hero-line">GET AHEAD.</span>
-      </h1>
-      <p class="hero-tagline">Secure your place in the technical age.</p>
+      <!-- Shrink-wraps the headline so the marker can hang off its real right
+           edge and travel WITH it, rather than drifting with the viewport. -->
+      <div class="hero-head">
+        <h1 id="hero-lines">
+          <span class="hero-line">BE KNOWN.</span>
+          <span class="hero-line">STAND OUT.</span>
+          <span class="hero-line">GET AHEAD.</span>
+        </h1>
 
       <!-- Decorative. A map marker for a place that is not a map. -->
       <div class="you-are-here" aria-hidden="true">
-        <svg class="yah-star" viewBox="0 0 24 24" width="23" height="23">
+        <svg class="yah-star" viewBox="0 0 24 24" width="29" height="29">
           <path d="M12 0 L13.4 9.2 L20.5 3.5 L14.8 10.6 L24 12 L14.8 13.4 L20.5 20.5 L13.4 14.8 L12 24 L10.6 14.8 L3.5 20.5 L9.2 13.4 L0 12 L9.2 10.6 L3.5 3.5 L10.6 9.2 Z"/>
         </svg>
         <svg class="yah-arrow" viewBox="0 0 60 40" width="60" height="40">
@@ -51,6 +53,9 @@
         </svg>
         <span class="yah-label">You are here</span>
       </div>
+      </div>
+
+      <p class="hero-tagline">Secure your place in the new technical age.</p>
     </div>
 
     <section class="contact-strip" aria-label="Contact">
