@@ -202,6 +202,18 @@ body::before {
 
 /* ---------- 5. Hero ---------- */
 
+/* <main> now wraps both .hero and .contact-strip (landmark includes the
+   form). It takes over the flex-item role .hero used to hold directly on
+   body, and is itself a column flex container so its two children lay out
+   exactly as they did as direct body siblings — .hero still grows to fill
+   remaining space, .contact-strip still sizes to its content at the bottom. */
+main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .hero {
   flex: 1 1 auto;
   min-height: 0;
@@ -296,26 +308,26 @@ body::before {
   animation: panel-rise var(--dur-md) var(--ease) both;
 }
 
+/* [hidden] is the single source of truth for panel visibility, in both
+   no-JS and JS states. No-JS ships the panel open in the markup (progressive
+   enhancement — the form must be reachable with scripting off); an inline
+   script right after #contact-panel in index.html sets hidden=true the
+   instant scripting is confirmed present, before first paint. contact.js
+   toggles this same attribute to open/close the panel from then on. */
 #contact-panel[hidden] { display: none; }
-
-/* No-JS ships the panel open in the markup (progressive enhancement — the
-   form must be reachable with scripting off). Once the no-js/js swap runs,
-   collapse it by default; a later task's contact.js takes over from there,
-   toggling the [hidden] attribute above to open/close it. */
-html.js #contact-panel { display: none; }
 
 /* Open the form and the statement yields space, so the page still fits one
    screen. Layout stays in flow — nothing is pinned, nothing is clipped.
-   Scoped to no-js: that's the only case right now where the panel is
-   genuinely open (JS collapses it by default above, and there's no toggle
-   yet to reopen it, so the :has() match would otherwise be permanently
-   true — and wrongly shrink the hero — the moment scripting is on). */
+   Matches [hidden] directly, so this fires correctly whether the panel is
+   open because no JS ran, or because contact.js removed [hidden]. */
 @media (min-width: 901px) {
-  html.no-js body:has(#contact-panel:not([hidden])) #hero-lines {
+  body:has(#contact-panel:not([hidden])) #hero-lines {
     font-size: clamp(2.2rem, min(7vw, 9.5svh), 5.75rem);
   }
-  html.no-js body:has(#contact-panel:not([hidden])) .hero {
+  body:has(#contact-panel:not([hidden])) .hero {
     gap: calc(var(--step) * 0.6);
+    padding-top: calc(var(--step) * 0.5);
+    padding-bottom: calc(var(--step) * 0.75);
   }
 }
 
@@ -424,6 +436,11 @@ html.js #contact-panel { display: none; }
   color: var(--ink-0);
   transition: color var(--dur-xs) var(--ease);
 }
+
+/* Under no-JS the panel is permanently open and the trigger can't do
+   anything (no script ever runs to wire its click). A button that cannot
+   act shouldn't be presented to anyone, so it's removed entirely. */
+html.no-js #contact-trigger { display: none; }
 
 #contact-trigger::after {
   content: "→";

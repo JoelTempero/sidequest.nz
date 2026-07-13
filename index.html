@@ -32,48 +32,51 @@
     <a class="site-nav__link" href="/about.html">About</a>
   </nav>
 
-  <main class="hero">
-    <h1 id="hero-lines">
-      <span class="hero-line">BE KNOWN.</span>
-      <span class="hero-line">STAND OUT.</span>
-      <span class="hero-line">GET AHEAD.</span>
-    </h1>
-    <p class="hero-tagline">Being good is no longer enough. <strong>Being early is.</strong></p>
+  <main>
+    <div class="hero">
+      <h1 id="hero-lines">
+        <span class="hero-line">BE KNOWN.</span>
+        <span class="hero-line">STAND OUT.</span>
+        <span class="hero-line">GET AHEAD.</span>
+      </h1>
+      <p class="hero-tagline">Being good is no longer enough. <strong>Being early is.</strong></p>
+    </div>
+
+    <section class="contact-strip" aria-label="Contact">
+      <div id="contact-panel">
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
+          <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
+          <input type="hidden" name="botcheck" value="">
+
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="field field--wide">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Send message</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="contact-bar">
+        <button type="button" id="contact-trigger" aria-expanded="true" aria-controls="contact-panel">Get in touch</button>
+        <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a></p>
+      </div>
+      <script>document.getElementById('contact-panel').hidden=true;document.getElementById('contact-trigger').setAttribute('aria-expanded','false');</script>
+    </section>
   </main>
-
-  <section class="contact-strip" aria-label="Contact">
-    <div id="contact-panel">
-      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
-        <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
-        <input type="hidden" name="botcheck" value="">
-
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" autocomplete="name" required>
-        </div>
-
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
-        </div>
-
-        <div class="field field--wide">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4" required></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn">Send message</button>
-          <p class="form-status" role="status" aria-live="polite"></p>
-        </div>
-      </form>
-    </div>
-
-    <div class="contact-bar">
-      <button type="button" id="contact-trigger" aria-expanded="false" aria-controls="contact-panel">Get in touch</button>
-      <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a></p>
-    </div>
-  </section>
 </body>
 </html>
