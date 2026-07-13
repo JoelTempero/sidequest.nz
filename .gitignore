@@ -1,0 +1,19 @@
+# Agent + tooling scratch
+.superpowers/
+.gstack/
+.claude/
+
+# Nested repos that are not submodules of this site
+/Sustainability/
+/portal.sidequest.nz/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+*.swp
+
+# Windows reserved device names — git cannot index a file literally
+# named e.g. 'nul' (stray '> nul' redirects). Skip them so add -A works.
+[Nn][Uu][Ll]
+[Cc][Oo][Nn]
+[Pp][Rr][Nn]
