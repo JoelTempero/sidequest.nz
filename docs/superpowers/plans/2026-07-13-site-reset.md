@@ -64,7 +64,9 @@ Build the page so it is complete and correct with zero JavaScript. Effects are a
 - [ ] Nav: `images/logo-icon.png` + "Sidequest Digital" wordmark top-left; a single `About` link top-right.
 - [ ] Hero: three lines in `#hero-lines` — `BE KNOWN.` / `STAND OUT.` / `GET AHEAD.` — set very large, plus the tagline beneath: **"Being good is no longer enough. Being early is."**
 - [ ] Contact strip, collapsed state: `Get in touch →` trigger (`#contact-trigger`) on one side; on the other, always visible: `Or hit us up direct` with `joel@tempero.nz` (mailto) and `0204 023 9009` (tel:+64204023 9009 → `tel:+642040239009`).
-- [ ] Contact panel (`#contact-panel`), hidden by default via a `[hidden]` attribute: a real `<form id="contact-form" action="https://api.web3forms.com/submit" method="POST">` with name, email, message, the hidden `access_key` `034020f4-ef4e-4f00-9988-3e99609b86c4`, a hidden `subject`, and a hidden `botcheck` honeypot.
+- [ ] Contact panel (`#contact-panel`): a real `<form id="contact-form" action="https://api.web3forms.com/submit" method="POST">` with name, email, message, the hidden `access_key` `034020f4-ef4e-4f00-9988-3e99609b86c4`, a hidden `subject`, and a hidden `botcheck` honeypot.
+- [ ] **Progressive enhancement, not `[hidden]` by default.** The panel ships OPEN in the markup. `<html class="no-js">` plus a single inline `<script>document.documentElement.className='js'</script>` as the first thing in `<head>` swaps the class before first paint (no flash). `css/site.css` collapses the panel only under `.js`. Task 6's `contact.js` then owns the collapsed/expanded state at runtime.
+- [ ] Consequence: with JS off, the form is simply visible inline and posts normally. There must be exactly ONE contact form in the document. No `<noscript>` clone.
 - [ ] The form must work as a plain POST with JS disabled. Do not rely on JS for validity — use `required` and `type="email"`.
 - [ ] Empty `<canvas id="field">` behind the content, `aria-hidden="true"`.
 - [ ] **Verify:** open in a browser with JS disabled. Page reads correctly, form submits, no console errors.
@@ -108,6 +110,7 @@ Build the page so it is complete and correct with zero JavaScript. Effects are a
 
 **Interfaces:** exports `mountContact(trigger, panel, form)`. No-op if any element is missing (form still POSTs normally).
 
+- [ ] On mount, `contact.js` collapses the panel (which ships open, per Task 3's progressive-enhancement approach) and wires the trigger. This is the module that owns the collapsed state.
 - [ ] Trigger toggles `#contact-panel`'s `hidden` attribute, expanding **upward** above the strip. Set `aria-expanded` on the trigger. Move focus to the first field on open. Escape closes it.
 - [ ] On submit: `preventDefault()` only after confirming `fetch` exists. POST JSON to `https://api.web3forms.com/submit`.
 - [ ] Success: replace the form in place with a confirmation line. Do not navigate. Do not redirect.
