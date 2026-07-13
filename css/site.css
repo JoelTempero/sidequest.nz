@@ -298,13 +298,23 @@ body::before {
 
 #contact-panel[hidden] { display: none; }
 
+/* No-JS ships the panel open in the markup (progressive enhancement — the
+   form must be reachable with scripting off). Once the no-js/js swap runs,
+   collapse it by default; a later task's contact.js takes over from there,
+   toggling the [hidden] attribute above to open/close it. */
+html.js #contact-panel { display: none; }
+
 /* Open the form and the statement yields space, so the page still fits one
-   screen. Layout stays in flow — nothing is pinned, nothing is clipped. */
+   screen. Layout stays in flow — nothing is pinned, nothing is clipped.
+   Scoped to no-js: that's the only case right now where the panel is
+   genuinely open (JS collapses it by default above, and there's no toggle
+   yet to reopen it, so the :has() match would otherwise be permanently
+   true — and wrongly shrink the hero — the moment scripting is on). */
 @media (min-width: 901px) {
-  body:has(#contact-panel:not([hidden])) #hero-lines {
+  html.no-js body:has(#contact-panel:not([hidden])) #hero-lines {
     font-size: clamp(2.2rem, min(7vw, 9.5svh), 5.75rem);
   }
-  body:has(#contact-panel:not([hidden])) .hero {
+  html.no-js body:has(#contact-panel:not([hidden])) .hero {
     gap: calc(var(--step) * 0.6);
   }
 }

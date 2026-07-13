@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
+  <script>document.documentElement.className='js'</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sidequest Digital | Be Known. Stand Out. Get Ahead.</title>
@@ -41,7 +42,7 @@
   </main>
 
   <section class="contact-strip" aria-label="Contact">
-    <div id="contact-panel" hidden>
+    <div id="contact-panel">
       <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
         <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
@@ -73,36 +74,6 @@
       <button type="button" id="contact-trigger" aria-expanded="false" aria-controls="contact-panel">Get in touch</button>
       <p class="contact-direct">Or hit us up direct: <a href="mailto:joel@tempero.nz">joel@tempero.nz</a> and <a href="tel:+642040239009">0204 023 9009</a></p>
     </div>
-
-    <noscript>
-      <div>
-        <p class="micro">Send us a message</p>
-        <form id="contact-form-fallback" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="034020f4-ef4e-4f00-9988-3e99609b86c4">
-          <input type="hidden" name="subject" value="New enquiry from sidequest.nz">
-          <input type="hidden" name="botcheck" value="">
-
-          <div class="field">
-            <label for="name-fallback">Name</label>
-            <input type="text" id="name-fallback" name="name" autocomplete="name" required>
-          </div>
-
-          <div class="field">
-            <label for="email-fallback">Email</label>
-            <input type="email" id="email-fallback" name="email" autocomplete="email" required>
-          </div>
-
-          <div class="field field--wide">
-            <label for="message-fallback">Message</label>
-            <textarea id="message-fallback" name="message" rows="4" required></textarea>
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn">Send message</button>
-          </div>
-        </form>
-      </div>
-    </noscript>
   </section>
 </body>
 </html>
