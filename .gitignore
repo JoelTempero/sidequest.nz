@@ -18,3 +18,16 @@ Thumbs.db
 [Cc][Oo][Nn]
 [Pp][Rr][Nn]
 conversation-history/
+# --- sidequest backup .gitignore (managed) ---
+node_modules/
+dist/
+build/
+.next/
+.turbo/
+*.sst
+*.log
+SITE/site.zip
+*.mp4
+*.mov
+[Aa][Uu][Xx]
+# .env is intentionally NOT ignored (disaster recovery)

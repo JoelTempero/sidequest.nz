@@ -19,7 +19,7 @@ One page. `index.html` is the whole site.
 - Nav: wordmark only, no links.
 - Hero: `BE KNOWN. / STAND OUT. / GET AHEAD.` + tagline "Secure your place in the new technical age."
 - A decorative `.you-are-here` marker (star + arrow + label) anchored to the headline's right edge, so it travels with the type instead of the viewport.
-- Bottom `.contact-bar` with a "Get in touch" trigger. It opens `#contact-panel`, which holds EVERYTHING else: 6 disciplines, a compressed Web3Forms contact form, Joel + Harrison, direct email/phone, and Privacy/Terms links.
+- Bottom `.contact-bar` with a "Get in touch" trigger. It opens `#contact-panel`, which holds EVERYTHING else: 6 disciplines, a compressed Web3Forms contact form, Joel + Harrison each with their own contact details under their island (`.panel-people`), and Privacy/Terms links.
 - `pages/privacy.html`, `pages/terms.html` — legal pages. "Return to home" top-left and bottom-left.
 - 8 meta-refresh stubs in `pages/` for retired URLs (GitHub Pages has no server-side redirects).
 - **`churches/` is a SEPARATE deployed app at sidequest.nz/churches/. Do not touch it.**
