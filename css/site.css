@@ -578,7 +578,7 @@ main {
   line-height: 1.9;
 }
 
-.panel-people { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.panel-people { list-style: none; display: flex; flex-direction: column; gap: 1.3rem; }
 .panel-people span {
   display: block;
   font-family: var(--display);
@@ -589,13 +589,13 @@ main {
   color: var(--ink-0);
 }
 
-.panel-direct a,
+.panel-people a,
 .panel-legal a {
   color: var(--ink-1);
   text-decoration: none;
   border-bottom: 1px solid var(--hairline);
 }
-.panel-direct a:hover,
+.panel-people a:hover,
 .panel-legal a:hover { color: var(--violet-lite); border-bottom-color: var(--violet-lite); }
 
 .panel-legal { margin-top: auto; }
@@ -810,7 +810,7 @@ html.no-js #contact-trigger { display: none; }
   .site-nav__link,
   #contact-trigger,
   #contact-close,
-  .panel-direct a,
+  .panel-people a,
   .panel-legal a {
     min-height: 44px;
     display: inline-flex;
@@ -901,18 +901,14 @@ html.no-js #contact-trigger { display: none; }
   .panel-aside { display: contents; }
 
   .panel-people   { order: 1; }
-  .panel-direct   { order: 2; }
   #contact-form   { order: 3; max-width: none; }
   .panel-legal    { order: 4; margin-top: 0.4rem; }
 
   .panel-body { gap: 1.6rem; }
 
-  /* Joel and Harrison sit side by side. */
-  .panel-people {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
+  /* Stacked full-width on mobile so each person's email has room — a
+     half-width column would overflow the long address. */
+  .panel-people { gap: 1.1rem; }
 
 }
 
