@@ -58,14 +58,14 @@ Lighthouse desktop: performance 98, accessibility 100. One screen at 1280 and 19
 - Old multi-page service site (apps/portals/websites/systems/projects/pricing) — in git history before the reset.
 
 ## Next Steps
-1. **Add Harrison's contact info to the panel** — Joel is getting it. Currently the panel lists Harrison Stirling / North Island with no email or phone; only Joel's direct details are shown (`.panel-direct` in `index.html`). Decide whether the "Hit us up direct" block becomes two columns (one per person) or stays a single shared line.
-2. **Re-scrape the OG card on the socials** if the link has already been shared — Facebook/LinkedIn/X cache aggressively and will keep serving the old 512x512 logo. Use `developers.facebook.com/tools/debug`.
+1. **Re-scrape the OG card on the socials** if the link has already been shared — Facebook/LinkedIn/X cache aggressively and will keep serving the old 512x512 logo. Use `developers.facebook.com/tools/debug`.
+2. Optional: get Harrison a direct phone number for the panel — he currently has email only (`harrison@stirlingsolutions.co.nz`), Joel has email + phone.
 3. Optional: shorten the contact panel further so more of the statement shows behind it when open.
 
 ## Known Issues
-- **Harrison has no contact details on the site** — name + island only. Pending from Joel.
 - **Social caches** may still serve the old square logo for previously-shared links until re-scraped.
 
 ## Session Log
+- **2026-07-22**: Added Harrison's email (`harrison@stirlingsolutions.co.nz`) to the `.panel-direct` block in `index.html`, grouped after Joel's email/phone. No CSS needed — the `.panel-direct a` mobile tap-target rule already covers it. Still no phone for Harrison.
 - **2026-07-13 (session 2 — OG)**: Built `images/og-card.png`, a purpose-made 1200x630 card rendered from the site's own design (headline, tagline, "Get in touch" CTA, star, URL) rather than a raw screenshot, which would have been cramped at 630px tall. Added `og:site_name`, `twitter:card=summary_large_image`, `og:locale`, `og:image:type/width/height/alt`, `theme-color`. Fixed the `meta description`, which still quoted the OLD tagline ("Being good is no longer enough") and would have shown that in search results. Same treatment on both legal pages.
 - **2026-07-13**: Full reset. Retired the z-axis scroller (archived to branches) and the multi-page service site. Built a one-page business card: statement + tagline + everything-inside-the-panel. Deployed to sidequest.nz. Reviews caught, before ship: an empty accessible name on the headline (aria-label on a span is ignored by Chrome/Safari), an unreachable privacy policy on a form-collecting site, 1.21:1 form borders, a CSS specificity dead-end that made the contact form un-openable, and sub-44px mobile tap targets on all four contact links.
