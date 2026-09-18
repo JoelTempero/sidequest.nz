@@ -1,0 +1,7 @@
+# GitHub Pages (Jekyll) publishes every tracked file unless excluded.
+# Keep internal notes off the public site.
+exclude:
+  - CLAUDE.md
+  - docs/
+  - conversation-history/
+  - README.md
