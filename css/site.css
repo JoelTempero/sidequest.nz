@@ -798,6 +798,124 @@ html.no-js #contact-trigger { display: none; }
 .site-foot a { text-decoration: none; }
 .site-foot a:hover { color: var(--violet-lite); }
 
+/* ---------- 8b. Guides — SEO Studio publishes into guides/ ---------- */
+
+/* Narrower than legal copy: guides are read, not skimmed. */
+.guide-main { max-width: 42rem; }
+
+.guide-eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
+.guide-eyebrow a:hover { border-bottom-color: currentColor; }
+
+.guide-body {
+  margin-top: clamp(1.8rem, 4vh, 2.6rem);
+  font-size: clamp(1.02rem, 0.98rem + 0.25vw, 1.125rem);
+  line-height: 1.7;
+}
+.guide-body > * + * { margin-top: 1.1rem; }
+.guide-body h2 {
+  margin-top: clamp(2.2rem, 5vh, 3rem);
+  color: var(--ink-0);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.guide-body h3 { margin-top: 1.8rem; color: var(--ink-0); font-size: 1.1rem; font-weight: 500; }
+.guide-body strong { color: var(--ink-0); font-weight: 500; }
+.guide-body a {
+  color: var(--violet-lite);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.guide-body ul,
+.guide-body ol { padding-left: 1.25rem; }
+.guide-body li + li { margin-top: 0.4rem; }
+.guide-body li::marker { color: var(--violet-lite); }
+.guide-body blockquote { padding-left: 1.1rem; border-left: 2px solid var(--violet); font-style: italic; }
+.guide-body code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  padding: 0.1em 0.35em;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+.guide-body pre {
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.guide-body pre code { padding: 0; border: 0; background: none; }
+.guide-body mark { background: var(--violet-deep); color: var(--ink-0); }
+.guide-body hr { border: 0; height: 1px; background: var(--hairline); }
+
+/* Images. The hero sits straight under the h1; body figures sit in the flow. */
+figure.seo-hero { margin-top: clamp(1.8rem, 4vh, 2.6rem); }
+figure.seo-hero img,
+figure.seo-img img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+figure.seo-hero figcaption,
+figure.seo-img figcaption {
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: var(--micro-size);
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+
+/* End-of-article nudge back to the contact panel. */
+.guide-cta {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+}
+.guide-cta a {
+  color: var(--violet-lite);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* Hub list. SEO Studio writes <ul class="seo-guides"> between the hub markers. */
+.guide-hub { margin-top: clamp(2rem, 5vh, 3rem); }
+.seo-guides { list-style: none; }
+.seo-guides li { padding: 1.25rem 0; border-top: 1px solid var(--hairline); }
+.seo-guides li:last-child { border-bottom: 1px solid var(--hairline); }
+.seo-guides a {
+  color: var(--ink-0);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.seo-guides a:hover { color: var(--violet-lite); }
+.seo-guides p { margin-top: 0.35rem; color: var(--ink-2); font-size: 0.95rem; }
+/* Placeholder shows only while nothing has been published into the hub. */
+.guide-empty { display: none; color: var(--ink-2); }
+.guide-hub:not(:has(.seo-guides)) .guide-empty { display: block; }
+
+/* Contextual "related guide" line. SEO Studio writes <p class="seo-related"> into a slot. */
+.seo-related {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+.seo-related a {
+  color: var(--ink-1);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+.seo-related a:hover { color: var(--violet-lite); border-bottom-color: var(--violet-lite); }
+.panel-related .seo-related { margin: -0.3rem 0 1.4rem; }
+
 /* ---------- 9. Mobile — one short, deliberate scroll ---------- */
 
 @media (max-width: 900px) {
@@ -811,7 +929,10 @@ html.no-js #contact-trigger { display: none; }
   #contact-trigger,
   #contact-close,
   .panel-people a,
-  .panel-legal a {
+  .panel-legal a,
+  .site-foot a,
+  .seo-related a,
+  .seo-guides a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
